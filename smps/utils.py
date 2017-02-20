@@ -18,8 +18,13 @@ def roundup(x):
     return x if x % 100 == 0 else x + 100 - x % 100
 
 def load_dataset(name):
-    """Load a dataset from the online repository (internet required)."""
+    """Load a dataset from the online repository (internet required).
 
-    path = "https://github.com/dhhagan/py-smps/raw/master/{}.txt".format(name)
+    Options include:
+
+      * `dataset1`
+    """
+
+    path = "https://github.com/dhhagan/py-smps/tree/master/sample-data/{}.txt".format(name)
 
     return load_smps_file(path)

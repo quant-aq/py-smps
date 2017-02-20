@@ -14,10 +14,13 @@ rc_log = {
     'ytick.minor.size': 5.0
 }
 
-def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=None, **kwargs):
+def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
     """"""
     if fig_kws is None:
         fig_kws = dict(figsize=(16,8))
+
+    if cbar_kws is None:
+        cbar_kws = dict(label='$dN/dlogD_p \; [cm^{-3}]$')
 
     with sns.axes_style('ticks', rc_log):
         if ax is None:
@@ -36,6 +39,6 @@ def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=No
         ax.set_ylabel("$D_p \; (nm)$", fontsize=28)
 
         if cbar:
-            clb = plt.colorbar(im, label='$dN/dlogD_p \; [cm^{-3}]$')
+            clb = plt.colorbar(im, **cbar_kws)
 
     return ax
