@@ -15,7 +15,8 @@ rc_log = {
 }
 
 def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
-    """"""
+    """
+    """
     if fig_kws is None:
         fig_kws = dict(figsize=(16,8))
 
@@ -27,7 +28,7 @@ def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=No
             plt.figure(**fig_kws)
             ax = plt.gca()
 
-        im = ax.pcolormesh(X, Y, Z, norm=LogNorm(vmin=0.01, vmax=Z.max()), cmap=cmap)
+        im = ax.pcolormesh(X, Y, Z, norm=LogNorm(vmin=1., vmax=Z.max()), cmap=cmap)
 
         ax.set_ylim([Y.min(), Y.max()])
 
