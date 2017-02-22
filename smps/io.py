@@ -151,15 +151,3 @@ def load_file(fpath, column=True, **kwargs):
         bins[i + 1, 0] = bins[i, 2]
 
     return SMPS(df, meta, bins, hist_cols)
-
-def load_dataset(name):
-    """Load a dataset from the online repository (internet required).
-
-    Options include:
-
-      * `dataset1`
-    """
-
-    path = "https://github.com/dhhagan/py-smps/raw/master/sample-data/{}.txt".format(name)
-
-    return load_file(path)

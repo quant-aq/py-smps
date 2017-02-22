@@ -1,5 +1,6 @@
 """
 """
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 from matplotlib.ticker import ScalarFormatter
@@ -14,7 +15,7 @@ rc_log = {
     'ytick.minor.size': 5.0
 }
 
-def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
+def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
     """
     """
     if fig_kws is None:
@@ -32,14 +33,41 @@ def heatmap(X, Y, Z, ax=None, log=True, cbar=True, cmap=default_cmap, fig_kws=No
 
         ax.set_ylim([Y.min(), Y.max()])
 
-        if log:
+        if kind == 'log':
             ax.semilogy()
 
             ax.yaxis.set_major_formatter(ScalarFormatter())
 
-        ax.set_ylabel("$D_p \; (nm)$", fontsize=28)
+        ax.set_ylabel("$D_p \; [nm]$", fontsize=28)
 
         if cbar:
             clb = plt.colorbar(im, **cbar_kws)
+
+    return ax
+
+def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
+    """Plot the histogram in the form of a bar chart."""
+    if isinstance(histogram, pd.DataFrame):
+        histogram = histogram.mean().values
+
+    if fig_kws is None:
+        fig_kws = dict(figsize=(16,8))
+
+    if plot_kws is None:
+        plot_kws = dict(alpha=1, edgecolor=None, linewidth=0)
+
+    with sns.axes_style('ticks', rc_log):
+        if ax is None:
+            plt.figure(**fig_kws)
+            ax = plt.gca()
+
+        ax.bar(bins[:, 0], histogram, bins[:, -1] - bins[:, 0], **plot_kws)
+
+        ax.semilogx()
+
+        ax.set_ylabel("$dN/dlogD_p \; [cm^{-3}]$", fontsize=28)
+        ax.set_xlabel("$D_p \; [nm]$", fontsize=28)
+
+        ax.xaxis.set_major_formatter(ScalarFormatter())
 
     return ax
