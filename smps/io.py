@@ -151,3 +151,10 @@ def load_file(fpath, column=True, **kwargs):
         bins[i + 1, 0] = bins[i, 2]
 
     return SMPS(df, meta, bins, hist_cols)
+
+def load_sample(label="boston"):
+    """Load sample data.
+    """
+    f = load_file("../sample-data/boston_wintertime.txt", column=False)
+
+    return f
