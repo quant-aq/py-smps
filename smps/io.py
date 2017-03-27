@@ -38,7 +38,7 @@ SMPS_STATS_COLUMN_NAMES = [
 
 class SMPS(object):
     """"""
-    def __init__(self, df, meta, bins, bin_labels):
+    def __init__(self, df, meta, bins, bin_labels, meta=None):
         self.df = df
         self.meta = meta
         self.bins = bins
@@ -150,7 +150,7 @@ def load_file(fpath, column=True, **kwargs):
         bins[i, 2] = round(math.pow(10, np.log10(bins[i, 0]) + (1./multiplier)), 4)
         bins[i + 1, 0] = bins[i, 2]
 
-    return SMPS(df, meta, bins, hist_cols)
+    return SMPS(df=df, meta=meta, bins=bins, bin_labels=hist_cols)
 
 def load_sample(label="boston"):
     """Load sample data.

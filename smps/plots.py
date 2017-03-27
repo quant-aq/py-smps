@@ -15,9 +15,13 @@ rc_log = {
     'ytick.minor.size': 5.0
 }
 
-def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
+def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, cmap=default_cmap,
+            fig_kws=None, cbar_kws=None, **kwargs):
     """
     """
+    cbar_min = kwargs.pop('cbar_min', Z.min() if Z.min() > 0.0 else 1.)
+    cbar_max = kwargs.pop('cbar_max', Z.max())
+
     if fig_kws is None:
         fig_kws = dict(figsize=(16,8))
 
@@ -29,7 +33,7 @@ def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, cmap=default_cmap, fig_kws=
             plt.figure(**fig_kws)
             ax = plt.gca()
 
-        im = ax.pcolormesh(X, Y, Z, norm=LogNorm(vmin=1., vmax=Z.max()), cmap=cmap)
+        im = ax.pcolormesh(X, Y, Z, norm=LogNorm(vmin=cbar_min, vmax=cbar_max), cmap=cmap)
 
         ax.set_ylim([Y.min(), Y.max()])
 
