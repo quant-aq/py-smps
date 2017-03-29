@@ -40,7 +40,7 @@ SMPS_STATS_COLUMN_NAMES = [
 
 class SMPS(object):
     """"""
-    def __init__(self, df, meta, bins, bin_labels, meta=None):
+    def __init__(self, df, bins, bin_labels, meta=None):
         self.df = df
         self.meta = meta
         self.bins = bins
