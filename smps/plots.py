@@ -3,16 +3,20 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+import matplotlib.ticker as mtick
 from matplotlib.ticker import ScalarFormatter
 import seaborn as sns
 
 default_cmap = sns.cubehelix_palette(8, as_cmap=True)
 
 rc_log = {
-    'xtick.major.size': 8.0,
-    'xtick.minor.size': 5.0,
-    'ytick.major.size': 8.0,
-    'ytick.minor.size': 5.0
+    'xtick.major.size': 10.0,
+    'xtick.minor.size': 8.0,
+    'ytick.major.size': 10.0,
+    'ytick.minor.size': 8.0,
+    'xtick.color': '0.0',
+    'ytick.color': '0.0',
+    'axes.linewidth': 1.75
 }
 
 def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, cmap=default_cmap,
@@ -70,8 +74,8 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
         ax.semilogx()
 
         ax.set_ylabel("$dN/dlogD_p \; [cm^{-3}]$", fontsize=28)
-        ax.set_xlabel("$D_p \; [nm]$", fontsize=28)
+        ax.set_xlabel("$D_p \; [\mu m]$", fontsize=28)
 
-        ax.xaxis.set_major_formatter(ScalarFormatter())
+        ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.4g"))
 
     return ax
