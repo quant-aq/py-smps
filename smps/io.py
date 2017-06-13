@@ -142,7 +142,7 @@ def load_file(fpath, column=True, **kwargs):
                 delimiter=delim,
                 header=None,
                 encoding=encoding,
-                index_col=0).T.ix[1,:].to_dict()
+                index_col=0).T.iloc[0,:].to_dict()
 
     unit = meta['Units']
     weight = meta['Weight']
@@ -155,10 +155,10 @@ def load_file(fpath, column=True, **kwargs):
                 nrows=3,
                 delimiter=delim,
                 header=None,
-                encoding=encoding).ix[:, 1:].T
+                encoding=encoding).iloc[1:, 1:].T
 
-        ts.columns = ['Sample #', 'Date', 'Start Time']
-        ts['timestamp'] = ts.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Start Time'])), axis=1)
+        ts.columns = ['Date', 'Time']
+        ts['timestamp'] = ts.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Time'])), axis=1)
 
         nbins = _get_bin_count(fpath, encoding)
 
@@ -170,8 +170,8 @@ def load_file(fpath, column=True, **kwargs):
                     header=None,
                     encoding=encoding).astype(float)
 
-        midpoints = data.ix[:, 0].values
-        data = data.ix[:, 1:].T
+        midpoints = data.iloc[:, 0].values
+        data = data.iloc[:, 1:].T
 
         # Alter the column names
         data.columns = ['bin{}'.format(i) for i in range(nbins)]
@@ -212,15 +212,13 @@ def load_file(fpath, column=True, **kwargs):
 
         midpoints = np.array([float(i) for i in midpoints])
 
-    # Rename some columns
-    df.rename(columns={'Total Conc.(#/cm³)': 'Total Conc.'}, inplace=True)
-
     # Calculate bins
     bins = np.empty([len(midpoints), 3])
     bins.fill(np.NaN)
 
-    bins[0, 0] = float(df['Lower Size(nm)'][0])
-    bins[-1, -1] = float(df['Upper Size(nm)'][0])
+    # Make this shit more robust!
+    bins[0, 0] = float(df['Lower Size'][0])
+    bins[-1, -1] = float(df['Upper Size'][0])
     bins[:, 1] = midpoints
 
     for i in range(bins.shape[0] - 1):
