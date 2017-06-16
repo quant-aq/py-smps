@@ -17,6 +17,18 @@ Feel free to download or clone the repository as well and install from source.
 
     python3 setup.py install (--upgrade)
 
+## Unittests
+
+Unittests can be run by issuing the following command from within the main repo:
+
+    $ python3 setup.py test
+
+They can also be run with coverage (if installed) by running the following in succession:
+
+    $ coverage run --source smps setup.py test
+    $ coverage report -m
+
+
 ## Documentation
 
 I will eventually get to this, but for now you can check out the examples [here](/examples).

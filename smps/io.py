@@ -31,9 +31,9 @@ SMPS_STATS_COLUMN_NAMES = [
     'D50',
     'Median',
     'Mean',
-    'Geo. Mean',
+    'GM',
     'Mode',
-    'Geo Std Dev',
+    'GSD',
     'Total Concentration',
     'Comment'
 ]
@@ -187,6 +187,9 @@ def load_file(fpath, column=True, **kwargs):
         stats.columns = SMPS_STATS_COLUMN_NAMES
         stats.index = ts['timestamp']
 
+        # Force the stats columns to be floats where needed
+        stats = stats.astype(float)
+
         hist_cols = data.columns
         df = pd.merge(data, stats, left_index=True, right_index=True, how='outer')
     else:
@@ -212,6 +215,17 @@ def load_file(fpath, column=True, **kwargs):
 
         midpoints = np.array([float(i) for i in midpoints])
 
+        # Rename the last x columns
+        df.rename(columns={'Scan Up Time(s)': 'Scan Up Time',
+            'Retrace Time(s)': 'Retrace Time', 'Impactor Type(cm)': 'Impactor Type',
+            'Sheath Flow(lpm)': 'Sheath Flow', 'Aerosol Flow(lpm)': 'Aerosol Flow',
+            'CPC Inlet FLow(lpm)': 'CPC Inlet Flow', 'CPC Sample Flow(lpm)':
+            'CPC Sample Flow', 'Lower Size(nm)': 'Lower Size', 'Upper Size(nm)':
+            'Upper Size', 'Density(g/cc)': 'Density', 'td(s)': 'td', 'tf(s)': 'tf',
+            'D50(nm)': 'D50', 'Median(nm)': 'Median', 'Mean(nm)': 'Mean',
+            'Median(nm)': 'Median', 'Geo. Mean(nm)': 'GM', 'Mode(nm)': 'Mode',
+            'Geo. Std. Dev.': 'GSD', 'Total Conc.(#/cm³)': 'Total Conc.'}, inplace=True)
+
     # Calculate bins
     bins = np.empty([len(midpoints), 3])
     bins.fill(np.NaN)
@@ -228,10 +242,9 @@ def load_file(fpath, column=True, **kwargs):
     return SMPS(data=df, meta=meta, bins=bins, bin_labels=hist_cols)
 
 def load_sample(label="boston"):
-    """Load sample data.
+    """Load a sample data file directly from GitHub.
 
-    ** THIS DOESN'T WORK **
     """
-    f = load_file("../sample-data/boston_wintertime.txt", column=False)
+    file_uri = "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt"
 
-    return f
+    return load_file(file_uri, column=False)
