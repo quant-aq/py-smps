@@ -182,13 +182,17 @@ def load_file(fpath, column=True, **kwargs):
                     skiprows=(19+nbins),
                     delimiter=delim,
                     header=None,
-                    encoding=encoding).ix[:, 1:].T
+                    encoding=encoding).iloc[:, 1:].T
 
         stats.columns = SMPS_STATS_COLUMN_NAMES
         stats.index = ts['timestamp']
 
         # Force the stats columns to be floats where needed
-        stats = stats.astype(float)
+        for column in stats.columns:
+            try:
+                stats[column] = stats[column].astype(float)
+            except: pass
+
 
         hist_cols = data.columns
         df = pd.merge(data, stats, left_index=True, right_index=True, how='outer')
@@ -257,6 +261,5 @@ def load_sample(label="boston"):
             'column': True
         }
     }
-    file_uri = "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt"
 
-    return load_file(files[label]['uri'], column=files[label][column])
+    return load_file(files[label]['uri'], column=files[label]['column'])
