@@ -244,7 +244,19 @@ def load_file(fpath, column=True, **kwargs):
 def load_sample(label="boston"):
     """Load a sample data file directly from GitHub.
 
+    Options include: ['boston', 'chamber']
+
     """
+    files = {
+        'boston': {
+            'uri': "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt",
+            'column': False
+        },
+        'chamber': {
+            'uri': "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/mit_chamber_sample_column.txt",
+            'column': True
+        }
+    }
     file_uri = "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt"
 
-    return load_file(file_uri, column=False)
+    return load_file(files[label]['uri'], column=files[label][column])
