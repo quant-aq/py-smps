@@ -7,8 +7,14 @@ python:
     - "3.6"
     - "nightly"
 
+before_install:
+  - sudo apt-get install -qq python-numpy python-scipy python-matplotlib
+
 install:
+    - "pip install requests"
     - "pip install coverage"
+    - "pip install pandas"
+    - "pip install seaborn"
 
 script:
     - "coverage run --source=smps setup.py test"
