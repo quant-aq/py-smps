@@ -71,7 +71,8 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
             plt.figure(**fig_kws)
             ax = plt.gca()
 
-        ax.bar(bins[:, 0], histogram, bins[:, -1] - bins[:, 0], **plot_kws)
+        # THIS IS A SHITTY HACK! FIX THIS!
+        ax.bar(left=bins[:, 0], height=histogram, width=0.982*(bins[:, -1] - bins[:, 0]), **plot_kws)
 
         ax.semilogx()
 

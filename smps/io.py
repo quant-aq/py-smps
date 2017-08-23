@@ -6,37 +6,9 @@ import pandas as pd
 import numpy as np
 import math
 
-from .utils import _get_bin_count
+from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS, SMPS_STATS_COLUMN_NAMES
 from .plots import heatmap
 
-SMPS_STATS_COLUMN_NAMES = [
-    'Scan Up Time',
-    'Retrace Time',
-    'Down Scan First',
-    'Scans Per Sample',
-    'Impactor Type',
-    'Sheath Flow',
-    'Aerosol Flow',
-    'CPC Inlet Flow',
-    'CPC Sample Flow',
-    'Low Voltage',
-    'High Voltage',
-    'Lower Size',
-    'Upper Size',
-    'Density',
-    'Title',
-    'Status Flag',
-    'td',
-    'tf',
-    'D50',
-    'Median',
-    'Mean',
-    'GM',
-    'Mode',
-    'GSD',
-    'Total Concentration',
-    'Comment'
-]
 
 class SMPS(object):
     """Assumes data is always fed as dNdlogDp"""
@@ -91,6 +63,18 @@ class SMPS(object):
         """Return dVdlogDp"""
         return self.dndlogdp.mul(self.v_multiplier)
 
+    @property
+    def stats(self):
+        """Return the statistics by sample."""
+        STAT_COLS = ['Median', 'Mean', 'Mode', 'GM', 'GSD', 'Total Conc.']
+
+        return self.raw[STAT_COLS]
+
+    @property
+    def scan_stats(self):
+        """Return the scanning stats by sample."""
+        return self.raw[['Lower Size', 'Upper Size', 'Density']]
+
     def integrate(self, dmin, dmax, weight='number', rho=1.):
         """Integrate the number of particles, surface area, volume, or mass
         between two diameters.
@@ -130,16 +114,24 @@ class SMPS(object):
     def heatmap(self):
         return heatmap(self.raw.index.values, self.midpoints, self.dndlogdp.T.values)
 
-def load_file(fpath, column=True, **kwargs):
-    """"""
-    delim    = kwargs.pop('delimiter', ',')
-    encoding = kwargs.pop('encoding', 'ISO-8859-1')
+    def resample(self, rs):
+        """Resample the raw data"""
+        self.raw = self.raw.resample(rs).mean()
+
+        return None
+
+def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs):
+    """Load an SMPS.dat file as exported using the TSI GUI"""
+    # Get the number of lines to parse as meta info
+    assert (delimiter in [',', '\t']), "Delimiter must be either tab or comma."
+
+    _metacount = _get_linecount(fpath=fpath, keyword='Sample #', delimiter=delimiter)
 
     # Read in the meta data as a dictionary
     meta = pd.read_table(
                 fpath,
-                nrows=15,
-                delimiter=delim,
+                nrows=_metacount,
+                delimiter=delimiter,
                 header=None,
                 encoding=encoding,
                 index_col=0).T.iloc[0,:].to_dict()
@@ -151,9 +143,9 @@ def load_file(fpath, column=True, **kwargs):
     if column is True:
         ts = pd.read_table(
                 fpath,
-                skiprows=15,
+                skiprows=_metacount,
                 nrows=3,
-                delimiter=delim,
+                delimiter=delimiter,
                 header=None,
                 encoding=encoding).iloc[1:, 1:].T
 
@@ -164,9 +156,9 @@ def load_file(fpath, column=True, **kwargs):
 
         data = pd.read_table(
                     fpath,
-                    skiprows=19,
+                    skiprows=_metacount+4,
                     nrows=nbins,
-                    delimiter=delim,
+                    delimiter=delimiter,
                     header=None,
                     encoding=encoding).astype(float)
 
@@ -179,8 +171,8 @@ def load_file(fpath, column=True, **kwargs):
 
         stats = pd.read_table(
                     fpath,
-                    skiprows=(19+nbins),
-                    delimiter=delim,
+                    skiprows=(_metacount+4+nbins),
+                    delimiter=delimiter,
                     header=None,
                     encoding=encoding).iloc[:, 1:].T
 
@@ -199,8 +191,8 @@ def load_file(fpath, column=True, **kwargs):
     else:
         df = pd.read_table(
                 fpath,
-                skiprows=15,
-                delimiter=delim,
+                skiprows=_metacount,
+                delimiter=delimiter,
                 encoding=encoding).dropna(how='all', axis=1)
 
         df.index = df.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Start Time'])), axis=1)
@@ -219,16 +211,8 @@ def load_file(fpath, column=True, **kwargs):
 
         midpoints = np.array([float(i) for i in midpoints])
 
-        # Rename the last x columns
-        df.rename(columns={'Scan Up Time(s)': 'Scan Up Time',
-            'Retrace Time(s)': 'Retrace Time', 'Impactor Type(cm)': 'Impactor Type',
-            'Sheath Flow(lpm)': 'Sheath Flow', 'Aerosol Flow(lpm)': 'Aerosol Flow',
-            'CPC Inlet FLow(lpm)': 'CPC Inlet Flow', 'CPC Sample Flow(lpm)':
-            'CPC Sample Flow', 'Lower Size(nm)': 'Lower Size', 'Upper Size(nm)':
-            'Upper Size', 'Density(g/cc)': 'Density', 'td(s)': 'td', 'tf(s)': 'tf',
-            'D50(nm)': 'D50', 'Median(nm)': 'Median', 'Mean(nm)': 'Mean',
-            'Median(nm)': 'Median', 'Geo. Mean(nm)': 'GM', 'Mode(nm)': 'Mode',
-            'Geo. Std. Dev.': 'GSD', 'Total Conc.(#/cm³)': 'Total Conc.'}, inplace=True)
+        # Rename columns to be uniform and easier to parse
+        df.rename(columns=RENAMED_COLUMNS, inplace=True)
 
     # Calculate bins
     bins = np.empty([len(midpoints), 3])
