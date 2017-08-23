@@ -174,9 +174,18 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
                     skiprows=(_metacount+4+nbins),
                     delimiter=delimiter,
                     header=None,
-                    encoding=encoding).iloc[:, 1:].T
+                    error_bad_lines=False,
+                    warn_bad_lines=True,
+                    encoding=encoding).T
 
-        stats.columns = SMPS_STATS_COLUMN_NAMES
+        # Rename the columns to the first row
+        stats = stats.rename(columns=stats.iloc[0])
+        stats = stats.rename(columns=RENAMED_COLUMNS)
+
+        # Drop the first row
+        stats = stats.iloc[1:,:]
+
+        # Set the index to timestamp
         stats.index = ts['timestamp']
 
         # Force the stats columns to be floats where needed
@@ -184,7 +193,6 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
             try:
                 stats[column] = stats[column].astype(float)
             except: pass
-
 
         hist_cols = data.columns
         df = pd.merge(data, stats, left_index=True, right_index=True, how='outer')

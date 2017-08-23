@@ -103,6 +103,6 @@ SMPS_STATS_COLUMN_NAMES = [
     'GM',
     'Mode',
     'GSD',
-    'Total Concentration',
+    'Total Conc.',
     'Comment'
 ]
