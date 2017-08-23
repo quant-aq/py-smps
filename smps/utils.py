@@ -12,7 +12,7 @@ def _get_bin_count(fpath, encoding='ISO-8859-1'):
 
         for line in req.iter_lines():
             try:
-                if float(line.decode('utf-8').split(',')[0]):
+                if float(line.decode(encoding).split(',')[0]):
                     bins += 1
             except: pass
     else:
