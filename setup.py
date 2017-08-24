@@ -20,7 +20,8 @@ setup(
         'pandas',
         'numpy',
         'seaborn',
-        'scipy'
+        'scipy',
+        'statsmodels',
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',

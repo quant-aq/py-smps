@@ -152,8 +152,10 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
         ts.columns = ['Date', 'Time']
         ts['timestamp'] = ts.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Time'])), axis=1)
 
-        nbins = _get_bin_count(fpath, encoding)
+        # Retrieve the number of bins in the file
+        nbins = _get_bin_count(fpath=fpath, delimiter=delimiter, encoding=encoding)
 
+        # Read the table of raw data
         data = pd.read_table(
                     fpath,
                     skiprows=_metacount+4,
@@ -169,6 +171,7 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
         data.columns = ['bin{}'.format(i) for i in range(nbins)]
         data.index = ts['timestamp']
 
+        # Read the table of stats
         stats = pd.read_table(
                     fpath,
                     skiprows=(_metacount+4+nbins),
