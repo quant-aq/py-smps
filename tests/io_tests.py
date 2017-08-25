@@ -37,7 +37,6 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertIsNotNone(df.raw['Mean'])
 
-
     def test_smps_model(self):
         model = load_sample('boston')
 
