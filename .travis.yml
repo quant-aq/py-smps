@@ -9,7 +9,7 @@ before_install:
 
 install:
     - "pip install requests"
-    - "pip install coverage"
+    - "pip install coverage==4.3.4"
     - "pip install pandas"
     - "pip install seaborn"
     - "pip install codeclimate-test-reporter"
