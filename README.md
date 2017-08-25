@@ -12,6 +12,10 @@ Python library for the analysis and visualization of data from a Scanning Mobili
   * numpy
   * seaborn
 
+## Python Versions
+
+Currently, only Python3.3+ is supported. In the future, Python2.7 may be added, but probably not...
+
 ## Installation
 
 To install directly from GitHub using pip:
