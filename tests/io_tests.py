@@ -33,10 +33,9 @@ class SetupTestCase(unittest.TestCase):
     def test_resampling(self):
         df = load_sample('boston')
 
-        rs = df.raw.resample('5min').mean()
+        df.resample('5min')
 
-        self.assertIsNotNone(rs['Mean'])
-
+        self.assertIsNotNone(df.raw['Mean'])
 
     def test_smps_model(self):
         model = load_sample('boston')

@@ -1,3 +1,5 @@
+examples/ignore_this.ipynb
+
 *.DS_Store
 
 # Byte-compiled / optimized / DLL files

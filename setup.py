@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.5.1'
+__version__ = '0.6.0'
 
 setup(
     name = 'smps',
@@ -20,7 +20,8 @@ setup(
         'pandas',
         'numpy',
         'seaborn',
-        'scipy'
+        'scipy',
+        'statsmodels',
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',
@@ -32,6 +33,7 @@ setup(
 		'Programming Language :: Python :: 3.3',
 		'Programming Language :: Python :: 3.4',
 		'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
 		'Topic :: Scientific/Engineering :: Atmospheric Science',
 		'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules'

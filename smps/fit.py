@@ -2,6 +2,8 @@
 """
 import numpy as np
 from scipy.optimize import curve_fit
+from statsmodels.iolib.table import SimpleTable
+from .utils import Table
 
 def dndlogdp(dp, n, gm, gsd):
     """PDF for a lognormal particle size distribution"""
@@ -100,6 +102,24 @@ def volume_weighted_three_modes(dp, n1, gm1, gsd1, n2, gm2, gsd2, n3, gm3, gsd3)
 
     return s
 
+models = {
+    'number': [
+        number_weighted_single_mode,
+        number_weighted_two_modes,
+        number_weighted_three_modes
+        ],
+    'surface': [
+        surface_weighted_single_mode,
+        surface_weighted_two_modes,
+        surface_weighted_three_modes
+        ],
+    'volume': [
+        volume_weighted_single_mode,
+        volume_weighted_two_modes,
+        volume_weighted_three_modes
+        ]
+    }
+
 class LogNormal(object):
     def __init__(self):
         pass
@@ -107,35 +127,19 @@ class LogNormal(object):
     def fit(self, X, Y, modes=1, xmin=None, xmax=None, weight='number', fit_kwargs=None, **kwargs):
         """
         """
+        self.modes = modes
+
         if fit_kwargs is None:
             fit_kwargs = dict()
 
-        models = {
-            'number': [
-                number_weighted_single_mode,
-                number_weighted_two_modes,
-                number_weighted_three_modes
-                ],
-            'surface': [
-                surface_weighted_single_mode,
-                surface_weighted_two_modes,
-                surface_weighted_three_modes
-                ],
-            'volume': [
-                volume_weighted_single_mode,
-                volume_weighted_two_modes,
-                volume_weighted_three_modes
-                ]
-            }
-
         p0 = kwargs.pop('p0', [1e5, 1.5, 2, 1e5, 5, 2.5, 1e3, 50, 2.5])
 
-        bounds = kwargs.pop('bounds', (0, [1e9, 1e5, 5]*modes))
+        bounds = kwargs.pop('bounds', (0, [1e9, 1e5, 5]*self.modes))
 
-        self.model = models[weight][modes-1]
+        self.model = models[weight][self.modes-1]
 
         # Set the initial guesses
-        p0 = p0[0:modes*3]
+        p0 = p0[0:self.modes*3]
 
         # Subset the data if xmin or xmax is set
         if xmin is not None:
@@ -151,22 +155,44 @@ class LogNormal(object):
 
         perr = np.sqrt(np.diag(cov))
 
-        summary = "Mode\tN (#/cc)\tGM (nm)\t\tGSD\n"
-        for m in range(modes):
-            summary += "{}\t{:.2e}".format(m, self.fit_params[m*3])
-            summary += "\t{:.2f}".format(self.fit_params[m*3 + 1]*1000.)
-            summary += "\t\t{:.2f}".format(self.fit_params[m*3 + 2])
-            summary += "\n"
-
         fittedvalues = self.model(X, *self.fit_params)
 
-        results = dict(
-            params=self.fit_params,
-            error=perr,
-            summary=summary,
-            fittedvalues=fittedvalues)
+        return LogNormalFitResults(params=self.fit_params, error_matrix=perr,
+                fittedvalues=fittedvalues, modes=self.modes)
 
-        return results
 
-    def predict(self, X):
-        return self.model(X, *self.fit_params)
+class LogNormalFitResults(object):
+    def __init__(self, params, error_matrix, fittedvalues, modes, **kwargs):
+        self.modes = modes
+
+        self.params = params.reshape(self.modes, 3)
+        self.errors = error_matrix.reshape(self.modes, 3)
+        self.fittedvalues = fittedvalues
+
+    def summary(self):
+        # Convert GM from microns to nm
+        params = self.params.copy()
+        errors = self.errors.copy()
+
+        params[:, 1] *= 1000.
+        errors[:, 1] *= 1000.
+
+        _tbl = Table()
+
+        _tbl.add_title(self.__class__.__name__)
+        _tbl.add_border("=")
+        _tbl.add_header()
+        _tbl.add_border("-")
+
+        # Add a row for each mode
+        for i in range(self.modes):
+            _tbl.add_row(label="Mode {}".format(i), fields=params[i], errors=errors[i])
+
+        _tbl.add_border("-")
+
+        return _tbl
+
+    def predict(self, X, weight='number'):
+        model = models[weight][self.modes-1]
+
+        return model(X, *self.params.flatten())
