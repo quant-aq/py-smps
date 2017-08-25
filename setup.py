@@ -21,7 +21,6 @@ setup(
         'numpy',
         'seaborn',
         'scipy',
-        'statsmodels',
     ],
     classifiers = [
         'Development Status :: 3 - Alpha',
