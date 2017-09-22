@@ -7,7 +7,8 @@ import numpy as np
 import math
 import copy
 
-from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS, SMPS_STATS_COLUMN_NAMES
+from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS
+from .utils import SMPS_STATS_COLUMN_NAMES
 from .plots import heatmap
 
 
@@ -124,7 +125,7 @@ class SMPS(object):
         if inplace:
             self.raw = self.raw.resample(rs).mean()
 
-            return None
+            return True
         else:
             _tmp = self.copy()
             _tmp.raw = _tmp.resample(rs).mean()

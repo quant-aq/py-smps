@@ -1,10 +1,18 @@
 import unittest
 import smps
-from smps.io import load_sample
+from smps.io import load_sample, load_file
+import os
+
+basedir = os.path.dirname(os.path.abspath(__file__))
 
 class SetupTestCase(unittest.TestCase):
     def setUp(self):
-        pass
+
+        # Import some test data
+        self.data_number = load_file(os.path.join(basedir, "datafiles/test_data_number.txt"), column=False)
+        self.data_diameter = load_file(os.path.join(basedir, "datafiles/test_data_diameter.txt"), column=False)
+        self.data_surface_area = load_file(os.path.join(basedir, "datafiles/test_data_surface_area.txt"), column=False)
+        self.data_volume = load_file(os.path.join(basedir, "datafiles/test_data_volume.txt"), column=False)
 
     def tearDown(self):
         pass
@@ -20,8 +28,22 @@ class SetupTestCase(unittest.TestCase):
 
         self.assertIsInstance(df, smps.io.SMPS)
 
+    def test_smps_copy(self):
+        df = self.data_number
+
+        cpy = df.copy()
+
+        self.assertTrue(df.raw.equals(cpy.raw))
+
+    def test_smps_calculations(self):
+        s = self.data_number
+
+        # Test the first bin of dlogdp
+        self.assertEqual(len(s.dlogdp), s.bins.shape[0])
+        self.assertTrue(s.dndlogdp.equals(s.raw[s.bin_labels]))
+
     def test_datatypes(self):
-        df = load_sample('boston')
+        df = self.data_number
 
         self.assertEqual(df.raw['Median'].dtype, float)
         self.assertEqual(df.raw['Mean'].dtype, float)
@@ -31,13 +53,13 @@ class SetupTestCase(unittest.TestCase):
         self.assertEqual(df.raw['Total Conc.'].dtype, float)
 
     def test_resampling(self):
-        df = load_sample('boston')
+        df = self.data_number
 
-        df.resample('5min')
-
-        self.assertIsNotNone(df.raw['Mean'])
+        #self.assertIsNotNone(df.resample('5min', inplace=False))
+        self.assertTrue(df.resample('5min', inplace=True))
 
     def test_smps_model(self):
-        model = load_sample('boston')
+        pass
+        #model = load_sample('boston')
 
         # Check dlo
