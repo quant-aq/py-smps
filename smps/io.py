@@ -83,15 +83,36 @@ class SMPS(object):
 
     @property
     def stats(self):
-        """Return the statistics by sample."""
-        STAT_COLS = ['Median', 'Mean', 'Mode', 'GM', 'GSD', 'Total Conc.']
+        """"""
+        ntot = self.dn.sum(axis=1)
 
-        return self.raw[STAT_COLS]
+        res = pd.DataFrame({'Total Conc.': ntot})
+
+        return res
+
+    #def _variance(self, row):
+    #    '''
+    #    Calculate the value of (each bin - arithmetic mean) ** 2 as a factor and then
+    #    multiply by the number concentration in that bin before multiplying by 1/Ntot
+    #    '''
+    #    ntot = row.sum()
+    #    mean = row.mul(self.Dp).sum() / ntot
+
+    #    return row.mul((self.Dp - mean) ** 2).sum() / ntot
+
+    #@property
+    #def stats(self):
+    #    """Return the statistics by sample."""
+    #    STAT_COLS = ['Median', 'Mean', 'Mode', 'GM', 'GSD', 'Total Conc.']
+
+    #    return self.raw[STAT_COLS]
 
     @property
     def scan_stats(self):
-        """Return the scanning stats by sample."""
-        return self.raw[['Lower Size', 'Upper Size', 'Density']]
+        """Return the scan meta information for each row as a DataFrame."""
+        cols_to_get = set(self.raw.columns) - set(self.bin_labels)
+
+        return self.raw[list(cols_to_get)]
 
     def integrate(self, dmin, dmax, weight='number', rho=1.):
         """Integrate the number of particles, surface area, volume, or mass

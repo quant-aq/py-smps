@@ -71,3 +71,8 @@ class SetupTestCase(unittest.TestCase):
         #model = load_sample('boston')
 
         # Check dlo
+
+    def test_stats(self):
+        df = self.data_number
+
+        self.assertTrue('Total Conc.' in df.stats.columns)
