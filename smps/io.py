@@ -5,6 +5,7 @@
 import pandas as pd
 import numpy as np
 import math
+import copy
 
 from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS, SMPS_STATS_COLUMN_NAMES
 from .plots import heatmap
@@ -29,6 +30,10 @@ class SMPS(object):
 
         self.s_multiplier = self.midpoints**2 * np.pi
         self.v_multiplier = self.midpoints**3 * (np.pi/6.)
+
+    def copy(self):
+        """Return a copy of the SMPS instance."""
+        return copy.copy(self)
 
     @property
     def dlogdp(self):
@@ -114,11 +119,18 @@ class SMPS(object):
     def heatmap(self):
         return heatmap(self.raw.index.values, self.midpoints, self.dndlogdp.T.values)
 
-    def resample(self, rs):
+    def resample(self, rs, inplace=False):
         """Resample the raw data"""
-        self.raw = self.raw.resample(rs).mean()
+        if inplace:
+            self.raw = self.raw.resample(rs).mean()
 
-        return None
+            return None
+        else:
+            _tmp = self.copy()
+            _tmp.raw = _tmp.resample(rs).mean()
+
+        return _tmp
+
 
 def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs):
     """Load an SMPS.dat file as exported using the TSI GUI"""
