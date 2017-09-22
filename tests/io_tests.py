@@ -42,6 +42,14 @@ class SetupTestCase(unittest.TestCase):
         self.assertEqual(len(s.dlogdp), s.bins.shape[0])
         self.assertTrue(s.dndlogdp.equals(s.raw[s.bin_labels]))
 
+        # Make sure that dDdlogDp is correct
+        _calculated = self.data_number.dddlogdp * 1e-3 # divide by 1000 to go from um to nm
+        _reference = self.data_diameter.dndlogdp # nanometers
+
+        self.assertEqual(round(_calculated.iloc[0][0], 2), round(_reference.iloc[0][0], 2))
+
+        # Make sure that dSdlogDp is correct
+
     def test_datatypes(self):
         df = self.data_number
 

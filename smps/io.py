@@ -43,21 +43,13 @@ class SMPS(object):
 
     @property
     def dndlogdp(self):
-        """"""
+        """Return dN/dlogDp in units of [#/um*cm3]"""
         return self.raw[self.bin_labels]
 
     @property
-    def dn(self):
-        return self.dndlogdp * self.dlogdp
-
-    @property
-    def ds(self):
-        return self.dsdlogdp.mul(self.dlogdp)
-
-    @property
-    def dv(self):
-        """Returns the volume in each bin"""
-        return self.dvdlogdp.mul(self.dlogdp)
+    def dddlogdp(self):
+        """Return dDp/dlogDp in units of [#/cm3]"""
+        return self.dndlogdp.mul(self.midpoints)
 
     @property
     def dsdlogdp(self):
@@ -68,6 +60,26 @@ class SMPS(object):
     def dvdlogdp(self):
         """Return dVdlogDp"""
         return self.dndlogdp.mul(self.v_multiplier)
+
+    @property
+    def dn(self):
+        """Return dN in units of [#/cm3]"""
+        return self.dndlogdp.mul(self.dlogdp)
+
+    @property
+    def dd(self):
+        """Return some make believe dDp"""
+        return self.dddlogdp.mul(self.dlogdp)
+
+    @property
+    def ds(self):
+        """Return dS un units of [um2/cm3]"""
+        return self.dsdlogdp.mul(self.dlogdp)
+
+    @property
+    def dv(self):
+        """Returns dV in units of [um3/sm3]"""
+        return self.dvdlogdp.mul(self.dlogdp)
 
     @property
     def stats(self):
