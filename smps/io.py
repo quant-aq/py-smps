@@ -81,31 +81,54 @@ class SMPS(object):
         """Returns dV in units of [um3/sm3]"""
         return self.dvdlogdp.mul(self.dlogdp)
 
-    @property
-    def stats(self):
-        """"""
-        ntot = self.dn.sum(axis=1)
+    def stats(self, weight='number', rho=1.65):
+        """Stats can be weighted by: [number, surface_area, volume].
 
-        res = pd.DataFrame({'Total Conc.': ntot})
+        Columns:
+            Total Number: [cm-3]
+            Total Surface Area: [um2 cm-3]
+            Total Volume: [um3 cm-3]
+            Total Mass: [ug cm-3]
+            Mean: [nm]
+
+        Stats returned include: Total, GM, GSD, Mean, Median, CMD"""
+        res = pd.DataFrame()
+        ff = 1e-3 # fudge factor to get scale numbers prior to math
+
+        res['Total Number'] = self.dn.sum(axis=1)
+        res['Total Surface Area'] = self.ds.sum(axis=1)
+        res['Total Volume'] = self.dv.sum(axis=1)
+        res['Total Mass'] = self.dv.sum(axis=1)*rho
+
+        if weight == 'number':
+            tmp = self.dn.mul(ff)
+
+            res['Mean'] = 1e3 * self.dn.mul(self.midpoints).sum(axis=1) / res['Total Number']
+            res['CMD'] = 1e3*tmp.apply(lambda x: self.midpoints ** x, axis=1).replace(0, np.nan).prod(axis=1).pow(1./tmp.sum(axis=1))
+            res['GSD'] = self.dn.apply(self._gsd, axis=1)
+
+            #_var = res['Mean'].apply(lambda x: self.midpoints*1e3 / x, axis=1)
+        elif weight == 'surface_area': # 1e3 is to convert to um from nm
+            tmp = self.ds * ff
+
+            res['Mean'] = 1e3 * ((self.ds.sum(axis=1) / (np.pi*res['Total Number'])) ** 0.5)
+            res['CMD'] = 1e3*tmp.apply(lambda x: self.midpoints ** x, axis=1).replace(0, np.nan).prod(axis=1).pow(1./tmp.sum(axis=1))
+        elif weight == 'volume':
+            tmp = self.dv * ff
+
+            res['Mean'] = 1e3 * ((self.dv.sum(axis=1) * 6./(np.pi * res['Total Number'])) ** (1./3))
+            res['CMD'] = 1e3*tmp.apply(lambda x: self.midpoints ** x, axis=1).replace(0, np.nan).prod(axis=1).pow(1./tmp.sum(axis=1))
+        else:
+            raise Exception("Invalid parameter for weight.")
 
         return res
 
-    #def _variance(self, row):
-    #    '''
-    #    Calculate the value of (each bin - arithmetic mean) ** 2 as a factor and then
-    #    multiply by the number concentration in that bin before multiplying by 1/Ntot
-    #    '''
-    #    ntot = row.sum()
-    #    mean = row.mul(self.Dp).sum() / ntot
+    def _gsd(self, row):
+        """Calculate and return the GSD for a given row
+        """
+        dpg = row.mul(self.midpoints).sum() / row.sum()
 
-    #    return row.mul((self.Dp - mean) ** 2).sum() / ntot
-
-    #@property
-    #def stats(self):
-    #    """Return the statistics by sample."""
-    #    STAT_COLS = ['Median', 'Mean', 'Mode', 'GM', 'GSD', 'Total Conc.']
-
-    #    return self.raw[STAT_COLS]
+        return 10**((row.mul(np.log10(self.midpoints/dpg)**2).sum() / (row.sum() - 1))**0.5)
 
     @property
     def scan_stats(self):

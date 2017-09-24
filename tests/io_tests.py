@@ -74,5 +74,15 @@ class SetupTestCase(unittest.TestCase):
 
     def test_stats(self):
         df = self.data_number
+        df2 = self.data_surface_area
+        df3 = self.data_volume
 
-        self.assertTrue('Total Conc.' in df.stats.columns)
+        # Retrieve the stats
+        stats = df.stats(weight='number')
+
+        self.assertTrue('Total Number' in stats.columns)
+        self.assertTrue('Total Surface Area' in stats.columns)
+        self.assertTrue('Total Volume' in stats.columns)
+        self.assertTrue('Mean' in stats.columns)
+
+        stats = df.stats(weight='surface_area')
