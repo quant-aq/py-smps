@@ -80,9 +80,20 @@ class SetupTestCase(unittest.TestCase):
         # Retrieve the stats
         stats = df.stats(weight='number')
 
+        print (stats.head(3))
+        print (df.scan_stats[['Mean', 'Median', 'GSD']].head(3))
+
         self.assertTrue('Total Number' in stats.columns)
         self.assertTrue('Total Surface Area' in stats.columns)
         self.assertTrue('Total Volume' in stats.columns)
         self.assertTrue('Mean' in stats.columns)
 
-        stats = df.stats(weight='surface_area')
+        stats = df2.stats(weight='surface_area')
+
+        print (stats.head(3))
+        print (df2.scan_stats[['Mean', 'Median', 'GSD']].head(3))
+
+        stats = df3.stats(weight='surface_area')
+
+        print (stats.head(3))
+        print (df3.scan_stats[['Mean', 'Median', 'GSD']].head(3))
