@@ -93,7 +93,6 @@ class SMPS(object):
 
         Stats returned include: Total, GM, GSD, Mean, Median, CMD"""
         res = pd.DataFrame()
-        ff = 1e-3 # fudge factor to get scale numbers prior to math
 
         res['Total Number'] = self.dn.sum(axis=1)
         res['Total Surface Area'] = self.ds.sum(axis=1)
@@ -103,26 +102,43 @@ class SMPS(object):
         if weight == 'number':
             res['Mean'] = 1e3 * self.dn.mul(self.midpoints).sum(axis=1) / res['Total Number']
             res['GM'] = 1e3 * np.exp(self.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Number'])
-            #res['GSD'] = self.dn.apply(self._gsd, axis=1)
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.dn.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
         elif weight == 'surface_area': # 1e3 is to convert to um from nm
-            res['Mean'] = 1e3 * ((self.ds.sum(axis=1) / (np.pi*res['Total Number'])) ** 0.5)
+            res['Mean'] = 1e3 * self.ds.mul(self.midpoints).sum(axis=1) / res['Total Surface Area']
             res['GM'] = 1e3 * np.exp(self.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Surface Area'])
-            #res['GSD'] = self.ds.apply(self._gsd, axis=1)
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.ds.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
         elif weight == 'volume':
-            res['Mean'] = 1e3 * ((self.dv.sum(axis=1) * 6./(np.pi * res['Total Number'])) ** (1./3))
+            res['Mean'] = 1e3 * self.dv.mul(self.midpoints).sum(axis=1) / res['Total Volume']
             res['GM'] = 1e3 * np.exp(self.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Volume'])
-            #res['CMD'] = 1e3*tmp.apply(lambda x: self.midpoints ** x, axis=1).replace(0, np.nan).prod(axis=1).pow(1./tmp.sum(axis=1))
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.dv.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
         else:
             raise Exception("Invalid parameter for weight.")
+
+        # Clear up some memory
+        del tmp
 
         return res
 
     def _gsd(self, row):
-        """Calculate and return the GSD for a given row
+        """Calculate and return the GSD for a given row.
         """
-        dpg = row.mul(self.midpoints).sum() / row.sum()
+        gm_idx = row.index.isin(['GM'])
+        gm = row.loc[gm_idx]['GM'] * 1e-3
+        row = row.loc[~gm_idx]
 
-        return np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(dpg))**2).sum())/(row.sum())))
+        return np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(gm))**2).sum())/(row.sum())))
 
     @property
     def scan_stats(self):

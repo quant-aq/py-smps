@@ -80,20 +80,31 @@ class SetupTestCase(unittest.TestCase):
         # Retrieve the stats
         stats = df.stats(weight='number')
 
-        print (stats.head(3))
-        print (df.scan_stats[['Mean', 'Median', 'GSD']].head(3))
-
         self.assertTrue('Total Number' in stats.columns)
         self.assertTrue('Total Surface Area' in stats.columns)
         self.assertTrue('Total Volume' in stats.columns)
         self.assertTrue('Mean' in stats.columns)
 
-        stats = df2.stats(weight='surface_area')
+        # Make sure the GM, GSD, and Mean are all within 1% error
+        def one_pct_error(x1, x2):
+            diff = abs(x1 - x2) / x1
 
-        print (stats.head(3))
-        print (df2.scan_stats[['Mean', 'Median', 'GSD']].head(3))
+            return True if diff <= 0.01 else False
 
-        stats = df3.stats(weight='surface_area')
+        self.assertTrue(one_pct_error(stats["GM"][0], df.scan_stats['GM'][0]))
+        self.assertTrue(one_pct_error(stats["Mean"][0], df.scan_stats['Mean'][0]))
+        self.assertTrue(one_pct_error(stats["GSD"][0], df.scan_stats['GSD'][0]))
 
-        print (stats.head(3))
-        print (df3.scan_stats[['Mean', 'Median', 'GSD']].head(3))
+        # Repeat for Surface-Area weighted Statistics
+        stats = df.stats(weight='surface_area')
+
+        self.assertTrue(one_pct_error(stats["GM"][0], df2.scan_stats['GM'][0]))
+        self.assertTrue(one_pct_error(stats["Mean"][0], df2.scan_stats['Mean'][0]))
+        self.assertTrue(one_pct_error(stats["GSD"][0], df2.scan_stats['GSD'][0]))
+
+        # Repeat for Volume weighted Statistics
+        stats = df.stats(weight='volume')
+
+        self.assertTrue(one_pct_error(stats["GM"][0], df3.scan_stats['GM'][0]))
+        self.assertTrue(one_pct_error(stats["Mean"][0], df3.scan_stats['Mean'][0]))
+        self.assertTrue(one_pct_error(stats["GSD"][0], df3.scan_stats['GSD'][0]))
