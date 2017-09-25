@@ -194,7 +194,7 @@ class SMPS(object):
             return True
         else:
             _tmp = self.copy()
-            _tmp.raw = _tmp.resample(rs).mean()
+            _tmp.raw = _tmp.raw.resample(rs).mean()
 
         return _tmp
 
