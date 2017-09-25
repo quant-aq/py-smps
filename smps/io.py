@@ -5,8 +5,10 @@
 import pandas as pd
 import numpy as np
 import math
+import copy
 
-from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS, SMPS_STATS_COLUMN_NAMES
+from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS
+from .utils import SMPS_STATS_COLUMN_NAMES
 from .plots import heatmap
 
 
@@ -30,6 +32,10 @@ class SMPS(object):
         self.s_multiplier = self.midpoints**2 * np.pi
         self.v_multiplier = self.midpoints**3 * (np.pi/6.)
 
+    def copy(self):
+        """Return a copy of the SMPS instance."""
+        return copy.copy(self)
+
     @property
     def dlogdp(self):
         """Return the bin midpoints"""
@@ -37,21 +43,13 @@ class SMPS(object):
 
     @property
     def dndlogdp(self):
-        """"""
+        """Return dN/dlogDp in units of [#/um*cm3]"""
         return self.raw[self.bin_labels]
 
     @property
-    def dn(self):
-        return self.dndlogdp * self.dlogdp
-
-    @property
-    def ds(self):
-        return self.dsdlogdp.mul(self.dlogdp)
-
-    @property
-    def dv(self):
-        """Returns the volume in each bin"""
-        return self.dvdlogdp.mul(self.dlogdp)
+    def dddlogdp(self):
+        """Return dDp/dlogDp in units of [#/cm3]"""
+        return self.dndlogdp.mul(self.midpoints)
 
     @property
     def dsdlogdp(self):
@@ -64,16 +62,90 @@ class SMPS(object):
         return self.dndlogdp.mul(self.v_multiplier)
 
     @property
-    def stats(self):
-        """Return the statistics by sample."""
-        STAT_COLS = ['Median', 'Mean', 'Mode', 'GM', 'GSD', 'Total Conc.']
+    def dn(self):
+        """Return dN in units of [#/cm3]"""
+        return self.dndlogdp.mul(self.dlogdp)
 
-        return self.raw[STAT_COLS]
+    @property
+    def dd(self):
+        """Return some make believe dDp"""
+        return self.dddlogdp.mul(self.dlogdp)
+
+    @property
+    def ds(self):
+        """Return dS un units of [um2/cm3]"""
+        return self.dsdlogdp.mul(self.dlogdp)
+
+    @property
+    def dv(self):
+        """Returns dV in units of [um3/sm3]"""
+        return self.dvdlogdp.mul(self.dlogdp)
+
+    def stats(self, weight='number', rho=1.65):
+        """Stats can be weighted by: [number, surface_area, volume].
+
+        Columns:
+            Total Number: [cm-3]
+            Total Surface Area: [um2 cm-3]
+            Total Volume: [um3 cm-3]
+            Total Mass: [ug cm-3]
+            Mean: [nm]
+
+        Stats returned include: Total, GM, GSD, Mean, Median, CMD"""
+        res = pd.DataFrame()
+
+        res['Total Number'] = self.dn.sum(axis=1)
+        res['Total Surface Area'] = self.ds.sum(axis=1)
+        res['Total Volume'] = self.dv.sum(axis=1)
+        res['Total Mass'] = self.dv.sum(axis=1)*rho
+
+        if weight == 'number':
+            res['Mean'] = 1e3 * self.dn.mul(self.midpoints).sum(axis=1) / res['Total Number']
+            res['GM'] = 1e3 * np.exp(self.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Number'])
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.dn.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
+        elif weight == 'surface_area': # 1e3 is to convert to um from nm
+            res['Mean'] = 1e3 * self.ds.mul(self.midpoints).sum(axis=1) / res['Total Surface Area']
+            res['GM'] = 1e3 * np.exp(self.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Surface Area'])
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.ds.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
+        elif weight == 'volume':
+            res['Mean'] = 1e3 * self.dv.mul(self.midpoints).sum(axis=1) / res['Total Volume']
+            res['GM'] = 1e3 * np.exp(self.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Volume'])
+
+            # Create a tmp column with just inner part of the GSD calculation
+            tmp = self.dv.assign(GM=res['GM'].values)
+
+            res['GSD'] = tmp.apply(self._gsd, axis=1)
+        else:
+            raise Exception("Invalid parameter for weight.")
+
+        # Clear up some memory
+        del tmp
+
+        return res
+
+    def _gsd(self, row):
+        """Calculate and return the GSD for a given row.
+        """
+        gm_idx = row.index.isin(['GM'])
+        gm = row.loc[gm_idx]['GM'] * 1e-3
+        row = row.loc[~gm_idx]
+
+        return np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(gm))**2).sum())/(row.sum())))
 
     @property
     def scan_stats(self):
-        """Return the scanning stats by sample."""
-        return self.raw[['Lower Size', 'Upper Size', 'Density']]
+        """Return the scan meta information for each row as a DataFrame."""
+        cols_to_get = set(self.raw.columns) - set(self.bin_labels)
+
+        return self.raw[list(cols_to_get)]
 
     def integrate(self, dmin, dmax, weight='number', rho=1.):
         """Integrate the number of particles, surface area, volume, or mass
@@ -114,11 +186,18 @@ class SMPS(object):
     def heatmap(self):
         return heatmap(self.raw.index.values, self.midpoints, self.dndlogdp.T.values)
 
-    def resample(self, rs):
+    def resample(self, rs, inplace=False):
         """Resample the raw data"""
-        self.raw = self.raw.resample(rs).mean()
+        if inplace:
+            self.raw = self.raw.resample(rs).mean()
 
-        return None
+            return True
+        else:
+            _tmp = self.copy()
+            _tmp.raw = _tmp.resample(rs).mean()
+
+        return _tmp
+
 
 def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs):
     """Load an SMPS.dat file as exported using the TSI GUI"""
