@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.7.1'
+__version__ = '0.7.2'
 
 setup(
     name='smps',
@@ -21,6 +21,7 @@ setup(
         'numpy',
         'seaborn',
         'scipy',
+        'requests'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
