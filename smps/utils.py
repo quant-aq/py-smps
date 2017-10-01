@@ -89,8 +89,8 @@ class Table(object):
         self.text += "\n" + self._center_text(label)
 
         field1 = "{:.2e} ({:.1e})".format(fields[0], errors[0])
-        field2 = "{:.2e} ({:.1e})".format(fields[1], errors[1])
-        field3 = "{:.2e} ({:.1e})".format(fields[2], errors[2])
+        field2 = "{:.2f} ({:.1e})".format(fields[1], errors[1])
+        field3 = "{:.2f} ({:.1e})".format(fields[2], errors[2])
 
         self.text += self._center_text(field1) + self._center_text(field2) + \
             self._center_text(field3)
