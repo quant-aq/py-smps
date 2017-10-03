@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import math
 import copy
+import joblib
 
 from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS
 from .utils import SMPS_STATS_COLUMN_NAMES
@@ -34,7 +35,11 @@ class SMPS(object):
 
     def copy(self):
         """Return a copy of the SMPS instance."""
-        return copy.copy(self)
+        return copy.deepcopy(self)
+
+    def dump(self, filepath):
+        """Save the SMPS object to disk"""
+        return joblib.dump(self, filepath)
 
     @property
     def dlogdp(self):
@@ -188,13 +193,19 @@ class SMPS(object):
 
     def resample(self, rs, inplace=False):
         """Resample the raw data"""
+        obj_cols = self.raw.select_dtypes(include=['object']).resample(rs).first()
+        num_cols = self.raw.select_dtypes(exclude=['object']).resample(rs).mean()
+
+        # re-merge the two dataframes
+        merged = pd.merge(num_cols, obj_cols, left_index=True, right_index=True, how='outer')
+
         if inplace:
-            self.raw = self.raw.resample(rs).mean()
+            self.raw = merged
 
             return True
         else:
             _tmp = self.copy()
-            _tmp.raw = _tmp.raw.resample(rs).mean()
+            _tmp.raw = merged
 
         return _tmp
 
