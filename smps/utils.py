@@ -124,32 +124,3 @@ RENAMED_COLUMNS = {
     'Total Conc.(#/cm³)': 'Total Conc.',
     'Total Concentration': 'Total Conc.'
  }
-
-SMPS_STATS_COLUMN_NAMES = [
-    'Scan Up Time',
-    'Retrace Time',
-    'Down Scan First',
-    'Scans Per Sample',
-    'Impactor Type',
-    'Sheath Flow',
-    'Aerosol Flow',
-    'CPC Inlet Flow',
-    'CPC Sample Flow',
-    'Low Voltage',
-    'High Voltage',
-    'Lower Size',
-    'Upper Size',
-    'Density',
-    'Title',
-    'Status Flag',
-    'td',
-    'tf',
-    'D50',
-    'Median',
-    'Mean',
-    'GM',
-    'Mode',
-    'GSD',
-    'Total Conc.',
-    'Comment'
-    ]
