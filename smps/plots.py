@@ -22,10 +22,11 @@ rc_log = {
     'axes.linewidth': 1.75
 }
 
-def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, hide_low=True,
-            cmap=default_cmap, fig_kws=None, cbar_kws=None, **kwargs):
+def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
+            cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, **kwargs):
+    """Plot the heatmap of the particle size distribution.
     """
-    """
+    # Set the colorbar min and max based on the min and max of the values
     cbar_min = kwargs.pop('cbar_min', Z.min() if Z.min() > 0.0 else 1.)
     cbar_max = kwargs.pop('cbar_max', Z.max())
 
@@ -40,22 +41,25 @@ def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, hide_low=True,
         below_min = Z_plot < cbar_min
         Z_plot[below_min] = cbar_min
 
-    if fig_kws is None:
-        fig_kws = dict(figsize=(16,8))
+    # Set the plot_kws
+    plot_kws = dict(dict(norm=LogNorm(vmin=cbar_min, vmax=cbar_max), cmap=cmap),
+                        **plot_kws)
 
-    if cbar_kws is None:
-        cbar_kws = dict(label='$dN/dlogD_p \; [cm^{-3}]$')
+    # Set the figure keywords
+    fig_kws = dict(dict(figsize=(16,8)), **fig_kws)
 
     if ax is None:
         plt.figure(**fig_kws)
         ax = plt.gca()
 
-    im = ax.pcolormesh(X, Y, Z_plot, norm=LogNorm(vmin=cbar_min, vmax=cbar_max),
-                       cmap=cmap)
+    # Plot the data as a pcolormesh
+    im = ax.pcolormesh(X, Y, Z_plot, **plot_kws)
 
+    # Set the ylim to match the data
     ax.set_ylim([Y.min(), Y.max()])
 
-    if kind == 'log':
+    # Set the axis to be log in the y-axis
+    if logy:
         ax.semilogy()
 
         ax.yaxis.set_major_formatter(ScalarFormatter())
@@ -63,6 +67,9 @@ def heatmap(X, Y, Z, ax=None, kind='log', cbar=True, hide_low=True,
     ax.set_ylabel("$D_p \; [nm]$")
 
     if cbar:
+        # Set the figure keywords
+        cbar_kws = dict(dict(label='$dN/dlogD_p \; [cm^{-3}]$'), **cbar_kws)
+
         clb = plt.colorbar(im, **cbar_kws)
 
     return ax

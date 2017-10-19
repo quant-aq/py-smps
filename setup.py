@@ -3,7 +3,7 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.7.7'
+__version__ = '0.8.0'
 
 setup(
     name='smps',

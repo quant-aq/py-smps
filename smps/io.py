@@ -9,7 +9,6 @@ import copy
 import joblib
 
 from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS
-from .utils import SMPS_STATS_COLUMN_NAMES
 from .plots import heatmap
 
 
@@ -83,7 +82,7 @@ class SMPS(object):
 
     @property
     def dv(self):
-        """Returns dV in units of [um3/sm3]"""
+        """Returns dV in units of [um3/cm3]"""
         return self.dvdlogdp.mul(self.dlogdp)
 
     def stats(self, weight='number', rho=1.65):
@@ -93,7 +92,7 @@ class SMPS(object):
             Total Number: [cm-3]
             Total Surface Area: [um2 cm-3]
             Total Volume: [um3 cm-3]
-            Total Mass: [ug cm-3]
+            Total Mass: [ug m-3]
             Mean: [nm]
 
         Stats returned include: Total, GM, GSD, Mean, Median, CMD"""
@@ -190,6 +189,20 @@ class SMPS(object):
 
     def heatmap(self):
         return heatmap(self.raw.index.values, self.midpoints, self.dndlogdp.T.values)
+
+    def slice(self, start=None, end=None, inplace=False):
+        """Slice the data between the start and end dates
+        """
+        if inplace:
+            self.raw = self.raw[start:end]
+
+            return True
+        else:
+            _tmp = _tmp.copy()
+
+            _tmp.raw = _tmp.raw[start:end]
+
+        return _tmp
 
     def resample(self, rs, inplace=False):
         """Resample the raw data"""
