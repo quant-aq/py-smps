@@ -108,3 +108,6 @@ class SetupTestCase(unittest.TestCase):
         self.assertTrue(one_pct_error(stats["GM"][0], df3.scan_stats['GM'][0]))
         self.assertTrue(one_pct_error(stats["Mean"][0], df3.scan_stats['Mean'][0]))
         self.assertTrue(one_pct_error(stats["GSD"][0], df3.scan_stats['GSD'][0]))
+
+    def test_import_aim10_2(self):
+        df = load_file(os.path.join(basedir, "datafiles/aim10_2.txt"), column=False)

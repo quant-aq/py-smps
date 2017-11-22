@@ -237,6 +237,8 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
                 delimiter=delimiter,
                 header=None,
                 encoding=encoding,
+                error_bad_lines=False,
+                warn_bad_lines=False,
                 index_col=0).T.iloc[0,:].to_dict()
 
     unit = meta['Units']
