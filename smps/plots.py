@@ -24,19 +24,20 @@ rc_log = {
 
 def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
             cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, **kwargs):
-    """Plot the heatmap of the particle size distribution.
+    """Plot the heatmap of the particle size distribution. All NaN'd values
+    will be converted to zeroes.
     """
+    # Copy to avoid modifying original data
+    Z_plot = Z.copy()
+
+    # get rid of NaNs
+    Z_plot = nan_to_num(Z_plot)
+
     # Set the colorbar min and max based on the min and max of the values
     cbar_min = kwargs.pop('cbar_min', Z.min() if Z.min() > 0.0 else 1.)
     cbar_max = kwargs.pop('cbar_max', Z.max())
 
-    # Copy to avoid modifying original data
-    Z_plot = Z.copy()
-
     if hide_low:
-        # Hide NaN values
-        Z_plot = nan_to_num(Z_plot)
-
         # Increase values below cbar_min to cbar_min
         below_min = Z_plot < cbar_min
         Z_plot[below_min] = cbar_min

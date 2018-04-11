@@ -13,9 +13,14 @@ from .plots import heatmap
 
 
 class SMPS(object):
-    """Assumes data is always fed as dNdlogDp"""
+    """
+        Build an SMPS object from the raw data and bin information. It is assumed
+        that data fed into the object is in dN/dlogDp format and any other format
+        will lead to errors.
+    """
     def __init__(self, data, bins, bin_labels, dp_units='nm', meta=None):
         """
+        
         dp_units : ['nm', 'um']
         """
         self.raw = data
