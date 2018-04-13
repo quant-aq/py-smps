@@ -90,7 +90,7 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
         plt.figure(**fig_kws)
         ax = plt.gca()
 
-    ax.bar(left=bins[:, 0], height=histogram, width=bins[:, -1] - bins[:, 0],
+    ax.bar(x=bins[:, 0], height=histogram, width=bins[:, -1] - bins[:, 0],
             align='edge', **plot_kws)
 
     ax.semilogx()
