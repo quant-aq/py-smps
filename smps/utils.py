@@ -2,7 +2,57 @@
 # -*- coding: utf-8 -*-
 """
 """
+import numpy as np
 import requests
+import math
+
+def make_bins(nbins, bound_left=None, bound_right=None, midpoints=None,
+                channels_per_decade=None, mean='gm'):
+    """
+
+    :param mean: ['gm', 'am']
+
+    Example:
+
+    >>> make_bins(
+    >>>  len(obj['midpoints']),
+    >>>  midpoints=obj['midpoints'],
+    >>>  bound_left=obj['bound_left'],
+    >>>  bound_right=obj['bound_right'],
+    >>>  channels_per_decade=64)
+    """
+    # initialize the bins array which will contain an nbinsx3 matrix
+    bins = np.empty((nbins, 3))
+    bins.fill(np.NaN)
+
+    # if midpoints is an array, set it
+    if type(midpoints) in (np.ndarray, list):
+        bins[:, 1] = midpoints
+
+    # set the left bounds
+    if type(bound_left) in (np.ndarray, list):
+        bins[:, 0] = bound_left
+    else:
+        bins[0, 0] = bound_left
+
+    # set the right bounds
+    if type(bound_right) in (np.ndarray, list):
+        bins[:, -1] = bound_right
+    else:
+        bins[-1, -1] = bound_right
+
+    # iterate over all bins and set the missing data
+    for i in range(bins.shape[0] - 1):
+        if bins[i, 1] == np.nan: # set the midpoint as either the GM or the AM of the two
+            if mean == 'am':
+                bins[i, 1] = np.mean([bins[i, 0], bins[i, -1]])
+            else:
+                bins[i, 1] = 1
+        else:
+            bins[i, -1] = round(math.pow(10, np.log10(bins[i, 0]) + 1./channels_per_decade), 4)
+            bins[i+1, 0] = bins[i, -1]
+
+    return bins
 
 def _get_bin_count(fpath, delimiter=',', encoding='ISO-8859-1'):
     """Get the number of bins in the file."""
@@ -24,7 +74,6 @@ def _get_bin_count(fpath, delimiter=',', encoding='ISO-8859-1'):
                 except: pass
 
     return bins
-
 
 def _get_linecount(fpath, keyword, delimiter=',', encoding='ISO-8859-1'):
     """Return the line number in a file where the first item is `keyword`"""
@@ -99,41 +148,3 @@ class Table(object):
 
     def __repr__(self):
         return self.text
-
-
-RENAMED_COLUMNS = {
-    'Scan Up Time(s)': 'Scan Up Time',
-    'Scan Time (s)': 'Scan Up Time',
-    'Retrace Time(s)': 'Retrace Time',
-    'Retrace Time (s)': 'Retrace Time',
-    'Impactor Type(cm)': 'Impactor Type',
-    'Sheath Flow(lpm)': 'Sheath Flow',
-    'Sheath Flow (L/min)': 'Sheath Flow',
-    'Aerosol Flow(lpm)': 'Aerosol Flow',
-    'Aerosol Flow (L/min)': 'Aerosol Flow',
-    'CPC Inlet FLow(lpm)': 'CPC Inlet Flow',
-    'CPC Sample Flow(lpm)':'CPC Sample Flow',
-    'Lower Size(nm)': 'Lower Size',
-    'Lower Size (nm)': 'Lower Size',
-    'Upper Size(nm)': 'Upper Size',
-    'Upper Size (nm)': 'Upper Size',
-    'Density(g/cc)': 'Density',
-    'td(s)': 'td',
-    'td + 0.5 (s)': 'td',
-    'tf(s)': 'tf',
-    'tf (s)': 'tf',
-    'D50(nm)': 'D50',
-    'D50 (nm)': 'D50',
-    'Median(nm)': 'Median',
-    'Median (nm)': 'Median',
-    'Mean(nm)': 'Mean',
-    'Mean (nm)': 'Mean',
-    'Geo. Mean(nm)': 'GM',
-    'Geo. Mean (nm)': 'GM',
-    'Mode(nm)': 'Mode',
-    'Mode (nm)': 'Mode',
-    'Geo. Std. Dev.': 'GSD',
-    'Total Conc.(#/cm³)': 'Total Conc.',
-    'Total Conc. (#/cm³)': 'Total Conc.',
-    'Total Concentration': 'Total Conc.'
- }

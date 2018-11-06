@@ -3,13 +3,13 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '0.8.1'
+__version__ = '1.0.0'
 
 setup(
     name='smps',
     version=__version__,
     packages=['smps'],
-    description='A simple python library to import and visualize SMPS data.',
+    description='A simple python library to import and visualize data from particle sizing instruments.',
     author='David H Hagan',
     author_email='dhagan@mit.edu',
     license='MIT',
