@@ -18,11 +18,13 @@ setup(
     test_suite='tests',
     install_requires=[
         'pandas',
+        'matplotlib',
         'numpy',
         'seaborn',
         'scipy',
         'requests',
-        'joblib'
+        'joblib',
+        'statsmodels'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
