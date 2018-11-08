@@ -8,251 +8,48 @@ import math
 import copy
 import joblib
 
-from .utils import _get_bin_count, _get_linecount, RENAMED_COLUMNS
+from .utils import _get_bin_count, _get_linecount, make_bins
 from .plots import heatmap
+from .models import SMPS, AlphasenseOpcN2
 
+__all__ = ["smps_from_txt", "opcn2_from_text", "load_sample"]
 
-class SMPS(object):
-    """Assumes data is always fed as dNdlogDp"""
-    def __init__(self, data, bins, bin_labels, dp_units='nm', meta=None):
-        """
-        dp_units : ['nm', 'um']
-        """
-        self.raw = data
-        self.meta = meta
-        self.bins = bins
+def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
+    """Read an SMPS txt file as exported by the TSI AIM software.
+    """
+    assert(delimiter in [',', '\t']), "The delimiter must be either a comma or tab"
 
-        # Convert all diameters to microns
-        if dp_units == 'nm':
-            self.bins /= 1000.
+    encoding = kwargs.pop("encoding", "ISO-8859-1")
 
-        self.midpoints = bins[:, 1]
-        self.bin_labels = bin_labels
+    # determine the number of rows of meta information; can be defined
+    meta_num_lines = kwargs.pop("meta_num_lines", None)
+    if not meta_num_lines:
+        meta_num_lines = _get_linecount(fpath, keyword='Sample #', encoding=encoding)
 
-        self.s_multiplier = self.midpoints**2 * np.pi
-        self.v_multiplier = self.midpoints**3 * (np.pi/6.)
+    # read and store the meta information
+    meta = pd.read_table(fpath, nrows=meta_num_lines, delimiter=delimiter, header=None, encoding=encoding,
+                error_bad_lines=False, warn_bad_lines=False, index_col=0).T.iloc[0,:].to_dict()
 
-    def copy(self):
-        """Return a copy of the SMPS instance."""
-        return copy.deepcopy(self)
+    # grab the number of channels per decade - sets the multiplier for determining bin spacings later on
+    mult = float(meta['Channels/Decade'])
 
-    def dump(self, filepath):
-        """Save the SMPS object to disk"""
-        return joblib.dump(self, filepath)
+    # determine the weight and units
+    units = meta['Units'].lower()
+    weight = meta['Weight'].lower()
 
-    @property
-    def dlogdp(self):
-        """Return the bin midpoints"""
-        return np.log10(self.bins[:, -1]) - np.log10(self.bins[:, 0])
-
-    @property
-    def dndlogdp(self):
-        """Return dN/dlogDp in units of [#/um*cm3]"""
-        return self.raw[self.bin_labels]
-
-    @property
-    def dddlogdp(self):
-        """Return dDp/dlogDp in units of [#/cm3]"""
-        return self.dndlogdp.mul(self.midpoints)
-
-    @property
-    def dsdlogdp(self):
-        """Return dSdlogDp"""
-        return self.dndlogdp.mul(self.s_multiplier)
-
-    @property
-    def dvdlogdp(self):
-        """Return dVdlogDp"""
-        return self.dndlogdp.mul(self.v_multiplier)
-
-    @property
-    def dn(self):
-        """Return dN in units of [#/cm3]"""
-        return self.dndlogdp.mul(self.dlogdp)
-
-    @property
-    def dd(self):
-        """Return some make believe dDp"""
-        return self.dddlogdp.mul(self.dlogdp)
-
-    @property
-    def ds(self):
-        """Return dS un units of [um2/cm3]"""
-        return self.dsdlogdp.mul(self.dlogdp)
-
-    @property
-    def dv(self):
-        """Returns dV in units of [um3/cm3]"""
-        return self.dvdlogdp.mul(self.dlogdp)
-
-    def stats(self, weight='number', rho=1.65):
-        """Stats can be weighted by: [number, surface_area, volume].
-
-        Columns:
-            Total Number: [cm-3]
-            Total Surface Area: [um2 cm-3]
-            Total Volume: [um3 cm-3]
-            Total Mass: [ug m-3]
-            Mean: [nm]
-
-        Stats returned include: Total, GM, GSD, Mean, Median, CMD"""
-        res = pd.DataFrame()
-
-        res['Total Number'] = self.dn.sum(axis=1)
-        res['Total Surface Area'] = self.ds.sum(axis=1)
-        res['Total Volume'] = self.dv.sum(axis=1)
-        res['Total Mass'] = self.dv.sum(axis=1)*rho
-
-        if weight == 'number':
-            res['Mean'] = 1e3 * self.dn.mul(self.midpoints).sum(axis=1) / res['Total Number']
-            res['GM'] = 1e3 * np.exp(self.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Number'])
-
-            # Create a tmp column with just inner part of the GSD calculation
-            tmp = self.dn.assign(GM=res['GM'].values)
-
-            res['GSD'] = tmp.apply(self._gsd, axis=1)
-        elif weight == 'surface_area': # 1e3 is to convert to um from nm
-            res['Mean'] = 1e3 * self.ds.mul(self.midpoints).sum(axis=1) / res['Total Surface Area']
-            res['GM'] = 1e3 * np.exp(self.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Surface Area'])
-
-            # Create a tmp column with just inner part of the GSD calculation
-            tmp = self.ds.assign(GM=res['GM'].values)
-
-            res['GSD'] = tmp.apply(self._gsd, axis=1)
-        elif weight == 'volume':
-            res['Mean'] = 1e3 * self.dv.mul(self.midpoints).sum(axis=1) / res['Total Volume']
-            res['GM'] = 1e3 * np.exp(self.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res['Total Volume'])
-
-            # Create a tmp column with just inner part of the GSD calculation
-            tmp = self.dv.assign(GM=res['GM'].values)
-
-            res['GSD'] = tmp.apply(self._gsd, axis=1)
-        else:
-            raise Exception("Invalid parameter for weight.")
-
-        # Clear up some memory
-        del tmp
-
-        return res
-
-    def _gsd(self, row):
-        """Calculate and return the GSD for a given row.
-        """
-        gm_idx = row.index.isin(['GM'])
-        gm = row.loc[gm_idx]['GM'] * 1e-3
-        row = row.loc[~gm_idx]
-
-        return np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(gm))**2).sum())/(row.sum())))
-
-    @property
-    def scan_stats(self):
-        """Return the scan meta information for each row as a DataFrame."""
-        cols_to_get = set(self.raw.columns) - set(self.bin_labels)
-
-        return self.raw[list(cols_to_get)]
-
-    def integrate(self, dmin, dmax, weight='number', rho=1.):
-        """Integrate the number of particles, surface area, volume, or mass
-        between two diameters.
-
-        Diameters should be in microns.
-        """
-        # First, let's find all bins within the range including the fringe bins!
-        bin_idx = np.where((self.bins[:, -1] > dmin) & (self.bins[:,0] < dmax))
-
-        _bins = self.bins[bin_idx]
-
-        # generate an array of 'factors' to multiply by
-        _f = np.ones(bin_idx[0].shape[0])
-
-        for _i, _b in enumerate(_bins):
-            f = 1.
-            if _b[0] >= dmin and _b[-1] > dmax:
-                _f[_i] = (dmax - _b[0]) / (_b[-1] - _b[0])
-            elif _b[0] < dmin and _b[-1] >= dmin:
-                _f[_i] = 1 - abs(_b[0] - dmin) / (_b[-1] - _b[0])
-
-        # Get the data for the correct weight and multiply each row by the factors we just computed
-        if weight == 'number':
-            res = self.dn
-        elif weight == 'surface':
-            res = self.ds
-        elif weight == 'volume':
-            res = self.dv
-        elif weight == 'mass':
-            res = self.dv * rho
-
-        # Grab the right data
-        res = res.ix[:, bin_idx[0]].mul(_f).sum(axis=1)
-
-        return res
-
-    def heatmap(self):
-        return heatmap(self.raw.index.values, self.midpoints, self.dndlogdp.T.values)
-
-    def slice(self, start=None, end=None, inplace=False):
-        """Slice the data between the start and end dates
-        """
-        if inplace:
-            self.raw = self.raw[start:end]
-
-            return True
-        else:
-            _tmp = _tmp.copy()
-
-            _tmp.raw = _tmp.raw[start:end]
-
-        return _tmp
-
-    def resample(self, rs, inplace=False):
-        """Resample the raw data"""
-        obj_cols = self.raw.select_dtypes(include=['object']).resample(rs).first()
-        num_cols = self.raw.select_dtypes(exclude=['object']).resample(rs).mean()
-
-        # re-merge the two dataframes
-        merged = pd.merge(num_cols, obj_cols, left_index=True, right_index=True, how='outer')
-
-        if inplace:
-            self.raw = merged
-
-            return True
-        else:
-            _tmp = self.copy()
-            _tmp.raw = merged
-
-        return _tmp
-
-
-def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs):
-    """Load an SMPS.dat file as exported using the TSI GUI"""
-    # Get the number of lines to parse as meta info
-    assert (delimiter in [',', '\t']), "Delimiter must be either tab or comma."
-
-    _metacount = _get_linecount(fpath=fpath, keyword='Sample #', delimiter=delimiter)
-
-    # Read in the meta data as a dictionary
-    meta = pd.read_table(
-                fpath,
-                nrows=_metacount,
-                delimiter=delimiter,
-                header=None,
-                encoding=encoding,
-                index_col=0).T.iloc[0,:].to_dict()
-
-    unit = meta['Units']
-    weight = meta['Weight']
-    multiplier = float(meta['Channels/Decade'])
-
-    if column is True:
+    # read the data
+    if column:
         ts = pd.read_table(
-                fpath,
-                skiprows=_metacount,
-                nrows=3,
-                delimiter=delimiter,
-                header=None,
-                encoding=encoding).iloc[1:, 1:].T
+            fpath,
+            skiprows=meta_num_lines,
+            nrows=3,
+            delimiter=delimiter,
+            header=None,
+            encoding=encoding).iloc[1:, 1:].T
 
         ts.columns = ['Date', 'Time']
+
+        # set the timestamp
         ts['timestamp'] = ts.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Time'])), axis=1)
 
         # Retrieve the number of bins in the file
@@ -261,7 +58,7 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
         # Read the table of raw data
         data = pd.read_table(
                     fpath,
-                    skiprows=_metacount+4,
+                    skiprows=meta_num_lines+4,
                     nrows=nbins,
                     delimiter=delimiter,
                     header=None,
@@ -277,7 +74,7 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
         # Read the table of stats
         stats = pd.read_table(
                     fpath,
-                    skiprows=(_metacount+4+nbins),
+                    skiprows=(meta_num_lines+4+nbins),
                     delimiter=delimiter,
                     header=None,
                     error_bad_lines=False,
@@ -286,7 +83,6 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
 
         # Rename the columns to the first row
         stats = stats.rename(columns=stats.iloc[0])
-        stats = stats.rename(columns=RENAMED_COLUMNS)
 
         # Drop the first row
         stats = stats.iloc[1:,:]
@@ -300,55 +96,117 @@ def load_file(fpath, column=True, delimiter=',', encoding='ISO-8859-1', **kwargs
                 stats[column] = stats[column].astype(float)
             except: pass
 
-        hist_cols = data.columns
-        df = pd.merge(data, stats, left_index=True, right_index=True, how='outer')
+        bin_labels = list(data.columns)
+
+        data = pd.merge(data, stats, left_index=True, right_index=True, how='outer')
     else:
-        df = pd.read_table(
-                fpath,
-                skiprows=_metacount,
-                delimiter=delimiter,
-                encoding=encoding).dropna(how='all', axis=1)
+        data = pd.read_table(
+                    fpath,
+                    skiprows=meta_num_lines,
+                    delimiter=delimiter,
+                    encoding=encoding).dropna(how='all', axis=1)
 
-        df.index = df.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Start Time'])), axis=1)
+        data.index = data.apply(lambda x: pd.to_datetime("{} {}".format(x['Date'], x['Start Time'])), axis=1)
 
+        # delete some un-needed columns
+        del data['Date'], data['Start Time']
+
+        # grab the midpoint diameters
         midpoints = []
-        for col in df.columns:
+        for col in data.columns:
             try:
                 float(col)
                 midpoints.append(col)
             except ValueError:
                 pass
 
-        hist_cols = ["bin{}".format(i) for i in range(len(midpoints))]
+        bin_labels = ["bin{}".format(i) for i in range(len(midpoints))]
 
-        df.rename(columns=dict(zip(midpoints, hist_cols)), inplace=True)
+        # rename the bins
+        data.rename(columns=dict(zip(midpoints, bin_labels)), inplace=True)
 
         midpoints = np.array([float(i) for i in midpoints])
 
-        # Rename columns to be uniform and easier to parse
-        df.rename(columns=RENAMED_COLUMNS, inplace=True)
+    # generate the bins
+    low_col_name = kwargs.pop("lower_column_label", [c for c in data.columns if "lower" in c.lower()][0])
+    upper_col_name = kwargs.pop("upper_column_label", [c for c in data.columns if "upper" in c.lower()][0])
+    bound_left = float(data[low_col_name][0])
+    bound_right = float(data[upper_col_name][0])
 
-    # Calculate bins
-    bins = np.empty([len(midpoints), 3])
-    bins.fill(np.NaN)
+    meta['Lower Size (nm)'], meta['Upper Size (nm)'] = bound_left, bound_right
 
-    # Make this shit more robust!
-    bins[0, 0] = float(df['Lower Size'][0])
-    bins[-1, -1] = float(df['Upper Size'][0])
-    bins[:, 1] = midpoints
+    # make the bin array
+    bins = make_bins(midpoints=midpoints, lb=bound_left, ub=bound_right,
+                channels_per_decade=int(meta['Channels/Decade']))
 
-    for i in range(bins.shape[0] - 1):
-        bins[i, 2] = round(math.pow(10, np.log10(bins[i, 0]) + (1./multiplier)), 4)
-        bins[i + 1, 0] = bins[i, 2]
+    # rename the index
+    data.index.rename("timestamp", inplace=True)
 
-    return SMPS(data=df, meta=meta, bins=bins, bin_labels=hist_cols)
+    if as_dict:
+        return dict(
+                meta=meta,
+                units=units,
+                weight=weight,
+                data=data,
+                bins=bins,
+                bin_labels=bin_labels,
+                bin_prefix='bin')
+    else:
+        return SMPS(data=data, meta=meta, bins=bins, bin_labels=bin_labels,
+                    units=units, weight=weight)
+
+def opcn2_from_text(fpath, as_dict=True, **kwargs):
+    """
+    """
+    meta = dict()
+    bin_weights = None
+
+    with open(fpath, 'r') as f:
+        for i, line in enumerate(f):
+            if line.startswith("Data:"):
+                break
+
+            # get the firmware version
+            if i == 0:
+                meta["fw"] = float(line[23:28])
+            elif i == 1:
+                meta["serial_number"] = int(line[7:16])
+            elif len(line.split(",")) == 2:
+                vals = line.split(",")
+                meta[vals[0].strip()] = float(vals[1].strip())
+            elif line.split(",")[0].strip() == "SampleVolumeWeighting":
+                vals = line.split(",")
+                vals = [v.strip() for v in vals]
+
+                binWeights = np.array([float(v) for v in vals[1:]])
+
+    data_start_line = 15
+
+    data = pd.read_csv(fpath, skiprows=data_start_line)
+    bin_labels = data.columns[0:16]
+
+    # correct the data
+    # the raw data/bins are in units of particles in bin since last samples and
+    # we need to work with concentrations
+    # this is calculated as raw_bin/(SFR*SamplingPeriod)
+    data['fact'] = 1/(data["SFR(ml/s)"] * data["SamplingPeriod(s)"])
+
+    data[bin_labels] = data[bin_labels].mul(data['fact'], axis=0)
+
+    del data["fact"]
+
+    if as_dict:
+        return dict(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
+    else:
+        return AlphasenseOpcN2(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
 
 def load_sample(label="boston"):
     """Load a sample data file directly from GitHub.
 
-    Options include: ['boston', 'chamber']
-
+    :param label: ['boston', 'chamber']
     """
+    assert(label in ["boston", "chamber"]), "Invalid option chosen for the label"
+
     files = {
         'boston': {
             'uri': "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt",
@@ -360,4 +218,8 @@ def load_sample(label="boston"):
         }
     }
 
-    return load_file(files[label]['uri'], column=files[label]['column'])
+    m = smps_from_txt(fpath=files[label]['uri'], column=files[label]['column'])
+
+    # convert to an SMPS instance
+    return SMPS(data=m['data'], bins=m['bins'], meta=m['meta'],
+        bin_labels=m['bin_labels'], weight=m['weight'], units=m['units'])

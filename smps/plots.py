@@ -10,33 +10,26 @@ from matplotlib.ticker import ScalarFormatter
 import seaborn as sns
 from numpy import nan_to_num
 
-default_cmap = sns.cubehelix_palette(8, as_cmap=True)
+default_cmap = 'viridis'
 
-rc_log = {
-    'xtick.major.size': 10.0,
-    'xtick.minor.size': 8.0,
-    'ytick.major.size': 10.0,
-    'ytick.minor.size': 8.0,
-    'xtick.color': '0.0',
-    'ytick.color': '0.0',
-    'axes.linewidth': 1.75
-}
+__all__ = ["heatmap", "histplot"]
 
 def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
             cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, **kwargs):
-    """Plot the heatmap of the particle size distribution.
+    """Plot the heatmap of the particle size distribution. All NaN'd values
+    will be converted to zeroes.
     """
+    # Copy to avoid modifying original data
+    Z_plot = Z.copy()
+
+    # get rid of NaNs
+    Z_plot = nan_to_num(Z_plot)
+
     # Set the colorbar min and max based on the min and max of the values
     cbar_min = kwargs.pop('cbar_min', Z.min() if Z.min() > 0.0 else 1.)
     cbar_max = kwargs.pop('cbar_max', Z.max())
 
-    # Copy to avoid modifying original data
-    Z_plot = Z.copy()
-
     if hide_low:
-        # Hide NaN values
-        Z_plot = nan_to_num(Z_plot)
-
         # Increase values below cbar_min to cbar_min
         below_min = Z_plot < cbar_min
         Z_plot[below_min] = cbar_min
@@ -64,7 +57,7 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
 
         ax.yaxis.set_major_formatter(ScalarFormatter())
 
-    ax.set_ylabel("$D_p \; [nm]$")
+    ax.set_ylabel("$D_p \; [\mu m]$")
 
     if cbar:
         # Set the figure keywords
@@ -89,13 +82,19 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
         plt.figure(**fig_kws)
         ax = plt.gca()
 
-    ax.bar(left=bins[:, 0], height=histogram, width=bins[:, -1] - bins[:, 0],
+    ax.bar(x=bins[:, 0], height=histogram, width=bins[:, -1] - bins[:, 0],
             align='edge', **plot_kws)
 
     ax.semilogx()
 
     ax.set_xlabel("$D_p \; [\mu m]$")
 
-    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.4g"))
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+
+    # create a large number formatter for the y axis
+    fmt = mtick.ScalarFormatter()
+    fmt.set_powerlimits((-3, 2))
+
+    ax.yaxis.set_major_formatter(fmt)
 
     return ax

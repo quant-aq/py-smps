@@ -2,7 +2,79 @@
 # -*- coding: utf-8 -*-
 """
 """
+import numpy as np
 import requests
+import math
+from scipy.stats.mstats import gmean
+
+def make_bins(**kwargs):
+    """
+    """
+    boundaries = kwargs.pop("boundaries", None)
+    boundaries_left = kwargs.pop("boundaries_left", None)
+    boundaries_right = kwargs.pop("boundaries_right", None)
+    lb = kwargs.pop("lb", None)
+    ub = kwargs.pop("ub", None)
+    midpoints = kwargs.pop("midpoints", None)
+    cpd = kwargs.pop("channels_per_decade", 64)
+    mean_calc = kwargs.pop("mean_calc", "am")
+
+    # initialize bins
+    bins = None
+
+    if midpoints is not None:
+        if lb is None or ub is None:
+            raise Exception("A lower and upper bound must be set")
+
+        bins = np.empty((midpoints.shape[0], 3))
+        bins.fill(np.NaN)
+
+        # fill the midpoints
+        bins[:, 1] = midpoints
+
+        # fill the bounds
+        bins[0, 0] = lb
+        bins[-1, -1] = ub
+
+        # iterate and calculate the bounds
+        for i in range(bins.shape[0] - 1):
+            bins[i, 2] = round(math.pow(10, np.log10(bins[i, 0]) + 1./cpd), 4)
+            bins[i+1, 0] = bins[i, 2]
+
+        return bins
+
+    if boundaries is not None:
+        bins = np.empty((boundaries.shape[0]-1, 3))
+        bins.fill(np.NaN)
+
+        bins[:, 0] = boundaries[0:-1]
+        bins[:, 2] = boundaries[1:]
+
+    elif boundaries_left is not None:
+        if boundaries_right is None:
+            raise Exception("Missing attribute: `boundaries_right`")
+
+        assert(boundaries_left.shape[0] == boundaries_right.shape[0]), \
+            "Boundaries must be the same dimensions."
+
+        bins = np.empty((boundaries_left.shape[0], 3))
+        bins.fill(np.NaN)
+
+        bins[:, 0] = boundaries_left
+        bins[:, 2] = boundaries_right
+
+    else:
+        raise Exception("Not enough information to compute.")
+
+    # calculate the midpoints
+    assert(mean_calc in ("gm", "am")), "Invalid mean calculation method."
+
+    if mean_calc == 'am':
+        bins[:, 1] = (bins[:, 0] + bins[:, 2]) / 2
+    else:
+        bins[:, 1] = [gmean([x, y]) for x, y in zip(bins[:, 0], bins[:, 2])]
+
+    return bins
 
 def _get_bin_count(fpath, delimiter=',', encoding='ISO-8859-1'):
     """Get the number of bins in the file."""
@@ -24,7 +96,6 @@ def _get_bin_count(fpath, delimiter=',', encoding='ISO-8859-1'):
                 except: pass
 
     return bins
-
 
 def _get_linecount(fpath, keyword, delimiter=',', encoding='ISO-8859-1'):
     """Return the line number in a file where the first item is `keyword`"""
@@ -99,28 +170,3 @@ class Table(object):
 
     def __repr__(self):
         return self.text
-
-
-RENAMED_COLUMNS = {
-    'Scan Up Time(s)': 'Scan Up Time',
-    'Retrace Time(s)': 'Retrace Time',
-    'Impactor Type(cm)': 'Impactor Type',
-    'Sheath Flow(lpm)': 'Sheath Flow',
-    'Aerosol Flow(lpm)': 'Aerosol Flow',
-    'CPC Inlet FLow(lpm)': 'CPC Inlet Flow',
-    'CPC Sample Flow(lpm)':'CPC Sample Flow',
-    'Lower Size(nm)': 'Lower Size',
-    'Upper Size(nm)': 'Upper Size',
-    'Density(g/cc)': 'Density',
-    'td(s)': 'td',
-    'tf(s)': 'tf',
-    'D50(nm)': 'D50',
-    'Median(nm)': 'Median',
-    'Mean(nm)': 'Mean',
-    'Median(nm)': 'Median',
-    'Geo. Mean(nm)': 'GM',
-    'Mode(nm)': 'Mode',
-    'Geo. Std. Dev.': 'GSD',
-    'Total Conc.(#/cm³)': 'Total Conc.',
-    'Total Concentration': 'Total Conc.'
- }

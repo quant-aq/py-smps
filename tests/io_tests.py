@@ -1,110 +1,273 @@
 import unittest
 import smps
-from smps.io import load_sample, load_file
 import os
+import pandas as pd
+import numpy as np
+from scipy.stats import linregress
+import matplotlib.pyplot as plt
 
 basedir = os.path.dirname(os.path.abspath(__file__))
+datadir = os.path.join(basedir, "datafiles")
 
 class SetupTestCase(unittest.TestCase):
     def setUp(self):
-
-        # Import some test data
-        self.data_number = load_file(os.path.join(basedir, "datafiles/test_data_number.txt"), column=False)
-        self.data_diameter = load_file(os.path.join(basedir, "datafiles/test_data_diameter.txt"), column=False)
-        self.data_surface_area = load_file(os.path.join(basedir, "datafiles/test_data_surface_area.txt"), column=False)
-        self.data_volume = load_file(os.path.join(basedir, "datafiles/test_data_volume.txt"), column=False)
+        pass
 
     def tearDown(self):
         pass
 
+    def test_smps_from_txt(self):
+        res = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_number.txt"),
+                        column=False)
+
+        self.assertTrue('meta' in res.keys())
+        self.assertTrue('units' in res.keys())
+        self.assertTrue('weight' in res.keys())
+        self.assertTrue('data' in res.keys())
+        self.assertTrue('bins' in res.keys())
+        self.assertTrue('bin_labels' in res.keys())
+        self.assertTrue('bin_prefix' in res.keys())
+
+        self.assertTrue(isinstance(res['meta'], dict))
+        self.assertTrue(isinstance(res['units'], str))
+        self.assertTrue(isinstance(res['weight'], str))
+        self.assertTrue(isinstance(res['data'], pd.DataFrame))
+        self.assertTrue(isinstance(res['bins'], np.ndarray))
+        self.assertTrue(isinstance(res['bin_labels'], list))
+        self.assertTrue(isinstance(res['bin_prefix'], str))
+
+    def test_smps_from_txt_columns(self):
+        res = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_column.txt"),
+                        column=True)
+
+        self.assertTrue('meta' in res.keys())
+        self.assertTrue('units' in res.keys())
+        self.assertTrue('weight' in res.keys())
+        self.assertTrue('data' in res.keys())
+        self.assertTrue('bins' in res.keys())
+        self.assertTrue('bin_labels' in res.keys())
+        self.assertTrue('bin_prefix' in res.keys())
+
+        self.assertTrue(isinstance(res['meta'], dict))
+        self.assertTrue(isinstance(res['units'], str))
+        self.assertTrue(isinstance(res['weight'], str))
+        self.assertTrue(isinstance(res['data'], pd.DataFrame))
+        self.assertTrue(isinstance(res['bins'], np.ndarray))
+        self.assertTrue(isinstance(res['bin_labels'], list))
+        self.assertTrue(isinstance(res['bin_prefix'], str))
+
     def test_load_sample(self):
-        # Load the sample
-        df = load_sample('boston')
+        m = smps.io.load_sample("boston")
 
-        self.assertIsInstance(df, smps.io.SMPS)
+        self.assertIsInstance(m, smps.models.SMPS)
 
-    def test_load_sample_column(self):
-        df = load_sample('chamber')
+    def test_models_generic_methods(self):
+        res = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_number.txt"),
+                        column=False)
 
-        self.assertIsInstance(df, smps.io.SMPS)
+        # create a model
+        m = smps.models.GenericParticleSizer(
+                            data=res['data'],
+                            bins=res['bins'],
+                            dp_units='nm',
+                            fmt='dndlogdp')
 
-    def test_smps_copy(self):
-        df = self.data_number
+        # make sure the model has all of the methods!
+        self.assertIsInstance(m, smps.models.GenericParticleSizer)
 
-        cpy = df.copy()
+        self.assertEqual(m.bins.shape[0], len(m.s_multiplier))
+        self.assertEqual(m.bins.shape[0], len(m.v_multiplier))
+        self.assertEqual(m.bins.shape[0], len(m.dlogdp))
 
-        self.assertTrue(df.raw.equals(cpy.raw))
+        # test .copy()
+        cpy = m.copy()
 
-    def test_smps_calculations(self):
-        s = self.data_number
+        self.assertIsInstance(cpy, smps.models.GenericParticleSizer)
+        self.assertNotEqual(cpy, m)
 
-        # Test the first bin of dlogdp
-        self.assertEqual(len(s.dlogdp), s.bins.shape[0])
-        self.assertTrue(s.dndlogdp.equals(s.raw[s.bin_labels]))
+        # test scan stats
+        stats = m.scan_stats
+        self.assertIsInstance(stats, pd.DataFrame)
+        self.assertEqual(list(stats.columns), list(set(m.data.columns) - set(m.dn.columns)))
 
-        # Make sure that dDdlogDp is correct
-        _calculated = self.data_number.dddlogdp * 1e-3 # divide by 1000 to go from um to nm
-        _reference = self.data_diameter.dndlogdp # nanometers
+        # test ._subselect_frame()
 
-        self.assertEqual(round(_calculated.iloc[0][0], 2), round(_reference.iloc[0][0], 2))
+        # test stats
+        stats = m.stats(weight='number')
 
-        # Make sure that dSdlogDp is correct
+        self.assertIsInstance(stats, pd.DataFrame)
+        self.assertTrue('number' in stats.columns)
+        self.assertTrue('surface_area' in stats.columns)
+        self.assertTrue('volume' in stats.columns)
+        self.assertTrue('mass' in stats.columns)
+        self.assertTrue('AM' in stats.columns)
+        self.assertTrue('GM' in stats.columns)
+        self.assertTrue('GSD' in stats.columns)
+        self.assertTrue('Mode' in stats.columns)
 
-    def test_datatypes(self):
-        df = self.data_number
+        pm1 = m.integrate(weight='number', dmin=0, dmax=1.)
+        cut1 = m.integrate(weight='number', dmin=0, dmax=0.5)
 
-        self.assertEqual(df.raw['Median'].dtype, float)
-        self.assertEqual(df.raw['Mean'].dtype, float)
-        self.assertEqual(df.raw['Mode'].dtype, float)
-        self.assertEqual(df.raw['GM'].dtype, float)
-        self.assertEqual(df.raw['GSD'].dtype, float)
-        self.assertEqual(df.raw['Total Conc.'].dtype, float)
+        self.assertGreaterEqual(pm1.sum(), cut1.sum())
 
-    def test_resampling(self):
-        df = self.data_number
+        pm1 = m.integrate(weight='surface', dmin=0, dmax=1.)
+        cut1 = m.integrate(weight='surface', dmin=0, dmax=0.5)
 
-        #self.assertIsNotNone(df.resample('5min', inplace=False))
-        self.assertTrue(df.resample('5min', inplace=True))
+        self.assertGreaterEqual(pm1.sum(), cut1.sum())
 
-    def test_smps_model(self):
+        pm1 = m.integrate(weight='volume', dmin=0, dmax=1.)
+        cut1 = m.integrate(weight='volume', dmin=0, dmax=0.5)
+
+        self.assertGreaterEqual(pm1.sum(), cut1.sum())
+
+        pm1 = m.integrate(weight='mass', dmin=0, dmax=1., rho=1.)
+        pm2 = m.integrate(weight='mass', dmin=0, dmax=1., rho=1.65)
+
+        self.assertGreaterEqual(pm2.sum(), pm1.sum())
+
+        sliced = m.slice(start=(m.data.index[0] + pd.Timedelta(hours=12)), inplace=False)
+
+        self.assertLessEqual(sliced.data.shape[0], m.data.shape[0])
+
+        rs = m.resample("30min", inplace=False)
+
+        self.assertGreaterEqual(m.data.shape[0], rs.data.shape[0])
+
+    def test_generic_calculations(self):
+        number = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_number.txt"),
+                        column=False, as_dict=False)
+
+        surface = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_surface_area.txt"),
+                        column=False, as_dict=False)
+
+        volume = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_volume.txt"),
+                        column=False, as_dict=False)
+
+        # using the number data, compare our calculations using 'stats()' to
+        # those that the AIM software output
+        stats = number.stats()
+
+        cols_to_check = []
+        cols_to_check.append(("number", "Total Conc.(#/cm³)"))
+        cols_to_check.append(("AM", "Mean(nm)"))
+        cols_to_check.append(("GM", "Geo. Mean(nm)"))
+        cols_to_check.append(("Mode", "Mode(nm)"))
+        cols_to_check.append(("GSD", "Geo. Std. Dev."))
+
+        for pkg_col, aim_col in cols_to_check:
+            m, b, r, p, e = linregress(
+                                stats[pkg_col].values,
+                                number.scan_stats[aim_col].values)
+
+            # make sure the correlation is above 0.99
+            self.assertGreaterEqual(r**2, 0.99)
+
+            # make sure the slope is between 0.99 and 1.01
+            self.assertGreaterEqual(m, 0.99)
+            self.assertLessEqual(m, 1.01)
+
+        # check the surface-area-weighted stats
+        stats = number.stats(weight='surface')
+
+        cols_to_check = []
+        cols_to_check.append(("surface_area", "Total Conc.(nm²/cm³)"))
+        cols_to_check.append(("AM", "Mean(nm)"))
+        cols_to_check.append(("GM", "Geo. Mean(nm)"))
+        cols_to_check.append(("Mode", "Mode(nm)"))
+        cols_to_check.append(("GSD", "Geo. Std. Dev."))
+
+        for pkg_col, aim_col in cols_to_check:
+            if pkg_col in ['surface_area']:
+                stats[pkg_col]*=1e6
+
+            m, b, r, p, e = linregress(
+                                stats[pkg_col].values,
+                                surface.scan_stats[aim_col].values)
+
+            # make sure the correlation is above 0.99
+            self.assertGreaterEqual(r**2, 0.975)
+
+            # make sure the slope is between 0.99 and 1.01
+            self.assertGreaterEqual(m, 0.99)
+            self.assertLessEqual(m, 1.01)
+
+        # check the volume-weighted stats
+        stats = number.stats(weight='volume')
+
+        cols_to_check = []
+        cols_to_check.append(("volume", "Total Conc.(nm³/cm³)"))
+        cols_to_check.append(("AM", "Mean(nm)"))
+        cols_to_check.append(("GM", "Geo. Mean(nm)"))
+        cols_to_check.append(("Mode", "Mode(nm)"))
+        cols_to_check.append(("GSD", "Geo. Std. Dev."))
+
+        for pkg_col, aim_col in cols_to_check:
+            if pkg_col in ['volume']:
+                stats[pkg_col]*=1e9
+
+            m, b, r, p, e = linregress(
+                                stats[pkg_col].values,
+                                volume.scan_stats[aim_col].values)
+
+            # make sure the correlation is above 0.99
+            self.assertGreaterEqual(r**2, 0.975)
+
+            # make sure the slope is between 0.99 and 1.01
+            self.assertGreaterEqual(m, 0.95)
+            self.assertLessEqual(m, 1.05)
+
+    def test_models_smps(self):
         pass
-        #model = load_sample('boston')
 
-        # Check dlo
+    def test_models_alphasense_opcn2(self):
+        opcn2 = smps.io.opcn2_from_text(
+                    os.path.join(datadir, "OPC2_001.CSV"),
+                    as_dict=False)
 
-    def test_stats(self):
-        df = self.data_number
-        df2 = self.data_surface_area
-        df3 = self.data_volume
+        self.assertIsInstance(opcn2, smps.models.AlphasenseOpcN2)
 
-        # Retrieve the stats
-        stats = df.stats(weight='number')
+        # test the mass calculation - should match what Alphasense gets
+        cols_to_check = []
+        cols_to_check.append(("PM1(ug/m3)", 1))
+        cols_to_check.append(("PM2.5", 2.5))
+        cols_to_check.append(("PM10", 10))
 
-        self.assertTrue('Total Number' in stats.columns)
-        self.assertTrue('Total Surface Area' in stats.columns)
-        self.assertTrue('Total Volume' in stats.columns)
-        self.assertTrue('Mean' in stats.columns)
+        print ()
+        for opc_col, dmax in cols_to_check:
+            m, b, r, p, e = linregress(
+                                opcn2.scan_stats[opc_col].values,
+                                opcn2.integrate(weight='mass', rho=1.65, dmax=dmax).values)
 
-        # Make sure the GM, GSD, and Mean are all within 1% error
-        def one_pct_error(x1, x2):
-            diff = abs(x1 - x2) / x1
+            print ("\t{} @ dmax={}".format(opc_col, dmax))
+            print ("\t\tm={:.3f}, r2={:.3f}".format(m, r**2))
 
-            return True if diff <= 0.01 else False
+            print (opcn2.scan_stats[opc_col].values[0:3])
+            print (opcn2.integrate(weight='mass', rho=1.65, dmax=dmax).values[0:3])
 
-        self.assertTrue(one_pct_error(stats["GM"][0], df.scan_stats['GM'][0]))
-        self.assertTrue(one_pct_error(stats["Mean"][0], df.scan_stats['Mean'][0]))
-        self.assertTrue(one_pct_error(stats["GSD"][0], df.scan_stats['GSD'][0]))
+            # make sure the correlation is above 0.99
+            #self.assertGreaterEqual(r**2, 0.99)
 
-        # Repeat for Surface-Area weighted Statistics
-        stats = df.stats(weight='surface_area')
+            # make sure the slope is between 0.99 and 1.01
+            #self.assertGreaterEqual(m, 0.99)
+            #self.assertLessEqual(m, 1.01)
 
-        self.assertTrue(one_pct_error(stats["GM"][0], df2.scan_stats['GM'][0]))
-        self.assertTrue(one_pct_error(stats["Mean"][0], df2.scan_stats['Mean'][0]))
-        self.assertTrue(one_pct_error(stats["GSD"][0], df2.scan_stats['GSD'][0]))
+    def test_models_pops(self):
+        pass
 
-        # Repeat for Volume weighted Statistics
-        stats = df.stats(weight='volume')
+    def test_fit(self):
+        from smps.fit import LogNormal
 
-        self.assertTrue(one_pct_error(stats["GM"][0], df3.scan_stats['GM'][0]))
-        self.assertTrue(one_pct_error(stats["Mean"][0], df3.scan_stats['Mean'][0]))
-        self.assertTrue(one_pct_error(stats["GSD"][0], df3.scan_stats['GSD'][0]))
+        r = smps.io.load_sample("boston")
+
+        # fit 1 mode in volume number space
+        m = LogNormal()
+
+        results = m.fit(X=r.midpoints, Y=r.dndlogdp.mean(), modes=1)
+
+        print (results.summary())
