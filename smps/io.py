@@ -10,8 +10,11 @@ import joblib
 
 from .utils import _get_bin_count, _get_linecount, make_bins
 from .plots import heatmap
+from .models import SMPS, AlphasenseOpcN2
 
-def smps_from_txt(fpath, column=True, delimiter=',', **kwargs):
+__all__ = ["smps_from_txt", "opcn2_from_text", "load_sample"]
+
+def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
     """Read an SMPS txt file as exported by the TSI AIM software.
     """
     assert(delimiter in [',', '\t']), "The delimiter must be either a comma or tab"
@@ -133,31 +136,77 @@ def smps_from_txt(fpath, column=True, delimiter=',', **kwargs):
     meta['Lower Size (nm)'], meta['Upper Size (nm)'] = bound_left, bound_right
 
     # make the bin array
-    bins = make_bins(
-                nbins=len(midpoints),
-                midpoints=midpoints,
-                bound_left=bound_left,
-                bound_right=bound_right,
-                channels_per_decade=int(meta['Channels/Decade']),
-                mean='gm')
+    bins = make_bins(midpoints=midpoints, lb=bound_left, ub=bound_right,
+                channels_per_decade=int(meta['Channels/Decade']))
 
     # rename the index
     data.index.rename("timestamp", inplace=True)
 
-    return dict(
-            meta=meta,
-            units=units,
-            weight=weight,
-            data=data,
-            bins=bins,
-            bin_labels=bin_labels,
-            bin_prefix='bin')
+    if as_dict:
+        return dict(
+                meta=meta,
+                units=units,
+                weight=weight,
+                data=data,
+                bins=bins,
+                bin_labels=bin_labels,
+                bin_prefix='bin')
+    else:
+        return SMPS(data=data, meta=meta, bins=bins, bin_labels=bin_labels,
+                    units=units, weight=weight)
 
-"""
+def opcn2_from_text(fpath, as_dict=True, **kwargs):
+    """
+    """
+    meta = dict()
+    bin_weights = None
+
+    with open(fpath, 'r') as f:
+        for i, line in enumerate(f):
+            if line.startswith("Data:"):
+                break
+
+            # get the firmware version
+            if i == 0:
+                meta["fw"] = float(line[23:28])
+            elif i == 1:
+                meta["serial_number"] = int(line[7:16])
+            elif len(line.split(",")) == 2:
+                vals = line.split(",")
+                meta[vals[0].strip()] = float(vals[1].strip())
+            elif line.split(",")[0].strip() == "SampleVolumeWeighting":
+                vals = line.split(",")
+                vals = [v.strip() for v in vals]
+
+                binWeights = np.array([float(v) for v in vals[1:]])
+
+    data_start_line = 15
+
+    data = pd.read_csv(fpath, skiprows=data_start_line)
+    bin_labels = data.columns[0:16]
+
+    # correct the data
+    # the raw data/bins are in units of particles in bin since last samples and
+    # we need to work with concentrations
+    # this is calculated as raw_bin/(SFR*SamplingPeriod)
+    data['fact'] = 1/(data["SFR(ml/s)"] * data["SamplingPeriod(s)"])
+
+    data[bin_labels] = data[bin_labels].mul(data['fact'], axis=0)
+
+    del data["fact"]
+
+    if as_dict:
+        return dict(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
+    else:
+        return AlphasenseOpcN2(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
+
 def load_sample(label="boston"):
-    #Load a sample data file directly from GitHub.
+    """Load a sample data file directly from GitHub.
 
-    #Options include: ['boston', 'chamber']
+    :param label: ['boston', 'chamber']
+    """
+    assert(label in ["boston", "chamber"]), "Invalid option chosen for the label"
+
     files = {
         'boston': {
             'uri': "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt",
@@ -169,5 +218,8 @@ def load_sample(label="boston"):
         }
     }
 
-    return load_file(files[label]['uri'], column=files[label]['column'])
-"""
+    m = smps_from_txt(fpath=files[label]['uri'], column=files[label]['column'])
+
+    # convert to an SMPS instance
+    return SMPS(data=m['data'], bins=m['bins'], meta=m['meta'],
+        bin_labels=m['bin_labels'], weight=m['weight'], units=m['units'])

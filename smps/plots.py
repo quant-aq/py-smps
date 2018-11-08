@@ -10,17 +10,9 @@ from matplotlib.ticker import ScalarFormatter
 import seaborn as sns
 from numpy import nan_to_num
 
-default_cmap = sns.cubehelix_palette(8, as_cmap=True)
+default_cmap = 'viridis'
 
-rc_log = {
-    'xtick.major.size': 10.0,
-    'xtick.minor.size': 8.0,
-    'ytick.major.size': 10.0,
-    'ytick.minor.size': 8.0,
-    'xtick.color': '0.0',
-    'ytick.color': '0.0',
-    'axes.linewidth': 1.75
-}
+__all__ = ["heatmap", "histplot"]
 
 def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
             cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, **kwargs):
@@ -65,7 +57,7 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
 
         ax.yaxis.set_major_formatter(ScalarFormatter())
 
-    ax.set_ylabel("$D_p \; [nm]$")
+    ax.set_ylabel("$D_p \; [\mu m]$")
 
     if cbar:
         # Set the figure keywords
@@ -97,6 +89,12 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
 
     ax.set_xlabel("$D_p \; [\mu m]$")
 
-    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.4g"))
+    ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
+
+    # create a large number formatter for the y axis
+    fmt = mtick.ScalarFormatter()
+    fmt.set_powerlimits((-3, 2))
+
+    ax.yaxis.set_major_formatter(fmt)
 
     return ax

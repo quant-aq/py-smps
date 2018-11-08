@@ -3,10 +3,14 @@
 """
 """
 import numpy as np
+import pandas as pd
 import math
 import copy
 import joblib
 import json
+from .utils import make_bins
+
+__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "POPS"]
 
 class GenericParticleSizer(object):
     """
@@ -32,8 +36,10 @@ class GenericParticleSizer(object):
         self.meta['weight'] = kwargs.pop("weight", "number")
         self.meta['units'] = kwargs.pop("units", "dw/dlogdp")
 
+        self.bin_weights = kwargs.pop("bin_weights", np.ones(len(self.bins)))
+
         # if bin_labels were not provided, try to generate them
-        if not self.bin_labels:
+        if self.bin_labels is None:
             self.bin_labels = [c for c in self.data.columns if kwargs.pop("bin_prefix", "bin") in c]
 
         # if no bin labels exist, raise an error
@@ -50,6 +56,10 @@ class GenericParticleSizer(object):
         if kwargs.pop('fmt', 'dn') == 'dn':
             self.data[self.bin_labels] = self.data[self.bin_labels].div(self.dlogdp)
 
+        # multiply everything by the bin weights
+        # if ones, this will have no effect
+        self.data[self.bin_labels] = self.data[self.bin_labels].mul(self.bin_weights)
+
     @property
     def s_multiplier(self):
         return 4 * np.pi * (self.bins[:, 1]/2)**2
@@ -57,6 +67,10 @@ class GenericParticleSizer(object):
     @property
     def v_multiplier(self):
         return (4./3)*np.pi*(self.bins[:, 1]/2)**3
+
+    @property
+    def midpoints(self):
+        return self.bins[:, 1]
 
     @property
     def dlogdp(self):
@@ -81,17 +95,17 @@ class GenericParticleSizer(object):
     @property
     def dddlogdp(self):
         """Return the histogram in units of dDpd/logDp [um/cm3]"""
-        return self.data[self.bin_labels].mul(self.midpoints)
+        return self.dndlogdp.mul(self.midpoints)
 
     @property
     def ds(self):
         """"""
-        return self.dsdlogdp.mul(self.dlogdp)
+        return self.dn.mul(self.s_multiplier)
 
     @property
     def dsdlogdp(self):
         """Return the histogram in units of dSd/logDp [um2/cm3]"""
-        return self.data[self.bin_labels].mul(self.s_multiplier)
+        return self.dndlogdp.mul(self.s_multiplier)
 
     @property
     def dv(self):
@@ -101,7 +115,7 @@ class GenericParticleSizer(object):
     @property
     def dvdlogdp(self):
         """Return the histogram in units of dSd/logDp [um3/cm3]"""
-        return self.data[self.bin_labels].mul(self.v_multiplier)
+        return self.dndlogdp.mul(self.v_multiplier)
 
     def copy(self):
         """Return a copy of the GenericParticleSizer"""
@@ -121,7 +135,9 @@ class GenericParticleSizer(object):
         return self.data[list(set(self.data.columns) - set(self.bin_labels))]
 
     def _subselect_frame(self, df, dmin=0., dmax=1e3):
-        """Sub-select the dataframe and return the dataframe
+        """Sub-select the bins that are used to make calculations. This
+        is similar to a slice, except in the bin-dimension rather than the
+        time-dimension.
 
         Units are in microns.
         """
@@ -144,10 +160,60 @@ class GenericParticleSizer(object):
 
         return cpy
 
-    def stats(self, weight='number'):
+    def stats(self, weight='number', dmin=0., dmax=1e3, rho=1.65, **kwargs):
+        """Calculate and return the total number of particles, total
+        surface area, total volume, and total mass between dmin and dmax. In
+        addition, the arithmetic mean (AM), geometric mean (GM), mode (Mode),
+        and geometric standard deviation (GSD, CMD) are calculated and are
+        weighted by the input parameter `weight`.
+
+        :param dmin: minimum particle diameter in microns
+        :param dmax: maximum particle diameter in microns
+        :param rho: particle density in units of g/cc3
         """
-        """
-        return
+        # remove the weight from the kwargs
+
+        assert(weight in ["number", "surface", "volume", "mass"])
+
+        # initialize an empty dataframe to hold the results
+        res = pd.DataFrame()
+
+        # subselect the dataframe to only include diameters of interest
+        cpy = self.copy()
+        cpy.data = cpy._subselect_frame(cpy.data, **kwargs)
+
+        # calculate the total number of particles
+        res["number"] = cpy.dn.sum(axis=1)
+        res["surface_area"] = cpy.ds.sum(axis=1)
+        res["volume"] = cpy.dv.sum(axis=1)
+        res["mass"] = cpy.dv.mul(rho).sum(axis=1)
+
+        if weight == "number":
+            res["AM"] = 1e3*cpy.dn.mul(self.midpoints).sum(axis=1) / res["number"]
+            res["GM"] = 1e3*np.exp(cpy.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["number"])
+            res["Mode"] = cpy.dn.apply(lambda x: 1e3*cpy.midpoints[cpy.dn.columns.get_loc(x.idxmax())], axis=1)
+
+            tmp = cpy.dn.assign(GM=res['GM'].values)
+        elif weight == "surface":
+            res["AM"] = 1e3 * cpy.ds.mul(self.midpoints).sum(axis=1) / res["surface_area"]
+            res["GM"] = 1e3 * np.exp(cpy.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["surface_area"])
+            res["Mode"] = cpy.ds.apply(lambda x: 1e3*cpy.midpoints[cpy.ds.columns.get_loc(x.idxmax())], axis=1)
+
+            tmp = cpy.ds.assign(GM=res['GM'].values)
+        else:
+            res["AM"] = 1e3 * cpy.dv.mul(self.midpoints).sum(axis=1) / res["volume"]
+            res["GM"] = 1e3 * np.exp(cpy.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["volume"])
+            res["Mode"] = cpy.dv.apply(lambda x: 1e3*cpy.midpoints[cpy.dv.columns.get_loc(x.idxmax())], axis=1)
+
+            tmp = cpy.dv.assign(GM=res['GM'].values)
+
+        # calculate the GSD
+        res["GSD"] = tmp.apply(self._gsd, axis=1)
+
+        # delete the cpy to free up memory
+        del cpy, tmp
+
+        return res
 
     def integrate(self, weight='number', dmin=0., dmax=1., **kwargs):
         """
@@ -173,18 +239,69 @@ class GenericParticleSizer(object):
         return df[self.bin_labels].sum(axis=1)
 
     def slice(self, start=None, end=None, inplace=False):
-        """"""
+        """Slice the data between the start and end dates
+        """
+        if inplace:
+            self.data = self.data[start:end]
+        else:
+            cpy = self.copy()
 
+            cpy.data = cpy.data[start:end]
+
+            return cpy
         return
 
     def resample(self, rs, inplace=False):
-        """"""
+        """Resample on the timeseries.
+
+        :param rs: resample period using normal Pandas conventions
+        :param inplace: if True, update the current instance, else create a new one and return
+
+        Example:
+        >>> m.resample("15min", True)
+
+        """
+        obj_cols = self.data.select_dtypes(include=['object']).resample(rs).first()
+        num_cols = self.data.select_dtypes(exclude=['object']).resample(rs).mean()
+
+        # re-merge the two dataframes
+        merged = pd.merge(num_cols, obj_cols, left_index=True, right_index=True, how='outer')
+
+        if inplace:
+            self.data = merged
+        else:
+            cpy = self.copy()
+            cpy.data = merged
+
+            return cpy
+
         return
+
+    def _gsd(self, row):
+        """Private function to calculate the geometric standard deviation for a
+        lognormal distribution. The equation used is:
+
+        log...
+        """
+        # find the row that the geometric mean is in
+        idx = row.index.isin(["GM"])
+
+        # calculate the GM in units of microns
+        gm = row.loc[idx]['GM'] * 1e-3
+
+        # grab the row with the exception of the GM
+        # at this point, the row will have the histogram and nothing else
+        row = row.loc[~idx]
+
+        # calculate the geometric standard deviation
+        gsd = np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(gm))**2).sum()) / (row.sum() - 1)))
+
+        return gsd
 
 
 class SMPS(GenericParticleSizer):
     def __init__(self, **kwargs):
-        super(SMPS, self).__init__(**kwargs)
+        super(SMPS, self).__init__(fmt='dndlogdp', dp_units='nm', **kwargs)
 
     def __repr__(self):
         return "<SMPS>"
@@ -197,49 +314,29 @@ class AlphasenseOpcN2(GenericParticleSizer):
     can count particles between 380-17,500 nm.
     """
     def __init__(self, **kwargs):
-
         # set the bins to be the default bins that
         # Alphasense gives in their datasheet/spreadsheet
         # units are in microns
-        bins = kwargs.pop("bins", np.array([
-            [0.38, 0.46, 0.54,],
-            [0.54, 0.66, 0.78],
-            [0.78, 0.915, 1.05],
-        ]))
+        bb = np.array([0.38, 0.54, 0.78, 1.05, 1.34, 1.59, 2.07, 3.,
+                            4., 5., 6.5, 8., 10., 12., 14., 16., 17.5])
 
-        # default units should be in microns
-        dp_units = kwargs.pop("dp_units", "um")
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
 
-        super(AlphasenseOpcN2, self).__init__(bins=bins, dp_units=dp_units, **kwargs)
-
-    @property
-    def bin_weights(self):
-        """Allow this to have a setter and a default of 1 for each bin
-        """
-        return
-
-    def mass(self, dmax=1., rho=1.65):
-        """Calculate the particle mass loading between the minimum size cutoff
-        and dmax (units are in microns).
-
-        The calculation is done using a discrete integration of each bin.
-
-        :param dmax: particle diameter in units of microns
-        :param rho: density in units of g/cm3
-        """
-        return
+        super(AlphasenseOpcN2, self).__init__(bins=bins, fmt='dn', **kwargs)
 
 
 class POPS(GenericParticleSizer):
     """
     The Portable Optical Particle Spectrometer is based on the design of R. Gao
     and is currently manufactured by Handix Scientific. It is a research-grade
-    OPC that can see particles well below 200 nm.
+    OPC that can see particles as small as 132 nm.
     """
     def __init__(self, **kwargs):
-        bins = kwargs.pop('bins', np.array([]))
+        # default left and right bounds according to Handix
+        bb = 1e-3*np.array([132, 144, 158, 174, 191, 209, 229, 270, 324, 473, 594,
+                        1009, 1294, 1637, 2148, 2864, 3648])
 
-        # default units should be microns
-        dp_units = kwargs.pop("dp_units", "um")
+        # make the 3xn array of bins using the utility function make_bins()
+        bins = kwargs.pop('bins', make_bins(boundaries=bb))
 
-        super(POPS, self).__init__(bins=bins, dp_units=dp_units, **kwargs)
+        super(POPS, self).__init__(bins=bins, **kwargs)

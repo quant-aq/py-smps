@@ -5,52 +5,74 @@
 import numpy as np
 import requests
 import math
+from scipy.stats.mstats import gmean
 
-def make_bins(nbins, bound_left=None, bound_right=None, midpoints=None,
-                channels_per_decade=None, mean='gm'):
+def make_bins(**kwargs):
     """
-
-    :param mean: ['gm', 'am']
-
-    Example:
-
-    >>> make_bins(
-    >>>  len(obj['midpoints']),
-    >>>  midpoints=obj['midpoints'],
-    >>>  bound_left=obj['bound_left'],
-    >>>  bound_right=obj['bound_right'],
-    >>>  channels_per_decade=64)
     """
-    # initialize the bins array which will contain an nbinsx3 matrix
-    bins = np.empty((nbins, 3))
-    bins.fill(np.NaN)
+    boundaries = kwargs.pop("boundaries", None)
+    boundaries_left = kwargs.pop("boundaries_left", None)
+    boundaries_right = kwargs.pop("boundaries_right", None)
+    lb = kwargs.pop("lb", None)
+    ub = kwargs.pop("ub", None)
+    midpoints = kwargs.pop("midpoints", None)
+    cpd = kwargs.pop("channels_per_decade", 64)
+    mean_calc = kwargs.pop("mean_calc", "am")
 
-    # if midpoints is an array, set it
-    if type(midpoints) in (np.ndarray, list):
+    # initialize bins
+    bins = None
+
+    if midpoints is not None:
+        if lb is None or ub is None:
+            raise Exception("A lower and upper bound must be set")
+
+        bins = np.empty((midpoints.shape[0], 3))
+        bins.fill(np.NaN)
+
+        # fill the midpoints
         bins[:, 1] = midpoints
 
-    # set the left bounds
-    if type(bound_left) in (np.ndarray, list):
-        bins[:, 0] = bound_left
-    else:
-        bins[0, 0] = bound_left
+        # fill the bounds
+        bins[0, 0] = lb
+        bins[-1, -1] = ub
 
-    # set the right bounds
-    if type(bound_right) in (np.ndarray, list):
-        bins[:, -1] = bound_right
-    else:
-        bins[-1, -1] = bound_right
+        # iterate and calculate the bounds
+        for i in range(bins.shape[0] - 1):
+            bins[i, 2] = round(math.pow(10, np.log10(bins[i, 0]) + 1./cpd), 4)
+            bins[i+1, 0] = bins[i, 2]
 
-    # iterate over all bins and set the missing data
-    for i in range(bins.shape[0] - 1):
-        if bins[i, 1] == np.nan: # set the midpoint as either the GM or the AM of the two
-            if mean == 'am':
-                bins[i, 1] = np.mean([bins[i, 0], bins[i, -1]])
-            else:
-                bins[i, 1] = 1
-        else:
-            bins[i, -1] = round(math.pow(10, np.log10(bins[i, 0]) + 1./channels_per_decade), 4)
-            bins[i+1, 0] = bins[i, -1]
+        return bins
+
+    if boundaries is not None:
+        bins = np.empty((boundaries.shape[0]-1, 3))
+        bins.fill(np.NaN)
+
+        bins[:, 0] = boundaries[0:-1]
+        bins[:, 2] = boundaries[1:]
+
+    elif boundaries_left is not None:
+        if boundaries_right is None:
+            raise Exception("Missing attribute: `boundaries_right`")
+
+        assert(boundaries_left.shape[0] == boundaries_right.shape[0]), \
+            "Boundaries must be the same dimensions."
+
+        bins = np.empty((boundaries_left.shape[0], 3))
+        bins.fill(np.NaN)
+
+        bins[:, 0] = boundaries_left
+        bins[:, 2] = boundaries_right
+
+    else:
+        raise Exception("Not enough information to compute.")
+
+    # calculate the midpoints
+    assert(mean_calc in ("gm", "am")), "Invalid mean calculation method."
+
+    if mean_calc == 'am':
+        bins[:, 1] = (bins[:, 0] + bins[:, 2]) / 2
+    else:
+        bins[:, 1] = [gmean([x, y]) for x, y in zip(bins[:, 0], bins[:, 2])]
 
     return bins
 
