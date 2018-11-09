@@ -3,4 +3,4 @@ from .plots import *
 from .models import *
 from .rcmod import *
 
-__version__ = "1.0.2"
+__version__ = "1.1.0"
