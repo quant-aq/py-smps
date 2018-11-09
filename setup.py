@@ -5,7 +5,7 @@ except ImportError:
 
 from smps import  __version__
 
-__version__ = '1.0.0'
+__version__ = '1.0.2'
 
 setup(
     name='py-smps',
