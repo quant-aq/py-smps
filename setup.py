@@ -3,7 +3,9 @@ try:
 except ImportError:
     from distutils.core import setup
 
-__version__ = '1.0.1'
+from smps import  __version__
+
+__version__ = '1.0.0'
 
 setup(
     name='py-smps',
