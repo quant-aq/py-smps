@@ -1,23 +1,32 @@
+[![PyPI version](https://badge.fury.io/py/smps.svg)](https://badge.fury.io/py/smps)
 [![Build Status](https://travis-ci.org/dhhagan/py-smps.svg?branch=master)](https://travis-ci.org/dhhagan/py-smps)
 [![Test Coverage](https://codeclimate.com/github/dhhagan/py-smps/badges/coverage.svg)](https://codeclimate.com/github/dhhagan/py-smps/coverage)
-[![Issue Count](https://codeclimate.com/github/dhhagan/py-smps/badges/issue_count.svg)](https://codeclimate.com/github/dhhagan/py-smps)
+
 
 # py-smps
 Python library for the analysis and visualization of data from a Scanning Mobility Particle Sizer (SMPS) and other similar instruments (SEMS, OPC's).
+
+If you use this for scientific research, please cite? It's all I've got...
 
 ## Dependencies
 
   * pandas
   * numpy
+  * scipy
   * seaborn
+  * statsmodels
 
 ## Python Versions
 
-Currently, only Python3.3+ is supported. In the future, Python2.7 may be added, but probably not...
+Currently, only Python3.3+ is supported. If you are using/relying on Python2.7, it is time to switch!
 
 ## Installation
 
-To install directly from GitHub using pip:
+To install from PyPi:
+
+    $ pip install py-smps [--upgrade]
+
+To install the edge release directly from GitHub:
 
     pip install git+https://github.com/dhhagan/py-smps.git
 
@@ -39,7 +48,7 @@ They can also be run with coverage (if installed) by running the following in su
 
 ## Documentation
 
-I will eventually get to this, but for now you can check out the examples [here](/examples).
+I will eventually finish writing nice/new documentation, but for now you can check out the examples [here](/examples) which cover most use cases.
 
 ## Contributing to Development
 
