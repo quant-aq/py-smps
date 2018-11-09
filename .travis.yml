@@ -1,5 +1,6 @@
 language: python
 python:
+    - "3.3"
     - "3.5"
     - "3.6"
 
@@ -11,10 +12,10 @@ install:
     - "pip install coverage==4.3.4"
     - "pip install pandas"
     - "pip install seaborn"
-    - "pip install codeclimate-test-reporter"
+    - "pip install coveralls"
 
 script:
-    - "coverage run --source=smps setup.py test"
+    - "coverage run --source smps setup.py test"
 
 after_success:
-  - CODECLIMATE_REPO_TOKEN=9f04a1d98ed6f23402832603a611789f58cff9ae3d7c6c7e242b50a3b1c060aa codeclimate-test-reporter
+  coveralls

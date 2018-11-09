@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/smps.svg)](https://badge.fury.io/py/smps)
 [![Build Status](https://travis-ci.org/dhhagan/py-smps.svg?branch=master)](https://travis-ci.org/dhhagan/py-smps)
-[![Test Coverage](https://codeclimate.com/github/dhhagan/py-smps/badges/coverage.svg)](https://codeclimate.com/github/dhhagan/py-smps/coverage)
+[![Coverage Status](https://coveralls.io/repos/github/dhhagan/py-smps/badge.svg?branch=master)](https://coveralls.io/github/dhhagan/py-smps?branch=master)
 
 
 # py-smps
