@@ -17,6 +17,7 @@ install:
     - "pip install coverage"
     - "pip install pandas"
     - "pip install seaborn"
+    - "pip install joblib"
     - "pip install coveralls"
 
 script:
