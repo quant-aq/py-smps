@@ -26,8 +26,8 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
     Z_plot = nan_to_num(Z_plot)
 
     # Set the colorbar min and max based on the min and max of the values
-    cbar_min = kwargs.pop('cbar_min', Z.min() if Z.min() > 0.0 else 1.)
-    cbar_max = kwargs.pop('cbar_max', Z.max())
+    cbar_min = kwargs.pop('cbar_min', Z_plot.min() if Z_plot.min() > 0.0 else 1.)
+    cbar_max = kwargs.pop('cbar_max', Z_plot.max())
 
     if hide_low:
         # Increase values below cbar_min to cbar_min
@@ -39,7 +39,7 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
                         **plot_kws)
 
     # Set the figure keywords
-    fig_kws = dict(dict(figsize=(16,8)), **fig_kws)
+    fig_kws = dict(dict(figsize=(10,5)), **fig_kws)
 
     if ax is None:
         plt.figure(**fig_kws)
