@@ -172,43 +172,48 @@ class GenericParticleSizer(object):
         :param rho: particle density in units of g/cc3
         """
         # remove the weight from the kwargs
-
         assert(weight in ["number", "surface", "volume", "mass"])
 
         # initialize an empty dataframe to hold the results
-        res = pd.DataFrame()
+        res = pd.DataFrame(index=self.data.index)
 
         # subselect the dataframe to only include diameters of interest
         cpy = self.copy()
         cpy.data = cpy._subselect_frame(cpy.data, **kwargs)
 
+        # drop all rows that are completely NaN
+        cpy.data = cpy.data.dropna(how='all')
+
+        # make a shortcut for the index to inject
+        idx = cpy.data.index
+
         # calculate the total number of particles
-        res["number"] = cpy.dn.sum(axis=1)
-        res["surface_area"] = cpy.ds.sum(axis=1)
-        res["volume"] = cpy.dv.sum(axis=1)
-        res["mass"] = cpy.dv.mul(rho).sum(axis=1)
+        res.loc[idx, "number"] = cpy.dn.sum(axis=1)
+        res.loc[idx, "surface_area"] = cpy.ds.sum(axis=1)
+        res.loc[idx, "volume"] = cpy.dv.sum(axis=1)
+        res.loc[idx, "mass"] = cpy.dv.mul(rho).sum(axis=1)
 
         if weight == "number":
-            res["AM"] = 1e3*cpy.dn.mul(self.midpoints).sum(axis=1) / res["number"]
-            res["GM"] = 1e3*np.exp(cpy.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["number"])
-            res["Mode"] = cpy.dn.apply(lambda x: 1e3*cpy.midpoints[cpy.dn.columns.get_loc(x.idxmax())], axis=1)
+            res.loc[idx, "AM"] = 1e3*cpy.dn.mul(self.midpoints).sum(axis=1) / res.loc[idx, "number"]
+            res.loc[idx, "GM"] = 1e3*np.exp(cpy.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "number"])
+            res.loc[idx, "Mode"] = cpy.dndlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dndlogdp.columns.get_loc(x.idxmax())], axis=1)
 
-            tmp = cpy.dn.assign(GM=res['GM'].values)
+            tmp = cpy.dn.assign(GM=res.loc[idx, 'GM'].values)
         elif weight == "surface":
-            res["AM"] = 1e3 * cpy.ds.mul(self.midpoints).sum(axis=1) / res["surface_area"]
-            res["GM"] = 1e3 * np.exp(cpy.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["surface_area"])
-            res["Mode"] = cpy.ds.apply(lambda x: 1e3*cpy.midpoints[cpy.ds.columns.get_loc(x.idxmax())], axis=1)
+            res.loc[idx, "AM"] = 1e3 * cpy.ds.mul(self.midpoints).sum(axis=1) / res.loc[idx, "surface_area"]
+            res.loc[idx, "GM"] = 1e3 * np.exp(cpy.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "surface_area"])
+            res.loc[idx, "Mode"] = cpy.dsdlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dsdlogdp.columns.get_loc(x.idxmax())], axis=1)
 
-            tmp = cpy.ds.assign(GM=res['GM'].values)
+            tmp = cpy.ds.assign(GM=res.loc[idx, 'GM'].values)
         else:
-            res["AM"] = 1e3 * cpy.dv.mul(self.midpoints).sum(axis=1) / res["volume"]
-            res["GM"] = 1e3 * np.exp(cpy.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res["volume"])
-            res["Mode"] = cpy.dv.apply(lambda x: 1e3*cpy.midpoints[cpy.dv.columns.get_loc(x.idxmax())], axis=1)
+            res.loc[idx, "AM"] = 1e3 * cpy.dv.mul(self.midpoints).sum(axis=1) / res.loc[idx, "volume"]
+            res.loc[idx, "GM"] = 1e3 * np.exp(cpy.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "volume"])
+            res.loc[idx, "Mode"] = cpy.dvdlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dvdlogdp.columns.get_loc(x.idxmax())], axis=1)
 
-            tmp = cpy.dv.assign(GM=res['GM'].values)
+            tmp = cpy.dv.assign(GM=res.loc[idx, 'GM'].values)
 
         # calculate the GSD
-        res["GSD"] = tmp.apply(self._gsd, axis=1)
+        res.loc[idx, "GSD"] = tmp.apply(self._gsd, axis=1)
 
         # delete the cpy to free up memory
         del cpy, tmp

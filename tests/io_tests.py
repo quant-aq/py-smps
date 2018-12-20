@@ -58,10 +58,12 @@ class SetupTestCase(unittest.TestCase):
         self.assertTrue(isinstance(res['bin_labels'], list))
         self.assertTrue(isinstance(res['bin_prefix'], str))
 
+    """
     def test_load_sample(self):
         m = smps.io.load_sample("boston")
 
         self.assertIsInstance(m, smps.models.SMPS)
+    """
 
     def test_models_generic_methods(self):
         res = smps.io.smps_from_txt(
@@ -160,6 +162,8 @@ class SetupTestCase(unittest.TestCase):
         cols_to_check.append(("Mode", "Mode(nm)"))
         cols_to_check.append(("GSD", "Geo. Std. Dev."))
 
+        print ("")
+
         for pkg_col, aim_col in cols_to_check:
             m, b, r, p, e = linregress(
                                 stats[pkg_col].values,
@@ -171,6 +175,8 @@ class SetupTestCase(unittest.TestCase):
             # make sure the slope is between 0.99 and 1.01
             self.assertGreaterEqual(m, 0.99)
             self.assertLessEqual(m, 1.01)
+
+            print ("\t{} v {}: \n\t\tr2={:.3f}, m={:.2f}".format(pkg_col, aim_col, r**2, m))
 
         # check the surface-area-weighted stats
         stats = number.stats(weight='surface')
@@ -247,27 +253,26 @@ class SetupTestCase(unittest.TestCase):
             print ("\t{} @ dmax={}".format(opc_col, dmax))
             print ("\t\tm={:.3f}, r2={:.3f}".format(m, r**2))
 
-            print (opcn2.scan_stats[opc_col].values[0:3])
-            print (opcn2.integrate(weight='mass', rho=1.65, dmax=dmax).values[0:3])
-
-            # make sure the correlation is above 0.99
-            #self.assertGreaterEqual(r**2, 0.99)
-
-            # make sure the slope is between 0.99 and 1.01
-            #self.assertGreaterEqual(m, 0.99)
-            #self.assertLessEqual(m, 1.01)
-
     def test_models_pops(self):
         pass
 
     def test_fit(self):
         from smps.fit import LogNormal
 
-        r = smps.io.load_sample("boston")
+        r = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_number.txt"),
+                        column=False, as_dict=False)
 
         # fit 1 mode in volume number space
         m = LogNormal()
 
         results = m.fit(X=r.midpoints, Y=r.dndlogdp.mean(), modes=1)
 
-        print (results.summary())
+    def test_calculations_with_nans(self):
+        number = smps.io.smps_from_txt(
+                        os.path.join(datadir, "test_data_number.txt"),
+                        column=False, as_dict=False)
+
+        number.resample("1min", inplace=True)
+
+        stats = number.stats(weight='number')
