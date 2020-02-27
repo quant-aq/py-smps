@@ -10,7 +10,7 @@ import joblib
 import json
 from .utils import make_bins
 
-__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOPCN3", "POPS", "ParticlesPlus"]
+__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOpcN3", "POPS", "ParticlesPlus"]
 
 class GenericParticleSizer(object):
     """
