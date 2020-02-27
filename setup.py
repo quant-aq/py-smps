@@ -1,23 +1,18 @@
-try:
-    from setuptools import setup
-except ImportError:
-    from distutils.core import setup
-
-from smps import  __version__
-
-__version__ = '1.1.0-dev'
+from setuptools import setup
+import versioneer
 
 setup(
     name='py-smps',
-    version=__version__,
+    version=versioneer.get_version(),
     packages=['smps'],
     description='A simple python library to import and visualize data from particle sizing instruments.',
     author='David H Hagan',
-    author_email='dhagan@mit.edu',
+    author_email='david.hagan@quant-aq.com',
     license='MIT',
     url='https://github.com/dhhagan/py-smps',
     keywords=['atmospheric chemistry'],
     test_suite='tests',
+    python_requires=">=3.5",
     install_requires=[
         'pandas',
         'matplotlib',
@@ -34,13 +29,11 @@ setup(
         'Intended Audience :: Science/Research',
         'Intended Audience :: Developers',
 		'Intended Audience :: Education',
-		'Programming Language :: Python :: 2.7',
-		'Programming Language :: Python :: 3.3',
-		'Programming Language :: Python :: 3.4',
 		'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
 		'Topic :: Scientific/Engineering :: Atmospheric Science',
 		'Topic :: Software Development',
         'Topic :: Software Development :: Libraries :: Python Modules'
-    ]
+    ],
+    cmdclass=versioneer.get_cmdclass()
 )

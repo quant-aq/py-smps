@@ -10,7 +10,7 @@ import joblib
 import json
 from .utils import make_bins
 
-__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "POPS"]
+__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOPCN3", "POPS", "ParticlesPlus"]
 
 class GenericParticleSizer(object):
     """
@@ -319,15 +319,28 @@ class AlphasenseOpcN2(GenericParticleSizer):
     can count particles between 380-17,500 nm.
     """
     def __init__(self, **kwargs):
-        # set the bins to be the default bins that
-        # Alphasense gives in their datasheet/spreadsheet
-        # units are in microns
         bb = np.array([0.38, 0.54, 0.78, 1.05, 1.34, 1.59, 2.07, 3.,
                             4., 5., 6.5, 8., 10., 12., 14., 16., 17.5])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
 
         super(AlphasenseOpcN2, self).__init__(bins=bins, fmt='dn', **kwargs)
+
+
+class AlphasenseOpcN3(GenericParticleSizer):
+    """
+    The Alphasense OPC-N3 is a consumer-grade optical particle counter
+    that uses a 658 nm red laser to count and size individual particles. It
+    can count particles between 380-40,000 nm.
+    """
+    def __init__(self, **kwargs):
+        bb = np.array([0.35, 0.46, 0.66, 1., 1.3, 1.7, 2.3, 3.,
+                            4., 5.2, 6.5, 8., 10., 12., 14., 16., 18.,
+                            20., 22., 25., 31., 34., 37., 40.])
+
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
+
+        super(AlphasenseOpcN3, self).__init__(bins=bins, fmt='dn', **kwargs)
 
 
 class POPS(GenericParticleSizer):
@@ -345,3 +358,17 @@ class POPS(GenericParticleSizer):
         bins = kwargs.pop('bins', make_bins(boundaries=bb))
 
         super(POPS, self).__init__(bins=bins, **kwargs)
+
+
+class ParticlesPlus(GenericParticleSizer):
+    """
+    The Particles Plus is a consumer-grade optical particle counter
+    that uses a red laser to count and size individual particles. It
+    can count particles between 300-10,000 nm.
+    """
+    def __init__(self, **kwargs):
+        bb = np.array([0.3, 0.5, 0.7, 1., 2.5, 10.0, 10.1])
+
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
+
+        super(ParticlesPlus, self).__init__(bins=bins, fmt='dn', **kwargs)
