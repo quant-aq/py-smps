@@ -10,9 +10,11 @@ import joblib
 
 from .utils import _get_bin_count, _get_linecount, make_bins
 from .plots import heatmap
-from .models import SMPS, AlphasenseOpcN2
+from .models import SMPS
 
-__all__ = ["smps_from_txt", "opcn2_from_text", "load_sample"]
+
+__all__ = ["smps_from_txt", "load_sample"]
+
 
 def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
     """Read an SMPS txt file as exported by the TSI AIM software.
@@ -154,52 +156,6 @@ def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
     else:
         return SMPS(data=data, meta=meta, bins=bins, bin_labels=bin_labels,
                     units=units, weight=weight)
-
-
-def opcn2_from_text(fpath, as_dict=True, **kwargs):
-    """
-    """
-    meta = dict()
-    bin_weights = None
-
-    with open(fpath, 'r') as f:
-        for i, line in enumerate(f):
-            if line.startswith("Data:"):
-                break
-
-            # get the firmware version
-            if i == 0:
-                meta["fw"] = float(line[23:28])
-            elif i == 1:
-                meta["serial_number"] = int(line[7:16])
-            elif len(line.split(",")) == 2:
-                vals = line.split(",")
-                meta[vals[0].strip()] = float(vals[1].strip())
-            elif line.split(",")[0].strip() == "SampleVolumeWeighting":
-                vals = line.split(",")
-                vals = [v.strip() for v in vals]
-
-                binWeights = np.array([float(v) for v in vals[1:]])
-
-    data_start_line = 15
-
-    data = pd.read_csv(fpath, skiprows=data_start_line)
-    bin_labels = data.columns[0:16]
-
-    # correct the data
-    # the raw data/bins are in units of particles in bin since last samples and
-    # we need to work with concentrations
-    # this is calculated as raw_bin/(SFR*SamplingPeriod)
-    data['fact'] = 1/(data["SFR(ml/s)"] * data["SamplingPeriod(s)"])
-
-    data[bin_labels] = data[bin_labels].mul(data['fact'], axis=0)
-
-    del data["fact"]
-
-    if as_dict:
-        return dict(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
-    else:
-        return AlphasenseOpcN2(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
 
 
 def load_sample(label="boston"):

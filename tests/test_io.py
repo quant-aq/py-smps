@@ -9,6 +9,7 @@ import pytest
 basedir = os.path.dirname(os.path.abspath(__file__))
 datadir = os.path.join(basedir, "datafiles")
 
+
 def test_smps_from_txt():
     res =smps.io.smps_from_txt(os.path.join(datadir, "test_data_number.txt"), column=False)
 
@@ -27,6 +28,7 @@ def test_smps_from_txt():
     assert isinstance(res["bins"], np.ndarray)
     assert isinstance(res["bin_labels"], list)
     assert isinstance(res["bin_prefix"], str)
+
 
 def test_smps_from_txt_columns():
     res = smps.io.smps_from_txt(os.path.join(datadir, "test_data_column.txt"))

@@ -12,6 +12,7 @@ from .utils import make_bins
 
 __all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOpcN3", "POPS", "ParticlesPlus"]
 
+
 class GenericParticleSizer(object):
     """
         GenericParticleSizer is the base class for all
@@ -336,7 +337,7 @@ class AlphasenseOpcN3(GenericParticleSizer):
     def __init__(self, **kwargs):
         bb = np.array([0.35, 0.46, 0.66, 1., 1.3, 1.7, 2.3, 3.,
                             4., 5.2, 6.5, 8., 10., 12., 14., 16., 18.,
-                            20., 22., 25., 31., 34., 37., 40.])
+                            20., 22., 25., 28., 31., 34., 37., 40.])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
 
