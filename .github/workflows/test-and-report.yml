@@ -6,31 +6,31 @@ jobs:
         strategy:
             matrix:
                 python: [3.6, 3.7, 3.8]
-            name: Python ${{ matrix.python }}
-            steps:
-                - name: Checkout branch
-                  uses: actions/checkout@v2
+        name: Python ${{ matrix.python }}
+        steps:
+            - name: Checkout branch
+              uses: actions/checkout@v2
 
-                - name: Setup pyton ${{ matrix.python }}
-                  uses: actions/setup-python@master
-                  with:
-                    python-version: ${{ matrix.python }}
+            - name: Setup pyton ${{ matrix.python }}
+              uses: actions/setup-python@master
+              with:
+                python-version: ${{ matrix.python }}
 
-                - name: Install poetry
-                  uses: dschep/install-poetry-action@v1.3
+            - name: Install poetry
+              uses: dschep/install-poetry-action@v1.3
 
-                - name: Install dependencies
-                  run: poetry install
+            - name: Install dependencies
+              run: poetry install
 
-                - name: Run tests and generate coverage report
-                  run: |
-                    poetry run pytest --cov=./ --cov-report=xml
+            - name: Run tests and generate coverage report
+              run: |
+                poetry run pytest --cov=./ --cov-report=xml
 
-                - name: Upload coverage report to Codecov
-                  uses: codecov/codecov-action@v1
-                  with:
-                    token: ${{ secrets.CODECOV_TOKEN }}
-                    file: ./coverage.xml
-                    flags: unittests
-                    name: codecov-umbrella
-                    fail_ci_if_error: true
+            - name: Upload coverage report to Codecov
+              uses: codecov/codecov-action@v1
+              with:
+                token: ${{ secrets.CODECOV_TOKEN }}
+                file: ./coverage.xml
+                flags: unittests
+                name: codecov-umbrella
+                fail_ci_if_error: true
