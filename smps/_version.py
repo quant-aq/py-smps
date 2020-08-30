@@ -17,7 +17,7 @@ import subprocess
 import sys
 
 
-def get_keywords():
+def get_keywords(): # pragma: no cover
     """Get the keywords needed to look up the version information."""
     # these strings will be replaced by git during git-archive.
     # setup.py/versioneer.py will grep for the variable names, so they must
@@ -30,11 +30,11 @@ def get_keywords():
     return keywords
 
 
-class VersioneerConfig:
+class VersioneerConfig: # pragma: no cover
     """Container for Versioneer configuration parameters."""
 
 
-def get_config():
+def get_config(): # pragma: no cover
     """Create, populate and return the VersioneerConfig() object."""
     # these strings are filled in when 'setup.py versioneer' creates
     # _version.py
@@ -48,7 +48,7 @@ def get_config():
     return cfg
 
 
-class NotThisMethod(Exception):
+class NotThisMethod(Exception): # pragma: no cover
     """Exception raised if a method is not valid for the current scenario."""
 
 
@@ -56,7 +56,7 @@ LONG_VERSION_PY = {}
 HANDLERS = {}
 
 
-def register_vcs_handler(vcs, method):  # decorator
+def register_vcs_handler(vcs, method):  # pragma: no cover
     """Decorator to mark a method as the handler for a particular VCS."""
     def decorate(f):
         """Store f in HANDLERS[vcs][method]."""
@@ -68,7 +68,7 @@ def register_vcs_handler(vcs, method):  # decorator
 
 
 def run_command(commands, args, cwd=None, verbose=False, hide_stderr=False,
-                env=None):
+                env=None): # pragma: no cover
     """Call the given command(s)."""
     assert isinstance(commands, list)
     p = None
@@ -104,7 +104,7 @@ def run_command(commands, args, cwd=None, verbose=False, hide_stderr=False,
     return stdout, p.returncode
 
 
-def versions_from_parentdir(parentdir_prefix, root, verbose):
+def versions_from_parentdir(parentdir_prefix, root, verbose): # pragma: no cover
     """Try to determine the version from the parent directory name.
 
     Source tarballs conventionally unpack into a directory that includes both
@@ -130,7 +130,7 @@ def versions_from_parentdir(parentdir_prefix, root, verbose):
 
 
 @register_vcs_handler("git", "get_keywords")
-def git_get_keywords(versionfile_abs):
+def git_get_keywords(versionfile_abs): # pragma: no cover
     """Extract version information from the given file."""
     # the code embedded in _version.py can just fetch the value of these
     # keywords. When used from setup.py, we don't want to import _version.py,
@@ -159,7 +159,7 @@ def git_get_keywords(versionfile_abs):
 
 
 @register_vcs_handler("git", "keywords")
-def git_versions_from_keywords(keywords, tag_prefix, verbose):
+def git_versions_from_keywords(keywords, tag_prefix, verbose): # pragma: no cover
     """Get version information from git keywords."""
     if not keywords:
         raise NotThisMethod("no keywords at all, weird")
@@ -214,7 +214,7 @@ def git_versions_from_keywords(keywords, tag_prefix, verbose):
 
 
 @register_vcs_handler("git", "pieces_from_vcs")
-def git_pieces_from_vcs(tag_prefix, root, verbose, run_command=run_command):
+def git_pieces_from_vcs(tag_prefix, root, verbose, run_command=run_command): # pragma: no cover
     """Get version from 'git describe' in the root of the source tree.
 
     This only gets called if the git-archive 'subst' keywords were *not*
@@ -305,14 +305,14 @@ def git_pieces_from_vcs(tag_prefix, root, verbose, run_command=run_command):
     return pieces
 
 
-def plus_or_dot(pieces):
+def plus_or_dot(pieces): # pragma: no cover
     """Return a + if we don't already have one, else return a ."""
     if "+" in pieces.get("closest-tag", ""):
         return "."
     return "+"
 
 
-def render_pep440(pieces):
+def render_pep440(pieces): # pragma: no cover
     """Build up version string, with post-release "local version identifier".
 
     Our goal: TAG[+DISTANCE.gHEX[.dirty]] . Note that if you
@@ -337,7 +337,7 @@ def render_pep440(pieces):
     return rendered
 
 
-def render_pep440_pre(pieces):
+def render_pep440_pre(pieces): # pragma: no cover
     """TAG[.post.devDISTANCE] -- No -dirty.
 
     Exceptions:
@@ -353,7 +353,7 @@ def render_pep440_pre(pieces):
     return rendered
 
 
-def render_pep440_post(pieces):
+def render_pep440_post(pieces): # pragma: no cover
     """TAG[.postDISTANCE[.dev0]+gHEX] .
 
     The ".dev0" means dirty. Note that .dev0 sorts backwards
@@ -380,7 +380,7 @@ def render_pep440_post(pieces):
     return rendered
 
 
-def render_pep440_old(pieces):
+def render_pep440_old(pieces): # pragma: no cover
     """TAG[.postDISTANCE[.dev0]] .
 
     The ".dev0" means dirty.
@@ -402,7 +402,7 @@ def render_pep440_old(pieces):
     return rendered
 
 
-def render_git_describe(pieces):
+def render_git_describe(pieces): # pragma: no cover
     """TAG[-DISTANCE-gHEX][-dirty].
 
     Like 'git describe --tags --dirty --always'.
@@ -422,7 +422,7 @@ def render_git_describe(pieces):
     return rendered
 
 
-def render_git_describe_long(pieces):
+def render_git_describe_long(pieces): # pragma: no cover
     """TAG-DISTANCE-gHEX[-dirty].
 
     Like 'git describe --tags --dirty --always -long'.
@@ -442,7 +442,7 @@ def render_git_describe_long(pieces):
     return rendered
 
 
-def render(pieces, style):
+def render(pieces, style): # pragma: no cover
     """Render the given version pieces into the requested style."""
     if pieces["error"]:
         return {"version": "unknown",
@@ -474,7 +474,7 @@ def render(pieces, style):
             "date": pieces.get("date")}
 
 
-def get_versions():
+def get_versions(): # pragma: no cover
     """Get version information or return default if unable to do so."""
     # I am in _version.py, which lives at ROOT/VERSIONFILE_SOURCE. If we have
     # __file__, we can work backwards from there to the root. Some
