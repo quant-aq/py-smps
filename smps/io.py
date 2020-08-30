@@ -24,7 +24,7 @@ def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
     # determine the number of rows of meta information; can be defined
     meta_num_lines = kwargs.pop("meta_num_lines", None)
     if not meta_num_lines:
-        meta_num_lines = _get_linecount(fpath, keyword='Sample #', encoding=encoding)
+        meta_num_lines = _get_linecount(fpath, keyword='Sample #', encoding=encoding, delimiter=delimiter)
 
     # read and store the meta information
     meta = pd.read_table(fpath, nrows=meta_num_lines, delimiter=delimiter, header=None, encoding=encoding,
@@ -155,6 +155,7 @@ def smps_from_txt(fpath, column=True, delimiter=',', as_dict=True, **kwargs):
         return SMPS(data=data, meta=meta, bins=bins, bin_labels=bin_labels,
                     units=units, weight=weight)
 
+
 def opcn2_from_text(fpath, as_dict=True, **kwargs):
     """
     """
@@ -199,6 +200,7 @@ def opcn2_from_text(fpath, as_dict=True, **kwargs):
         return dict(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
     else:
         return AlphasenseOpcN2(data=data, bin_labels=bin_labels, meta=meta, bin_weights=binWeights)
+
 
 def load_sample(label="boston"):
     """Load a sample data file directly from GitHub.
