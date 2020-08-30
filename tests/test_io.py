@@ -1,97 +1,77 @@
-import unittest
 import smps
 import os
 import pandas as pd
 import numpy as np
 from scipy.stats import linregress
 import matplotlib.pyplot as plt
+import pytest
 
 basedir = os.path.dirname(os.path.abspath(__file__))
 datadir = os.path.join(basedir, "datafiles")
 
-class SetupTestCase(unittest.TestCase):
-    def setUp(self):
-        pass
+def test_smps_from_txt():
+    res =smps.io.smps_from_txt(os.path.join(datadir, "test_data_number.txt"), column=False)
 
-    def tearDown(self):
-        pass
+    assert "meta" in res.keys()
+    assert "units" in res.keys()
+    assert "weight" in res.keys()
+    assert "data" in res.keys()
+    assert "bins" in res.keys()
+    assert "bin_labels" in res.keys()
+    assert "bin_prefix" in res.keys()
 
-    def test_smps_from_txt(self):
-        res = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_number.txt"),
-                        column=False)
+    assert isinstance(res['meta'], dict)
+    assert isinstance(res["units"], str)
+    assert isinstance(res["weight"], str)
+    assert isinstance(res["data"], pd.DataFrame)
+    assert isinstance(res["bins"], np.ndarray)
+    assert isinstance(res["bin_labels"], list)
+    assert isinstance(res["bin_prefix"], str)
 
-        self.assertTrue('meta' in res.keys())
-        self.assertTrue('units' in res.keys())
-        self.assertTrue('weight' in res.keys())
-        self.assertTrue('data' in res.keys())
-        self.assertTrue('bins' in res.keys())
-        self.assertTrue('bin_labels' in res.keys())
-        self.assertTrue('bin_prefix' in res.keys())
+def test_smps_from_txt_columns():
+    res = smps.io.smps_from_txt(os.path.join(datadir, "test_data_column.txt"))
 
-        self.assertTrue(isinstance(res['meta'], dict))
-        self.assertTrue(isinstance(res['units'], str))
-        self.assertTrue(isinstance(res['weight'], str))
-        self.assertTrue(isinstance(res['data'], pd.DataFrame))
-        self.assertTrue(isinstance(res['bins'], np.ndarray))
-        self.assertTrue(isinstance(res['bin_labels'], list))
-        self.assertTrue(isinstance(res['bin_prefix'], str))
+    assert "meta" in res.keys()
+    assert "units" in res.keys()
+    assert "weight" in res.keys()
+    assert "data" in res.keys()
+    assert "bins" in res.keys()
+    assert "bin_labels" in res.keys()
+    assert "bin_prefix" in res.keys()
 
-    # def test_smps_from_txt_columns(self):
-    #     res = smps.io.smps_from_txt(
-    #                     os.path.join(datadir, "test_data_column.txt"),
-    #                     column=True)
+    assert isinstance(res['meta'], dict)
+    assert isinstance(res["units"], str)
+    assert isinstance(res["weight"], str)
+    assert isinstance(res["data"], pd.DataFrame)
+    assert isinstance(res["bins"], np.ndarray)
+    assert isinstance(res["bin_labels"], list)
+    assert isinstance(res["bin_prefix"], str)
 
-    #     self.assertTrue('meta' in res.keys())
-    #     self.assertTrue('units' in res.keys())
-    #     self.assertTrue('weight' in res.keys())
-    #     self.assertTrue('data' in res.keys())
-    #     self.assertTrue('bins' in res.keys())
-    #     self.assertTrue('bin_labels' in res.keys())
-    #     self.assertTrue('bin_prefix' in res.keys())
+# def test_generic():
+#     res = smps.io.smps_from_txt(os.path.join(datadir, "test_data_number.txt"), column=False)
 
-    #     self.assertTrue(isinstance(res['meta'], dict))
-    #     self.assertTrue(isinstance(res['units'], str))
-    #     self.assertTrue(isinstance(res['weight'], str))
-    #     self.assertTrue(isinstance(res['data'], pd.DataFrame))
-    #     self.assertTrue(isinstance(res['bins'], np.ndarray))
-    #     self.assertTrue(isinstance(res['bin_labels'], list))
-    #     self.assertTrue(isinstance(res['bin_prefix'], str))
+#     # create a model
+#     m = smps.models.GenericParticleSizer(data=res['data'], bins=res['bins'],
+#                                             dp_units='nm', fmt='dndlogdp')
 
-    # def test_models_generic_methods(self):
-    #     res = smps.io.smps_from_txt(
-    #                     os.path.join(datadir, "test_data_number.txt"),
-    #                     column=False)
+#     assert isinstance(m, smps.models.GenericParticleSizer)
+#     assert m.bins.shape[0] == len(m.s_multiplier)
+#     assert m.bins.shape[0] == len(m.v_multiplier)
+#     assert m.bins.shape[0] == len(m.dlogdp)
 
-    #     # create a model
-    #     m = smps.models.GenericParticleSizer(
-    #                         data=res['data'],
-    #                         bins=res['bins'],
-    #                         dp_units='nm',
-    #                         fmt='dndlogdp')
+#     # test .copy()
+#     cpy = m.copy()
 
-    #     # make sure the model has all of the methods!
-    #     self.assertIsInstance(m, smps.models.GenericParticleSizer)
+#     assert isinstance(cpy, smps.models.GenericParticleSizer)
+#     assert cpy != m
 
-    #     self.assertEqual(m.bins.shape[0], len(m.s_multiplier))
-    #     self.assertEqual(m.bins.shape[0], len(m.v_multiplier))
-    #     self.assertEqual(m.bins.shape[0], len(m.dlogdp))
+#     # test the scan stats
+#     stats = m.scan_stats
+#     assert isinstance(stats, pd.DataFrame)
+#     assert list(stats.columns) == (list(set(m.data.columns) - set(m.dn.columns)))
 
-    #     # test .copy()
-    #     cpy = m.copy()
-
-    #     self.assertIsInstance(cpy, smps.models.GenericParticleSizer)
-    #     self.assertNotEqual(cpy, m)
-
-    #     # test scan stats
-    #     stats = m.scan_stats
-    #     self.assertIsInstance(stats, pd.DataFrame)
-    #     self.assertEqual(list(stats.columns), list(set(m.data.columns) - set(m.dn.columns)))
-
-    #     # test ._subselect_frame()
-
-    #     # test stats
-    #     stats = m.stats(weight='number')
+#     # test stats
+#     stats = m.stats(weight='number')
 
     #     self.assertIsInstance(stats, pd.DataFrame)
     #     self.assertTrue('number' in stats.columns)
