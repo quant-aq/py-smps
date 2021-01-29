@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "py-smps"
-version = "2.0.0-alpha.0"
+version = "2.0.0-alpha.1"
 description = "A simple python library to import and visualize data from particle sizing instruments."
 authors = ["David H Hagan <david.hagan@quant-aq.com>"]
 license = "MIT"

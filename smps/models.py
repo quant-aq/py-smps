@@ -10,7 +10,8 @@ import joblib
 import json
 from .utils import make_bins
 
-__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOpcN3", "POPS", "ParticlesPlus"]
+__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOpcN3", 
+            "POPS", "ParticlesPlus", "Grimm11D"]
 
 
 class GenericParticleSizer(object):
@@ -373,3 +374,19 @@ class ParticlesPlus(GenericParticleSizer):
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
 
         super(ParticlesPlus, self).__init__(bins=bins, fmt='dn', **kwargs)
+
+
+class Grimm11D(GenericParticleSizer):
+    """
+    The Grimm11D is an optical particle counter
+    that uses a blue laser to count and size individual particles. It
+    can count particles between 250-35,000 nm.
+    """
+    def __init__(self, **kwargs):
+        bb = np.array([0.25, 0.28, 0.3, 0.35, 0.4, 0.45, 0.5, 0.58, 0.65, 0.7, 0.8,
+                        1.0, 1.3, 1.6, 2.0, 2.5, 3.0, 3.5, 4., 5., 6.5, 7.5, 8.5, 10.,
+                        12.5, 15., 17.5, 20., 25., 30., 32., 35.])
+
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
+
+        super(Grimm11D, self).__init__(bins=bins, fmt='dn', **kwargs)
