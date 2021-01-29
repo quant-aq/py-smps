@@ -30,7 +30,7 @@ class GenericParticleSizer(object):
         :param dp_units: ['um', 'nm']
         :param fmt: ['dn', 'dndlogdp']
         """
-        self.data = data
+        self.data = data.copy(deep=True)
         self.bins = bins
         self.meta = kwargs.pop('meta', dict())
         self.bin_labels = kwargs.pop('bin_labels', None)
@@ -388,5 +388,6 @@ class Grimm11D(GenericParticleSizer):
                         12.5, 15., 17.5, 20., 25., 30., 32., 35.])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
 
-        super(Grimm11D, self).__init__(bins=bins, fmt='dn', **kwargs)
+        super(Grimm11D, self).__init__(bins=bins, fmt=fmt, **kwargs)
