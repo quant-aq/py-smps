@@ -23,7 +23,9 @@ jobs:
                 create_virtualenvs: true
 
             - name: Install dependencies
-              run: poetry install
+              run: |
+                source $HOME/.poetry/env
+                poetry install
 
             - name: Run tests and generate coverage report
               run: |
