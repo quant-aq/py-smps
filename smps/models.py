@@ -198,24 +198,27 @@ class GenericParticleSizer(object):
         if weight == "number":
             res.loc[idx, "AM"] = 1e3*cpy.dn.mul(self.midpoints).sum(axis=1) / res.loc[idx, "number"]
             res.loc[idx, "GM"] = 1e3*np.exp(cpy.dn.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "number"])
-            res.loc[idx, "Mode"] = cpy.dndlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dndlogdp.columns.get_loc(x.idxmax())], axis=1)
+            rename_cols_dict = dict(zip(cpy.dndlogdp.columns, cpy.midpoints))
+            res.loc[idx, "Mode"] = 1e3 * cpy.dndlogdp.rename(columns=rename_cols_dict).idxmax(axis=1)
 
             tmp = cpy.dn.assign(GM=res.loc[idx, 'GM'].values)
         elif weight == "surface":
             res.loc[idx, "AM"] = 1e3 * cpy.ds.mul(self.midpoints).sum(axis=1) / res.loc[idx, "surface_area"]
             res.loc[idx, "GM"] = 1e3 * np.exp(cpy.ds.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "surface_area"])
-            res.loc[idx, "Mode"] = cpy.dsdlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dsdlogdp.columns.get_loc(x.idxmax())], axis=1)
+            rename_cols_dict = dict(zip(cpy.dndlogdp.columns, cpy.midpoints))
+            res.loc[idx, "Mode"] = 1e3 * cpy.dndlogdp.rename(columns=rename_cols_dict).idxmax(axis=1)
 
             tmp = cpy.ds.assign(GM=res.loc[idx, 'GM'].values)
         else:
             res.loc[idx, "AM"] = 1e3 * cpy.dv.mul(self.midpoints).sum(axis=1) / res.loc[idx, "volume"]
             res.loc[idx, "GM"] = 1e3 * np.exp(cpy.dv.mul(np.log(self.midpoints), axis=1).sum(axis=1) / res.loc[idx, "volume"])
-            res.loc[idx, "Mode"] = cpy.dvdlogdp.apply(lambda x: 1e3*cpy.midpoints[cpy.dvdlogdp.columns.get_loc(x.idxmax())], axis=1)
+            rename_cols_dict = dict(zip(cpy.dndlogdp.columns, cpy.midpoints))
+            res.loc[idx, "Mode"] = 1e3 * cpy.dndlogdp.rename(columns=rename_cols_dict).idxmax(axis=1)
 
             tmp = cpy.dv.assign(GM=res.loc[idx, 'GM'].values)
 
         # calculate the GSD
-        res.loc[idx, "GSD"] = tmp.apply(self._gsd, axis=1)
+        res.loc[idx, "GSD"] = self._gsd(tmp)
 
         # delete the cpy to free up memory
         del cpy, tmp
@@ -284,24 +287,21 @@ class GenericParticleSizer(object):
 
         return
 
-    def _gsd(self, row):
+    def _gsd(self, df):
         """Private function to calculate the geometric standard deviation for a
         lognormal distribution. The equation used is:
 
         log...
         """
-        # find the row that the geometric mean is in
-        idx = row.index.isin(["GM"])
 
         # calculate the GM in units of microns
-        gm = row.loc[idx]['GM'] * 1e-3
-
-        # grab the row with the exception of the GM
-        # at this point, the row will have the histogram and nothing else
-        row = row.loc[~idx]
-
+        gm = df['GM'] * 1e-3
+        
+        # drop GM. At this point, the row will have the histogram and nothing else
+        df = df.drop("GM", axis=1)
+        
         # calculate the geometric standard deviation
-        gsd = np.exp(np.sqrt((row.mul((np.log(self.midpoints) - np.log(gm))**2).sum()) / (row.sum() - 1)))
+        gsd = np.exp(np.sqrt((df.mul(((df*0).add(np.log(self.midpoints), axis=1).sub(np.log(gm), axis=0))**2).sum(axis=1)) / (df.sum(axis=1)-1)))
 
         return gsd
 
