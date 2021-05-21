@@ -1,5 +1,5 @@
 name: run tests and report results
-on: [pull_request]
+on: [workflow_dispatch]
 jobs:
     tests:
         runs-on: ubuntu-latest
@@ -20,7 +20,7 @@ jobs:
               uses: snok/install-poetry@v1.1.1
               with:
                 version: 1.1.4
-                create_virtualenvs: true
+                virtualenvs-create: true
 
             - name: Install dependencies
               run: |
