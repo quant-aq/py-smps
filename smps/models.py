@@ -33,10 +33,23 @@ class GenericParticleSizer(object):
     """
     def __init__(self, data, bins, **kwargs):
         """
-        :param data:
-        :param bins:
-        :param dp_units: ['um', 'nm']
-        :param fmt: ['dn', 'dndlogdp']
+
+        Parameters
+        ----------
+        data: [type here]
+            [Description here]
+        bins: [type here]
+        dp_units: 
+        fmt: 
+
+        Returns
+        -------
+
+        Examples
+        --------
+        
+        >>>
+        
         """
         self.data = data.copy(deep=True)
         self.bins = bins

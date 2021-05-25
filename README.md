@@ -41,7 +41,16 @@ $ poetry run pytest tests/ --ignore=tests/datafiles
 
 ## Documentation
 
-I will eventually finish writing nice/new documentation, but for now you can check out the examples [here](/examples) which cover most use cases.
+Documentation is available [here](add-link-later). Docs are built using Sphinx and can be built locally by doing the following:
+
+```sh
+$ cd docs/
+$ make clean
+$ make html
+$ cd ..
+```
+
+Then, you can navigate to your local directory at `docs/_build/html/` and open up the `index.html` file in your preferred browser window.
 
 
 ## Contributing to Development
