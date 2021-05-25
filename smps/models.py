@@ -10,8 +10,16 @@ import joblib
 import json
 from .utils import make_bins
 
-__all__ = ["GenericParticleSizer", "SMPS", "AlphasenseOpcN2", "AlphasenseOpcN3", 
-            "POPS", "ParticlesPlus", "Grimm11D"]
+
+__all__ = [
+    "GenericParticleSizer", 
+    "SMPS", 
+    "AlphasenseOPCN2", 
+    "AlphasenseOPCN3", 
+    "POPS", 
+    "ParticlesPlus", 
+    "Grimm11D"
+]
 
 
 class GenericParticleSizer(object):
@@ -25,12 +33,25 @@ class GenericParticleSizer(object):
     """
     def __init__(self, data, bins, **kwargs):
         """
-        :param data:
-        :param bins:
-        :param dp_units: ['um', 'nm']
-        :param fmt: ['dn', 'dndlogdp']
+
+        Parameters
+        ----------
+        data: [type here]
+            [Description here]
+        bins: [type here]
+        dp_units: 
+        fmt: 
+
+        Returns
+        -------
+
+        Examples
+        --------
+        
+        >>>
+        
         """
-        self.data = data
+        self.data = data.copy(deep=True)
         self.bins = bins
         self.meta = kwargs.pop('meta', dict())
         self.bin_labels = kwargs.pop('bin_labels', None)
@@ -314,7 +335,7 @@ class SMPS(GenericParticleSizer):
         return "<SMPS>"
 
 
-class AlphasenseOpcN2(GenericParticleSizer):
+class AlphasenseOPCN2(GenericParticleSizer):
     """
     The Alphasense OPC-N2 is a consumer-grade optical particle counter
     that uses a 658 nm red laser to count and size individual particles. It
@@ -325,11 +346,13 @@ class AlphasenseOpcN2(GenericParticleSizer):
                             4., 5., 6.5, 8., 10., 12., 14., 16., 17.5])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop("bin_labels", ["bin{}".format(i) for i in range(bins.shape[0])])
 
-        super(AlphasenseOpcN2, self).__init__(bins=bins, fmt='dn', **kwargs)
+        super(AlphasenseOPCN2, self).__init__(bins=bins, fmt=fmt, bin_labels=bin_labels, **kwargs)
 
 
-class AlphasenseOpcN3(GenericParticleSizer):
+class AlphasenseOPCN3(GenericParticleSizer):
     """
     The Alphasense OPC-N3 is a consumer-grade optical particle counter
     that uses a 658 nm red laser to count and size individual particles. It
@@ -341,8 +364,10 @@ class AlphasenseOpcN3(GenericParticleSizer):
                             20., 22., 25., 28., 31., 34., 37., 40.])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop("bin_labels", ["bin{}".format(i) for i in range(bins.shape[0])])
 
-        super(AlphasenseOpcN3, self).__init__(bins=bins, fmt='dn', **kwargs)
+        super(AlphasenseOPCN3, self).__init__(bins=bins, fmt=fmt, bin_labels=bin_labels, **kwargs)
 
 
 class POPS(GenericParticleSizer):
@@ -359,7 +384,10 @@ class POPS(GenericParticleSizer):
         # make the 3xn array of bins using the utility function make_bins()
         bins = kwargs.pop('bins', make_bins(boundaries=bb))
 
-        super(POPS, self).__init__(bins=bins, **kwargs)
+        #
+        fmt = kwargs.pop("fmt", "dn")
+
+        super(POPS, self).__init__(bins=bins, fmt=fmt, bin_labels=bin_labels, **kwargs)
 
 
 class ParticlesPlus(GenericParticleSizer):
@@ -372,8 +400,10 @@ class ParticlesPlus(GenericParticleSizer):
         bb = np.array([0.3, 0.5, 0.7, 1., 2.5, 10.0, 10.1])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop("bin_labels", ["bin{}".format(i) for i in range(bins.shape[0])])
 
-        super(ParticlesPlus, self).__init__(bins=bins, fmt='dn', **kwargs)
+        super(ParticlesPlus, self).__init__(bins=bins, fmt=fmt, bin_labels=bin_labels, **kwargs)
 
 
 class Grimm11D(GenericParticleSizer):
@@ -388,5 +418,7 @@ class Grimm11D(GenericParticleSizer):
                         12.5, 15., 17.5, 20., 25., 30., 32., 35.])
 
         bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop("bin_labels", ["bin{}".format(i) for i in range(bins.shape[0])])
 
-        super(Grimm11D, self).__init__(bins=bins, fmt='dn', **kwargs)
+        super(Grimm11D, self).__init__(bins=bins, fmt=fmt, bin_labels=bin_labels, **kwargs)
