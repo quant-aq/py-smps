@@ -1,17 +1,13 @@
 import smps
-import os
 import pandas as pd
 import numpy as np
 from scipy.stats import linregress
 import matplotlib.pyplot as plt
 import pytest
 
-basedir = os.path.dirname(os.path.abspath(__file__))
-datadir = os.path.join(basedir, "datafiles")
-
 
 def test_smps_from_txt():
-    res =smps.io.smps_from_txt(os.path.join(datadir, "test_data_number.txt"), column=False)
+    res =smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt", column=False)
 
     assert "meta" in res.keys()
     assert "units" in res.keys()
@@ -31,7 +27,7 @@ def test_smps_from_txt():
 
 
 def test_smps_from_txt_columns():
-    res = smps.io.smps_from_txt(os.path.join(datadir, "test_data_column.txt"))
+    res = smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/mit_chamber_sample_column.txt")
 
     assert "meta" in res.keys()
     assert "units" in res.keys()
