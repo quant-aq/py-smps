@@ -14,6 +14,7 @@ default_cmap = 'viridis'
 
 __all__ = ["heatmap", "histplot"]
 
+
 def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
             cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, **kwargs):
     """Plot the heatmap of the particle size distribution. All NaN'd values
@@ -57,15 +58,16 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
 
         ax.yaxis.set_major_formatter(ScalarFormatter())
 
-    ax.set_ylabel("$D_p \; [\mu m]$")
+    ax.set_ylabel(r"$D_p\;[\mu m]$")
 
     if cbar:
         # Set the figure keywords
-        cbar_kws = dict(dict(label='$dN/dlogD_p \; [cm^{-3}]$'), **cbar_kws)
+        cbar_kws = dict(dict(label=r'$dN/dlogD_p\;[cm^{-3}]$'), **cbar_kws)
 
         clb = plt.colorbar(im, **cbar_kws)
 
     return ax
+
 
 def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
     """Plot the histogram in the form of a bar chart."""
@@ -87,7 +89,7 @@ def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
 
     ax.semilogx()
 
-    ax.set_xlabel("$D_p \; [\mu m]$")
+    ax.set_xlabel(r"$D_p\;[\mu m]$")
 
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("%.3g"))
 

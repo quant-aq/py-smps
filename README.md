@@ -30,25 +30,28 @@ To install the edge release directly from GitHub:
 
     pip install git+https://github.com/dhhagan/py-smps.git
 
-Feel free to download or clone the repository as well and install from source.
-
-    python3 setup.py install (--upgrade)
-
 ## Unittests
 
 Unittests can be run by issuing the following command from within the main repo:
 
-    $ python3 setup.py test
-
-They can also be run with coverage (if installed) by running the following in succession:
-
-    $ coverage run --source smps setup.py test
-    $ coverage report -m
+```sh
+$ poetry run pytest tests/ --ignore=tests/datafiles
+```
 
 
 ## Documentation
 
-I will eventually finish writing nice/new documentation, but for now you can check out the examples [here](/examples) which cover most use cases.
+Documentation is available [here](add-link-later). Docs are built using Sphinx and can be built locally by doing the following:
+
+```sh
+$ cd docs/
+$ make clean
+$ make html
+$ cd ..
+```
+
+Then, you can navigate to your local directory at `docs/_build/html/` and open up the `index.html` file in your preferred browser window.
+
 
 ## Contributing to Development
 

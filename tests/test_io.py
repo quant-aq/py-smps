@@ -4,46 +4,9 @@ import numpy as np
 from scipy.stats import linregress
 import matplotlib.pyplot as plt
 import pytest
+from smps.io import load_sample
 
 
-def test_smps_from_txt():
-    res =smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt", column=False)
-
-    assert "meta" in res.keys()
-    assert "units" in res.keys()
-    assert "weight" in res.keys()
-    assert "data" in res.keys()
-    assert "bins" in res.keys()
-    assert "bin_labels" in res.keys()
-    assert "bin_prefix" in res.keys()
-
-    assert isinstance(res['meta'], dict)
-    assert isinstance(res["units"], str)
-    assert isinstance(res["weight"], str)
-    assert isinstance(res["data"], pd.DataFrame)
-    assert isinstance(res["bins"], np.ndarray)
-    assert isinstance(res["bin_labels"], list)
-    assert isinstance(res["bin_prefix"], str)
-
-
-def test_smps_from_txt_columns():
-    res = smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/mit_chamber_sample_column.txt")
-
-    assert "meta" in res.keys()
-    assert "units" in res.keys()
-    assert "weight" in res.keys()
-    assert "data" in res.keys()
-    assert "bins" in res.keys()
-    assert "bin_labels" in res.keys()
-    assert "bin_prefix" in res.keys()
-
-    assert isinstance(res['meta'], dict)
-    assert isinstance(res["units"], str)
-    assert isinstance(res["weight"], str)
-    assert isinstance(res["data"], pd.DataFrame)
-    assert isinstance(res["bins"], np.ndarray)
-    assert isinstance(res["bin_labels"], list)
-    assert isinstance(res["bin_prefix"], str)
 
 # def test_generic():
 #     res = smps.io.smps_from_txt(os.path.join(datadir, "test_data_number.txt"), column=False)
@@ -247,3 +210,19 @@ def test_smps_from_txt_columns():
     #     number.resample("1min", inplace=True)
 
     #     stats = number.stats(weight='number')
+
+def testObjects():
+    obj = load_sample("boston")
+
+    assert isinstance(obj, smps.SMPS)
+    assert isinstance(obj, smps.GenericParticleSizer)
+    assert isinstance(obj.data, pd.DataFrame)
+
+    # Check the keys
+    assert hasattr(obj, "meta")
+    assert isinstance(obj.meta, dict)
+    assert isinstance(obj.meta.get('units'), str)
+    assert isinstance(obj.meta.get('weight'), str)
+    assert isinstance(obj.data, pd.DataFrame)
+    assert isinstance(obj.bins, np.ndarray)
+    assert isinstance(obj.bin_labels, list)
