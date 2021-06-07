@@ -58,7 +58,7 @@ class GenericParticleSizer(object):
         # if bin_labels were not provided, try to generate them
         if self.bin_labels is None:
             self.bin_labels = [c for c in self.data.columns if 
-                               wargs.pop("bin_prefix", "bin") in c]
+                               kwargs.pop("bin_prefix", "bin") in c]
 
         # if no bin labels exist, raise an error
         assert(len(self.bin_labels) > 0), ("No bin labels have been "
