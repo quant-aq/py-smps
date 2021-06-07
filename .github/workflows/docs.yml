@@ -1,5 +1,5 @@
 name: docs/gh-pages
-on: push
+on: workflow-dispatch
   # create:
   #   tags:
   #     - v*
