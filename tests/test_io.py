@@ -6,9 +6,6 @@ import matplotlib.pyplot as plt
 import pytest
 from smps.io import load_sample
 import unittest
-import os
-
-datadir = "datafiles/"
 
 class TestClass(unittest.TestCase):
 
@@ -78,16 +75,22 @@ class TestClass(unittest.TestCase):
 
     def test_generic_calculations(self):
         number = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_number.txt"),
-                        column=False, as_dict=False)
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
+            column=False, 
+            as_dict=False
+        )
 
         surface = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_surface_area.txt"),
-                        column=False, as_dict=False)
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_surface_area.txt",
+            column=False, 
+            as_dict=False
+        )
 
         volume = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_volume.txt"),
-                        column=False, as_dict=False)
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_volume.txt",
+            column=False, 
+            as_dict=False
+        )
 
         # using the number data, compare our calculations using 'stats()' to
         # those that the AIM software output
@@ -202,8 +205,10 @@ class TestClass(unittest.TestCase):
         from smps.fit import LogNormal
 
         r = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_number.txt"),
-                        column=False, as_dict=False)
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
+            column=False, 
+            as_dict=False
+        )
 
         # fit 1 mode in volume number space
         m = LogNormal()
@@ -212,8 +217,10 @@ class TestClass(unittest.TestCase):
 
     def test_calculations_with_nans(self):
         number = smps.io.smps_from_txt(
-                        os.path.join(datadir, "test_data_number.txt"),
-                        column=False, as_dict=False)
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
+            column=False, 
+            as_dict=False
+        )
 
         number.resample("1min", inplace=True)
 
