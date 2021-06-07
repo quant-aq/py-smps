@@ -134,10 +134,6 @@ class GenericParticleSizer(object):
         """
         return self.data[self.bin_labels]
 
-#     @property
-#     def dd(self):
-#         return self.dddlogdp.mul(self.dlogdp)
-
     @property
     def dddlogdp(self):
         """
@@ -253,7 +249,7 @@ class GenericParticleSizer(object):
         
         :param weight: The dimension to consider in computing 
             statistics.
-        :type weight: {"number", "surface", "volume"}
+        :type weight: {"number", "surface", "volume", "mass"}
         :param dmin: The minimum particle diameter in microns, 
             defaults to `0`.
         :type dmin: float
@@ -363,7 +359,13 @@ class GenericParticleSizer(object):
             )
 
             tmp = cpy.dv.assign(GM=res.loc[idx, 'GM'].values)
-
+        
+        if weight == "mass":
+            res.loc[idx, "AM"] = res.loc[idx, "AM"] * rho
+            res.loc[idx, "GM"] = res.loc[idx, "GM"] * rho
+            res.loc[idx, "Mode"] = res.loc[idx, "Mode"] * rho
+        
+        
         # calculate the GSD
         res.loc[idx, "GSD"] = self._gsd(tmp)
 
@@ -379,8 +381,8 @@ class GenericParticleSizer(object):
         (with a diameter between `dmin` and `dmax`) at that time.
         
         :param weight: The variable to sum over, 
-            defaults to 'number'.
-        :type weight: {'number', 'surface', 'volume', 'mass'}
+            defaults to "number".
+        :type weight: {"number", "surface", "volume", "mass"}
         :param dmin: The minimum particle diameter in microns, 
             defaults to `0`.
         :type dmin: float
@@ -397,7 +399,7 @@ class GenericParticleSizer(object):
 
         weight = weight.lower()
 
-        assert(weight in ['number', 'surface', 'volume']), \
+        assert(weight in ['number', 'surface', 'volume', 'mass']), \
         "Invalid `weight`"
 
         if weight == 'number':
