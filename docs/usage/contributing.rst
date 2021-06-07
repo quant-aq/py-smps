@@ -38,8 +38,8 @@ Testing
 
     $ poetry run coverage run -m unittest discover
 
-We support a number of Python versions. Currently, we support and test for 3.6, 
-3.7, and 3.8. These tests are automated and run as GitHub actions on every 
+We support a number of Python versions. Currently, we support and test for 3.7, 
+3.8, and 3.9. These tests are automated and run as GitHub actions on every 
 pull request.
 
 .. _issue tracker: https://github.com/quant-aq/py-smps/issues
