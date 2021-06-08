@@ -32,10 +32,10 @@ jobs:
                 poetry run pytest tests/ --ignore=tests/datafiles --cov=./ --cov-report=xml
 
             - name: Upload coverage report to Codecov
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@v1.5.0
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}
-                file: ./coverage.xml
+                files: ./coverage.xml
                 flags: unittests
                 name: codecov-umbrella
                 fail_ci_if_error: true
