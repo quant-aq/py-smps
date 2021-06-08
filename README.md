@@ -4,9 +4,7 @@
 
 
 # py-smps
-Python library for the analysis and visualization of data from a Scanning Mobility Particle Sizer (SMPS) and other similar instruments (SEMS, OPC's).
-
-If you use this for scientific research, please cite? It's all I've got...
+Python library for the analysis and visualization of data from a Scanning Mobility Particle Sizer (SMPS) and other particle sizing instruments (SEMS, OPC's).
 
 ## Dependencies
 
@@ -18,7 +16,7 @@ If you use this for scientific research, please cite? It's all I've got...
 
 ## Python Versions
 
-Currently, only Python3.3+ is supported. If you are using/relying on Python2.7, it is time to switch!
+Currently, Python3.7+ is supported and we test against Python 3.7, 3.8, and 3.9.
 
 ## Installation
 
@@ -28,7 +26,7 @@ To install from PyPi:
 
 To install the edge release directly from GitHub:
 
-    pip install git+https://github.com/dhhagan/py-smps.git
+    pip install git+https://github.com/quant-aq/py-smps.git
 
 ## Unittests
 
@@ -55,9 +53,9 @@ Then, you can navigate to your local directory at `docs/_build/html/` and open u
 
 ## Contributing to Development
 
-I threw this together because I was tired of analyzing SMPS data with proprietary software. Please help me contribute?
+We welcome all contributions from the community in the form of issues reporting, feature requests, bug fixes, etc.
 
-If there is a feature you would like to see or a bug you would like to report, please open an issue. I will try to get to things as promptly as possible. Otherwise, feel free to send PR's!
+If there is a feature you would like to see or a bug you would like to report, please open an issue. We will try to get to things as promptly as possible. Otherwise, feel free to send PR's!
 
 
 ## Colorbar Information

@@ -5,7 +5,7 @@ description = "A simple python library to import and visualize data from particl
 authors = ["David H Hagan <david.hagan@quant-aq.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/dhhagan/py-smps"
+repository = "https://github.com/quant-aq/py-smps"
 packages = [
     { include="smps", from="." }
 ]
