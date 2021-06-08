@@ -23,12 +23,18 @@ jobs:
             - name: Install dependencies
               run: poetry install
             
-            - name: build docs
-              run: |
-                cd docs
-                make clean
-                make html
-                cd ..
+            # - name: build docs
+            #   run: |
+            #     cd docs
+            #     make clean
+            #     make html
+            #     cd ..
+            - name: Build docs
+              uses: ammaraskar/sphinx-action@master
+              with:
+                docs-folder: "docs/"
+                pre-build-command: "make clean"
+                build-command: "make html"
             
             - name: deploy to gh-pages
               uses: Cecilapp/GitHub-Pages-deploy@master
