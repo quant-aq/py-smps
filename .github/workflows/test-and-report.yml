@@ -1,11 +1,11 @@
 name: run tests and report results
-on: [pull_request]
+on: [pull_request, workflow_dispatch]
 jobs:
     tests:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python: [3.6, 3.7, 3.8, 3.9]
+                python: [3.7, 3.8, 3.9]
         name: Python ${{ matrix.python }}
         steps:
             - name: Checkout branch
@@ -20,7 +20,7 @@ jobs:
               uses: snok/install-poetry@v1.1.1
               with:
                 version: 1.1.4
-                create_virtualenvs: true
+                virtualenvs-create: true
 
             - name: Install dependencies
               run: |
@@ -32,10 +32,10 @@ jobs:
                 poetry run pytest tests/ --ignore=tests/datafiles --cov=./ --cov-report=xml
 
             - name: Upload coverage report to Codecov
-              uses: codecov/codecov-action@v1
+              uses: codecov/codecov-action@v1.5.0
               with:
                 token: ${{ secrets.CODECOV_TOKEN }}
-                file: ./coverage.xml
+                files: ./coverage.xml
                 flags: unittests
                 name: codecov-umbrella
                 fail_ci_if_error: true
