@@ -41,7 +41,7 @@ $ poetry run pytest tests/ --ignore=tests/datafiles
 
 ## Documentation
 
-Documentation is available [here](add-link-later). Docs are built using Sphinx and can be built locally by doing the following:
+Documentation is available [here](https://quant-aq.github.io/py-smps/). Docs are built using Sphinx and can be built locally by doing the following:
 
 ```sh
 $ cd docs/
