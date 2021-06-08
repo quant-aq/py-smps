@@ -35,16 +35,11 @@ jobs:
                 make clean
                 make html
                 cd ..
-            # - name: Build docs
-            #   uses: ammaraskar/sphinx-action@master
-            #   with:
-            #     docs-folder: "docs/"
-            #     # pre-build-command: "make clean"
-            #     # build-command: "make html"
-            
+
             - name: deploy to gh-pages
-              uses: Cecilapp/GitHub-Pages-deploy@master
+              uses: Cecilapp/GitHub-Pages-deploy@v3
               env:
-                EMAIL: david.hagan@quant-aq.com
-                GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-                BUILD_DIR: docs/_build/html
+                GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+              with:
+                email: david.hagan@quant-aq.com
+                build_dir: docs/_build/html
