@@ -18,27 +18,29 @@ jobs:
                 python-version: 3.8
             
             - name: Install poetry
-              uses: snok/install-poetry@v1.1.6
+              uses: snok/install-poetry@v1.1.4
               with:
-                version: 1.1.6
+                version: 1.1.4
                 virtualenvs-create: true
+                virtualenvs-in-project: true
             
             - name: Install dependencies
               run: |
                 poetry install
             
-            # - name: build docs
-            #   run: |
-            #     cd docs
-            #     make clean
-            #     make html
-            #     cd ..
-            - name: Build docs
-              uses: ammaraskar/sphinx-action@master
-              with:
-                docs-folder: "docs/"
-                # pre-build-command: "make clean"
-                # build-command: "make html"
+            - name: build docs
+              run: |
+                source .venv/bin/activate 
+                cd docs
+                make clean
+                make html
+                cd ..
+            # - name: Build docs
+            #   uses: ammaraskar/sphinx-action@master
+            #   with:
+            #     docs-folder: "docs/"
+            #     # pre-build-command: "make clean"
+            #     # build-command: "make html"
             
             - name: deploy to gh-pages
               uses: Cecilapp/GitHub-Pages-deploy@master
