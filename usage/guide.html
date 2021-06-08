@@ -1,0 +1,403 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Contribution" href="contributing.html" /><link rel="prev" title="Installation" href="installation.html" />
+
+    <meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
+        <title>Quick Start Guide - py-smps 2.0.0-alpha.1 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">py-smps 2.0.0-alpha.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">py-smps 2.0.0-alpha.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Quick Start Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <div class="section" id="quick-start-guide">
+<h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="importing-data">
+<h2>Importing Data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
+<p>You’ll first have to import your data into a Pandas DataFrame.  You can read more on that <a class="reference external" href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html">here</a>. Timestamps should index the rows.</p>
+<p>If your data comes from a particle sizer with an existing class, <code class="docutils literal notranslate"><span class="pre">AlphasenseOPCN3</span></code> for example, you can simply instantiate with the data - bin information will already be set up</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">smps</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/mydata.csv"</span><span class="p">)</span>
+<span class="n">my_smps_model</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">AlphasenseOPCN3</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the bins are titled something other than ‘bin0’, ‘bin1’, ‘bin2’ etc. you will need to also give a list of the bin names</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">smps</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/mydata.csv"</span><span class="p">)</span>
+<span class="n">my_smps_model</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">AlphasenseOPCN3</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">bin_labels</span><span class="o">=</span><span class="n">my_list_of_labels</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If your data comes from a particle sizer without an existing class you can load it into the <a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">smps.models.GenericParticleSizer</span></a> or <code class="docutils literal notranslate"><span class="pre">smps.models.SMPS</span></code> class, and use <a class="reference internal" href="api.html#the-make-bins"><span class="std std-ref">smps.utils.make_bins</span></a> to set up the bins.</p>
+</div>
+<div class="section" id="computing-statistics">
+<h2>Computing Statistics<a class="headerlink" href="#computing-statistics" title="Permalink to this headline">¶</a></h2>
+<p>You can see all the the meta information that was held in the SMPS file by evaluating <code class="docutils literal notranslate"><span class="pre">my_smps_model.meta</span></code>.</p>
+<p><a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.bins</span></a> is an nx3 array that contains the left, middle, and right side of each bin in the dataset. <a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.midpoints</span></a> is simply the center column of bins. NOTE: All diameters are expected to be in nm. This can be changed by altering the <code class="docutils literal notranslate"><span class="pre">dp_units</span></code> argument. All diameters are then promptly converted to microns.</p>
+<p><a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.histogram</span></a> contains the histogram as a pandas DataFrame. The index is a timeseries and can easily be manipulated. <a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.raw</span></a> contains both the histogram and all aditional information that the SMPS records including means, modes, etc. It also is a pandas DataFrame.</p>
+<p><a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.stats</span></a> contains the statistics generated by the SMPS. You can weight by number, surface area, or volume and the results include the total number of particles, total surface area, total volume, total mass, the arithmetic mean (AM), the geometric mean (GM), the mode, and the geometric standard deviation (GSD).</p>
+<p>In addition, you can integrate or calculate the stats over just a small section of the distribution by leveraging the <code class="docutils literal notranslate"><span class="pre">dmin</span></code> and <code class="docutils literal notranslate"><span class="pre">dmax</span></code> arguments.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_smps_model</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="s1">'number'</span><span class="p">,</span> <span class="n">dmin</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">dmax</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can go ahead and resample the data by mean if we would like to! Under the hood, this method splits the raw dataframe into numeric and non-numeric columns before resampling by mean the numeric columns and the non-numerics by ‘first’. If <code class="docutils literal notranslate"><span class="pre">inplace=True</span></code>, then it will save the resampled data and replace the current raw dataframe. Otherwise, it will return a copy of the object.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_smps_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"5min"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="making-plots">
+<h2>Making Plots<a class="headerlink" href="#making-plots" title="Permalink to this headline">¶</a></h2>
+<p>Okay. All we really want to do is visualize our data, right? Two common plots are a heatmap-like plot (<a class="reference internal" href="api.html#the-heatmap"><span class="std std-ref">smps.plots.heatmap</span></a>) and a particle size distribution (<a class="reference internal" href="api.html#the-histplot"><span class="std std-ref">smps.plots.histplot</span></a>).</p>
+<p>Here, we show how to use both of them. Each one returns a matplotlib axis object which can easily be manipulated as you would any other matplotlib object. This makes it easy to alter how they look, add lables, etc.</p>
+<p>There are plenty of ways to customize these plots. You can provide additional keyword arguments for the matplotlib bar chart (<code class="docutils literal notranslate"><span class="pre">plot_kws</span></code>) or the figure itself (<code class="docutils literal notranslate"><span class="pre">fig_kws</span></code>). You can also plot on an existing axis by providing that argument.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># You can use seaborn to easily control how your plots appear</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'notebook'</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">'ticks'</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'dark'</span><span class="p">)</span>
+
+<span class="c1"># Here we load some sample data.</span>
+<span class="n">bos</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">"boston"</span><span class="p">)</span>
+
+<span class="c1"># The time axis</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span><span class="o">.</span><span class="n">index</span>
+<span class="c1"># The bin midpoints</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">midpoints</span>
+<span class="c1"># The data to plot, in this case the number of particles</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">values</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'viridis'</span><span class="p">,</span> <span class="n">fig_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">)))</span>
+
+<span class="c1"># make the x axis dates look presentable</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">dates</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">HourLocator</span><span class="p">(</span><span class="n">byhour</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">]))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">dates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s2">"</span><span class="si">%d</span><span class="se">\n</span><span class="s2">%b</span><span class="se">\n</span><span class="s2">%Y"</span><span class="p">))</span>
+
+<span class="c1"># Go ahead and change things!</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Cambridge, MA Wintertime SMPS Data"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.02</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">);</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/heatmap.png"><img alt="A heatmap plot." src="../_images/heatmap.png" style="width: 600px;"/></a>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># You can use seaborn to easily control how your plots appear</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'notebook'</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">'ticks'</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'dark'</span><span class="p">)</span>
+
+<span class="c1"># Here we load some sample data.</span>
+<span class="n">bos</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">"boston"</span><span class="p">)</span>
+
+<span class="c1"># The histogram data.  Can be an array or a DataFrame</span>
+<span class="n">histogram</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span>
+<span class="c1"># The bin midpoints</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">bins</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">histogram</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'linewidth'</span><span class="p">:</span> <span class="mf">.01</span><span class="p">},</span> <span class="n">fig_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">)))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Cambridge, MA Wintertime Size Distribution"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$dN/dlogD_p \; [cm^{-3}]$"</span><span class="p">)</span>
+
+<span class="c1"># Remove the spines</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/histogram.png"><img alt="A single histogram plot." src="../_images/histogram.png" style="width: 600px;"/></a>
+<p>Let’s plot two seperate days and make them slightly transparent. Let’s also go ahead and get rid of the linewidth on the individual bars.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># You can use seaborn to easily control how your plots appear</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'notebook'</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">'ticks'</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'dark'</span><span class="p">)</span>
+
+<span class="c1"># Here we load some sample data.</span>
+<span class="n">bos</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">"boston"</span><span class="p">)</span>
+
+<span class="c1"># The histogram data.  Can be an array or a DataFrame</span>
+<span class="n">histogram</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span>
+<span class="c1"># The bin midpoints</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">bins</span>
+
+<span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"2016-11-23"</span><span class="p">,</span> <span class="s2">"2016-11-24"</span><span class="p">,</span> <span class="s2">"2016-11-25"</span><span class="p">]</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">date</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dates</span><span class="p">):</span>
+    <span class="n">color</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">plot_kws</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">histogram</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">date</span><span class="p">],</span> <span class="n">bins</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="n">plot_kws</span><span class="p">,</span> <span class="n">fig_kws</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">)))</span>
+
+<span class="c1"># Add us a legend!</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">dates</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">'best'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$dN/dlogD_p \; [cm^{-3}]$"</span><span class="p">)</span>
+
+<span class="c1"># Remove the spines</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/multihistogram.png"><img alt="Three histograms plotted on top of eachother." src="../_images/multihistogram.png" style="width: 600px;"/></a>
+</div>
+<div class="section" id="fitting-models">
+<h2>Fitting Models<a class="headerlink" href="#fitting-models" title="Permalink to this headline">¶</a></h2>
+<p>We can use the <a class="reference internal" href="api.html#the-smps-fit-module"><span class="std std-ref">smps.fit</span></a> module to fit a log-normal curve to our data.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># You can use seaborn to easily control how your plots appear</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s1">'notebook'</span><span class="p">,</span> <span class="n">style</span><span class="o">=</span><span class="s1">'ticks'</span><span class="p">,</span> <span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">'dark'</span><span class="p">)</span>
+
+<span class="c1"># Here we load some sample data.</span>
+<span class="n">bos</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">"boston"</span><span class="p">)</span>
+
+<span class="c1"># Grab the LogNormal class from the library</span>
+<span class="kn">from</span> <span class="nn">smps.fit</span> <span class="kn">import</span> <span class="n">LogNormal</span>
+
+<span class="c1"># Initiate an instance of the class</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogNormal</span><span class="p">()</span>
+
+<span class="c1"># Gather our X and Y data</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">midpoints</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="c1"># Go ahead and fit</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">modes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># plot the histogram</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">plots</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">bos</span><span class="o">.</span><span class="n">dndlogdp</span><span class="p">,</span> <span class="n">bos</span><span class="o">.</span><span class="n">bins</span><span class="p">,</span> <span class="n">plot_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'linewidth'</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">'alpha'</span><span class="p">:</span> <span class="mf">.6</span><span class="p">,</span> <span class="s1">'edgecolor'</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span><span class="n">fig_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'figsize'</span><span class="p">:</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">)})</span>
+
+<span class="c1"># Plot the fit values</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">results</span><span class="o">.</span><span class="n">fittedvalues</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">"Fit Data"</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"$dN/dlogD_p \; [cm^{-3}]$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Wintertime in Cambridge, MA with Fit Data"</span><span class="p">)</span>
+
+<span class="c1"># remove the spines of the plot</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/fitfig.png"><img alt="A fitted curve superimposed over a histogram." src="../_images/fitfig.png" style="width: 600px;"/></a>
+<p>Within the module we can use <a class="reference internal" href="api.html#the-lnfr"><span class="std std-ref">smps.fit.summary</span></a> to print a summary table.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">modes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">summary</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Or we can use <a class="reference internal" href="api.html#the-lnfr"><span class="std std-ref">smps.fit.predict</span></a> to extrapolate with the model.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">newX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mf">.01</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">newY</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">newX</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="contributing.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Contribution</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="installation.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Installation</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2020-2021, QuantAQ, Inc.
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/usage/guide.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Quick Start Guide</a><ul>
+<li><a class="reference internal" href="#importing-data">Importing Data</a></li>
+<li><a class="reference internal" href="#computing-statistics">Computing Statistics</a></li>
+<li><a class="reference internal" href="#making-plots">Making Plots</a></li>
+<li><a class="reference internal" href="#fitting-models">Fitting Models</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+</html>
