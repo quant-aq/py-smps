@@ -592,7 +592,7 @@ class AlphasenseOPCN3(GenericParticleSizer):
             **kwargs
         )
 
-class MODULAIR_PM(GenericParticleSizer):
+class ModulairPM(GenericParticleSizer):
     """
     QuantAQ's MODULAIR-PM sensors use the Alphasense OPC-N3,
     a consumer-grade optical particle counter that uses a 658 nm 
@@ -619,7 +619,7 @@ class MODULAIR_PM(GenericParticleSizer):
             **kwargs
         )
 
-class MODULAIR(GenericParticleSizer):
+class Modulair(GenericParticleSizer):
     """
     QuantAQ's MODULAIR sensors use the Alphasense OPC-N3,
     a consumer-grade optical particle counter that uses a 658 nm 
