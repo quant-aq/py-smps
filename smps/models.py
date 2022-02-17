@@ -16,6 +16,8 @@ __all__ = [
     "SMPS", 
     "AlphasenseOPCN2", 
     "AlphasenseOPCN3", 
+    "ModulairPM", 
+    "Modulair", 
     "POPS", 
     "ParticlesPlus", 
     "Grimm11D"
@@ -586,6 +588,63 @@ class AlphasenseOPCN3(GenericParticleSizer):
         )
 
         super(AlphasenseOPCN3, self).__init__(
+            bins=bins, 
+            fmt=fmt, 
+            bin_labels=bin_labels, 
+            **kwargs
+        )
+
+class ModulairPM(GenericParticleSizer):
+    """
+    QuantAQ's MODULAIR-PM sensors use the Alphasense OPC-N3,
+    a consumer-grade optical particle counter that uses a 658 nm 
+    red laser to count and size individual particles. It can 
+    count particles between 380-40,000 nm. Read more 
+    `here <https://www.alphasense.com/products/optical-particle-counter/>`__.
+    """
+    def __init__(self, **kwargs):
+        bb = np.array([0.35, 0.46, 0.66, 1., 1.3, 1.7, 2.3, 3.,
+                            4., 5.2, 6.5, 8., 10., 12., 14., 16., 18.,
+                            20., 22., 25., 28., 31., 34., 37., 40.])
+
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop(
+            "bin_labels", 
+            ["bin{}".format(i) for i in range(bins.shape[0])]
+        )
+
+        super(ModulairPM, self).__init__(
+            bins=bins, 
+            fmt=fmt, 
+            bin_labels=bin_labels, 
+            **kwargs
+        )
+
+class Modulair(GenericParticleSizer):
+    """
+    QuantAQ's MODULAIR sensors use the Alphasense OPC-N3,
+    a consumer-grade optical particle counter that uses a 658 nm 
+    red laser to count and size individual particles. It can 
+    count particles between 380-40,000 nm. However, because the last
+    few bins (bin18-bin24) collect negligible data, they are removed to conserve 
+    memory, which means the MODULAIR data differs slightly from the MODULAIR-PM data.
+    Read more about the Alphasense OPC-N3
+    `here <https://www.alphasense.com/products/optical-particle-counter/>`__.
+    """
+    def __init__(self, **kwargs):
+        bb = np.array([0.35, 0.46, 0.66, 1., 1.3, 1.7, 2.3, 3.,
+                            4., 5.2, 6.5, 8., 10., 12., 14., 16., 18.,
+                            20., 22.,])
+
+        bins = kwargs.pop("bins", make_bins(boundaries=bb))
+        fmt = kwargs.pop("fmt", "dn")
+        bin_labels = kwargs.pop(
+            "bin_labels", 
+            ["bin{}".format(i) for i in range(bins.shape[0])]
+        )
+
+        super(Modulair, self).__init__(
             bins=bins, 
             fmt=fmt, 
             bin_labels=bin_labels, 

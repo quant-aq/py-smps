@@ -198,6 +198,22 @@ class TestClass(unittest.TestCase):
 #            print ("\t{} @ dmax={}".format(opc_col, dmax))
 #            print ("\t\tm={:.3f}, r2={:.3f}".format(m, r**2))
 
+    def test_models_modulairpm(self):
+        path_to_modpm = "https://raw.githubusercontent.com/quant-aq/py-smps/master/tests/datafiles/MOD-PM-SAMPLE.csv"
+        modpm_df = pd.read_csv(path_to_modpm)
+
+        modpm_model = smps.models.ModulairPM(data=modpm_df, fmt='dlogdn')
+        
+        integrated = modpm_model.integrate(weight='number', dmin=0.05, dmax=0.5)
+
+    def test_models_modulair(self):
+        path_to_mod = "https://raw.githubusercontent.com/quant-aq/py-smps/master/tests/datafiles/MODULAIR-SAMPLE.csv"
+        mod_df = pd.read_csv(path_to_mod)
+
+        mod_model = smps.models.Modulair(data=mod_df)
+
+        integrated = mod_model.integrate(weight='number', dmin=0.05, dmax=0.5)
+    
     def test_models_pops(self):
         pass
 
