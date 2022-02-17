@@ -16,6 +16,8 @@ __all__ = [
     "SMPS", 
     "AlphasenseOPCN2", 
     "AlphasenseOPCN3", 
+    "ModulairPM", 
+    "Modulair", 
     "POPS", 
     "ParticlesPlus", 
     "Grimm11D"
@@ -612,7 +614,7 @@ class ModulairPM(GenericParticleSizer):
             ["bin{}".format(i) for i in range(bins.shape[0])]
         )
 
-        super(MODULAIR_PM, self).__init__(
+        super(ModulairPM, self).__init__(
             bins=bins, 
             fmt=fmt, 
             bin_labels=bin_labels, 
@@ -642,7 +644,7 @@ class Modulair(GenericParticleSizer):
             ["bin{}".format(i) for i in range(bins.shape[0])]
         )
 
-        super(MODULAIR, self).__init__(
+        super(Modulair, self).__init__(
             bins=bins, 
             fmt=fmt, 
             bin_labels=bin_labels, 
