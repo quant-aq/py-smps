@@ -5,5 +5,5 @@ from .plots import *
 from .models import *
 from .rcmod import *
 
-__version__ = get_distribution("smps").version
+__version__ = get_distribution("py-smps").version
 
