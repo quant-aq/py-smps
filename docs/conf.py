@@ -12,8 +12,10 @@
 #
 import os
 import sys
+import matplotlib as mpl
 sys.path.insert(0, os.path.abspath('../smps/'))
 
+mpl.use("Agg")
 
 # -- Project information -----------------------------------------------------
 
@@ -42,8 +44,15 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.intersphinx',
     'sphinx.ext.autosectionlabel',
+    "sphinx_copybutton",
+    "matplotlib.sphinxext.plot_directive",
+    "myst_parser",
+    "numpydoc",
     # 'recommonmark',
 ]
+
+autosummary_generate = True
+numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -55,6 +64,18 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '.ipynb_checkpoints', 'u
 
 
 pygments_style = 'sphinx'
+
+# We need headers to be linkable to so ask MyST-Parser to autogenerate anchor IDs for
+# headers up to and including level 3.
+myst_heading_anchors = 3
+
+# Prettier support formatting some MyST syntax but not all, so let's disable the
+# unsupported yet still enabled by default ones.
+myst_disable_syntax = [
+    "myst_block_break",
+    "myst_line_comment",
+    "math_block",
+]
 
 # -- Options for HTML output -------------------------------------------------
 
