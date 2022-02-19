@@ -1,3 +1,5 @@
+*.sav
+
 examples/ignore_this.ipynb
 examples/development_private.ipynb
 
