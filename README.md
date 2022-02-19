@@ -44,6 +44,7 @@ Documentation is available [here](https://quant-aq.github.io/py-smps/). Docs are
 ```sh
 $ cd docs/
 $ make clean
+$ make guides
 $ make html
 $ cd ..
 ```
