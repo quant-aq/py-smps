@@ -2,13 +2,12 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Contribution" href="contributing.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <meta name="generator" content="sphinx-3.5.4, furo 2021.04.11.beta34"/>
-        <title>API Reference - py-smps 2.0.0-alpha.1 documentation</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=59ab60ac09ea94ccfe6deddff6d715cce948a6fc">
+    <meta name="generator" content="sphinx-3.5.4, furo 2021.06.18.beta36"/>
+        <title>API Reference - py-smps 2.0.0-alpha.2 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
     <link rel="stylesheet" href="../_static/pygments.css">
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
     
 
 
@@ -37,7 +36,10 @@
   --color-code-foreground: #d0d0d0;
   
   }
-</style><link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=d391b54134226e4196576da3bdb6dddb7e05ba2b"></head>
+</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=ee12cdd73c4bbac24afec78d92c4afd7c2d8ea7f"></head>
   <body dir="">
     
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -86,7 +88,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">py-smps 2.0.0-alpha.1 documentation</div></a>
+      <a href="../index.html"><div class="brand">py-smps 2.0.0-alpha.2 documentation</div></a>
     </div>
     <div class="header-right">
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
@@ -100,19 +102,59 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">py-smps 2.0.0-alpha.1 documentation</span>
+  <span class="sidebar-brand-text">py-smps 2.0.0-alpha.2 documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html">
   <input class="sidebar-search" placeholder=Search name="q">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide.html">Quick Start Guide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contribution</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">API Reference</a></li>
+  <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../guides/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/general_usage.html">General Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/curve_fitting.html">Curve Fitting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.load_sample.html">smps.io.load_sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.utils.make_bins.html">smps.utils.make_bins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html">smps.models.GenericParticleSizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.SMPS.html">smps.models.SMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Grimm11D.html">smps.models.Grimm11D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.POPS.html">smps.models.POPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ParticlesPlus.html">smps.models.ParticlesPlus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN2.html">smps.models.AlphasenseOPCN2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN3.html">smps.models.AlphasenseOPCN3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Modulair.html">smps.models.Modulair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ModulairPM.html">smps.models.ModulairPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.heatmap.html">smps.plots.heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.histplot.html">smps.plots.histplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.fit.LogNormal.html">smps.fit.LogNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.fit.LogNormalFitResults.html">smps.fit.LogNormalFitResults</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/issues.html">Reporting Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/patches.html">Submitting Patches or Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/tests.html">Tests</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
 </ul>
 
 </div>
@@ -552,7 +594,7 @@ midpoitns of the respective bins.</p>
 <dl class="py class">
 <dt id="smps.SMPS">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">SMPS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.SMPS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 </dd></dl>
 </div>
 <div class="section" id="the-alphasenseopcn2-class">
@@ -560,7 +602,7 @@ midpoitns of the respective bins.</p>
 <dl class="py class">
 <dt id="smps.AlphasenseOPCN2">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">AlphasenseOPCN2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.AlphasenseOPCN2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 <p>The Alphasense OPC-N2 is a consumer-grade optical 
 particle counter that uses a 658 nm red laser to count 
 and size individual particles. It can count particles 
@@ -572,7 +614,7 @@ between 380-17,500 nm. Read more <a class="reference external" href="https://www
 <dl class="py class">
 <dt id="smps.AlphasenseOPCN3">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">AlphasenseOPCN3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.AlphasenseOPCN3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 <p>The Alphasense OPC-N3 is a consumer-grade optical
 particle counter that uses a 658 nm red laser to count 
 and size individual particles. It can count particles 
@@ -584,7 +626,7 @@ between 380-40,000 nm. Read more <a class="reference external" href="https://www
 <dl class="py class">
 <dt id="smps.POPS">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">POPS</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.POPS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 <p>The Portable Optical Particle Spectrometer is based on 
 the design of R. Gao and is currently manufactured by 
 Handix Scientific. It is a research-grade OPC that can see 
@@ -596,7 +638,7 @@ particles as small as 132 nm. Read more <a class="reference external" href="http
 <dl class="py class">
 <dt id="smps.ParticlesPlus">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">ParticlesPlus</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.ParticlesPlus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 <p>The Particles Plus is a consumer-grade optical particle counter
 that uses a red laser to count and size individual particles. It
 can count particles between 300-10,000 nm. Read more <a class="reference external" href="https://particlesplus.com/ambient-air-monitoring/">here</a>.</p>
@@ -607,7 +649,7 @@ can count particles between 300-10,000 nm. Read more <a class="reference externa
 <dl class="py class">
 <dt id="smps.Grimm11D">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.</span></code><code class="sig-name descname"><span class="pre">Grimm11D</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.Grimm11D" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a></p>
 <p>The Grimm11D is an optical particle counter that uses a blue 
 laser to count and size individual particles. It can count 
 particles between 250-35,000 nm. Read more <a class="reference external" href="https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/">here</a>.</p>
@@ -1180,21 +1222,11 @@ list of particle sizes, <cite>X</cite>.</p>
         
         <div class="related-pages">
           
-          <a class="prev-page" href="contributing.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
-              <div class="page-info">
-                <div class="context">
-                  <span>Previous</span>
-                </div>
-                
-                <div class="title">Contribution</div>
-                
-              </div>
-            </a>
+          
         </div>
 
         <div class="related-information">
-              Copyright &#169; 2020-2021, QuantAQ, Inc.
+              Copyright &#169; 2020-2022, QuantAQ, Inc.
             |
             Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
               and
@@ -1260,5 +1292,7 @@ list of particle sizes, <cite>X</cite>.</p>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
 </html>

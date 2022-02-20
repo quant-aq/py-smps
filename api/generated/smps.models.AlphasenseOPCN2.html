@@ -1,0 +1,320 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><link rel="next" title="smps.models.AlphasenseOPCN3" href="smps.models.AlphasenseOPCN3.html" /><link rel="prev" title="smps.models.ParticlesPlus" href="smps.models.ParticlesPlus.html" />
+
+    <meta name="generator" content="sphinx-3.5.4, furo 2021.06.18.beta36"/>
+        <title>smps.models.AlphasenseOPCN2 - py-smps 2.0.0-alpha.2 documentation</title>
+      <link rel="stylesheet" href="../../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
+    <link rel="stylesheet" href="../../_static/pygments.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/plot_directive.css" />
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../../_static/pygments_dark.css">
+    <link rel="stylesheet" href="../../_static/styles/furo-extensions.css?digest=ee12cdd73c4bbac24afec78d92c4afd7c2d8ea7f"></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">py-smps 2.0.0-alpha.2 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  <span class="sidebar-brand-text">py-smps 2.0.0-alpha.2 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption"><span class="caption-text">User Guide:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/general_usage.html">General Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/curve_fitting.html">Curve Fitting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.io.load_sample.html">smps.io.load_sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.utils.make_bins.html">smps.utils.make_bins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.GenericParticleSizer.html">smps.models.GenericParticleSizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.SMPS.html">smps.models.SMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.Grimm11D.html">smps.models.Grimm11D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.POPS.html">smps.models.POPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.ParticlesPlus.html">smps.models.ParticlesPlus</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">smps.models.AlphasenseOPCN2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.AlphasenseOPCN3.html">smps.models.AlphasenseOPCN3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.Modulair.html">smps.models.Modulair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.models.ModulairPM.html">smps.models.ModulairPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.plots.heatmap.html">smps.plots.heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.plots.histplot.html">smps.plots.histplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.fit.LogNormal.html">smps.fit.LogNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="smps.fit.LogNormalFitResults.html">smps.fit.LogNormalFitResults</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/issues.html">Reporting Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/patches.html">Submitting Patches or Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/tests.html">Tests</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <div class="section" id="smps-models-alphasenseopcn2">
+<h1>smps.models.AlphasenseOPCN2<a class="headerlink" href="#smps-models-alphasenseopcn2" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="smps.models.AlphasenseOPCN2">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">smps.models.</span></code><code class="sig-name descname"><span class="pre">AlphasenseOPCN2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.models.AlphasenseOPCN2" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Alphasense OPC-N2 is a consumer-grade optical 
+particle counter that uses a 658 nm red laser to count 
+and size individual particles. It can count particles 
+between 380-17,500 nm. Read more <a class="reference external" href="https://www.alphasense.com/products/optical-particle-counter/">here</a>.</p>
+<dl class="py method">
+<dt id="smps.models.AlphasenseOPCN2.__init__">
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#smps.models.AlphasenseOPCN2.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+<p class="rubric">Methods</p>
+<div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#smps.models.AlphasenseOPCN2.__init__" title="smps.models.AlphasenseOPCN2.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(**kwargs)</p></td>
+<td><p>Initialize self.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code>()</p></td>
+<td><p>Return a copy of the GenericParticleSizer.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dump</span></code>(filepath)</p></td>
+<td><p>Save a copy to disk at <cite>filepath</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">integrate</span></code>([weight, dmin, dmax])</p></td>
+<td><p>For each timestamp give the total number  (or surface, volume, or mass) of all the particles  (with a diameter between <cite>dmin</cite> and <cite>dmax</cite>) at that time.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code>(rs[, inplace])</p></td>
+<td><p>Resample on the timeseries.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">slice</span></code>([start, end, inplace])</p></td>
+<td><p>Slice the data between the start and end dates, inclusive.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">stats</span></code>([weight, dmin, dmax, rho])</p></td>
+<td><p>Calculate and return the total number of particles,  total surface area, total volume, and total mass  between dmin and dmax.</p></td>
+</tr>
+</tbody>
+</table></div>
+<p class="rubric">Attributes</p>
+<div class="table-wrapper"><table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%"/>
+<col style="width: 90%"/>
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dddlogdp</span></code></p></td>
+<td><p>The histogram in units of dDpd/logDp [um/cm3].</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dlogdp</span></code></p></td>
+<td><p>A list of the differences between the upper  and lower bound of each bin on a Log scale.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dn</span></code></p></td>
+<td><p>A DataFrame with the number of particles in  each bin at each time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dndlogdp</span></code></p></td>
+<td><p>The histogram in units of dNd/logDp [#/cm3].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">ds</span></code></p></td>
+<td><p>A DataFrame with the total surface area of  all the particles in each bin at each time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dsdlogdp</span></code></p></td>
+<td><p>The histogram in units of dSd/logDp [um2/cm3].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dv</span></code></p></td>
+<td><p>A DataFrame with the total volume of all  the particels in each bin at each time.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">dvdlogdp</span></code></p></td>
+<td><p>The histogram in units of dSd/logDp [um3/cm3].</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">midpoints</span></code></p></td>
+<td><p>A list of the midpoints of the respective bins.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">s_multiplier</span></code></p></td>
+<td><p>A list of the surface areas corresponding to the midpoitns of the respective bins.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">scan_stats</span></code></p></td>
+<td><p>A DataFrame with all the data except for the bin data.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">v_multiplier</span></code></p></td>
+<td><p>A list of the volumes corresponding to the  midpoitns of the respective bins.</p></td>
+</tr>
+</tbody>
+</table></div>
+</dd></dl>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="smps.models.AlphasenseOPCN3.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">smps.models.AlphasenseOPCN3</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="smps.models.ParticlesPlus.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">smps.models.ParticlesPlus</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2020-2022, QuantAQ, Inc.
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../../_sources/api/generated/smps.models.AlphasenseOPCN2.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </main>
+</div>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+</html>
