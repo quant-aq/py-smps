@@ -2,9 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" />
 
-    <meta name="generator" content="sphinx-3.5.4, furo 2021.06.18.beta36"/>
+    <meta name="generator" content="sphinx-3.5.3, furo 2021.06.18.beta36"/>
         <title>Quick Start Guide - py-smps 2.0.0-alpha.2 documentation</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
     <link rel="stylesheet" href="../_static/pygments.css">
@@ -109,7 +110,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">User Guide:</span></p>
+  <p><span class="caption-text">User Guide:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
@@ -119,7 +120,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../guides/faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
@@ -141,7 +142,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Development</span></p>
+<p><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
@@ -151,7 +152,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Project Links</span></p>
+<p><span class="caption-text">Project Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
@@ -169,9 +170,9 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="quick-start-guide">
+        <section id="quick-start-guide">
 <h1>Quick Start Guide<a class="headerlink" href="#quick-start-guide" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="importing-data">
+<section id="importing-data">
 <h2>Importing Data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
 <p>You’ll first have to import your data into a Pandas DataFrame.  You can read more on that <a class="reference external" href="https://pandas.pydata.org/docs/getting_started/intro_tutorials/02_read_write.html">here</a>. Timestamps should index the rows.</p>
 <p>If your data comes from a particle sizer with an existing class, <code class="docutils literal notranslate"><span class="pre">AlphasenseOPCN3</span></code> for example, you can simply instantiate with the data - bin information will already be set up</p>
@@ -189,8 +190,8 @@
 </pre></div>
 </div>
 <p>If your data comes from a particle sizer without an existing class you can load it into the <a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">smps.models.GenericParticleSizer</span></a> or <code class="docutils literal notranslate"><span class="pre">smps.models.SMPS</span></code> class, and use <a class="reference internal" href="api.html#the-make-bins"><span class="std std-ref">smps.utils.make_bins</span></a> to set up the bins.</p>
-</div>
-<div class="section" id="computing-statistics">
+</section>
+<section id="computing-statistics">
 <h2>Computing Statistics<a class="headerlink" href="#computing-statistics" title="Permalink to this headline">¶</a></h2>
 <p>You can see all the the meta information that was held in the SMPS file by evaluating <code class="docutils literal notranslate"><span class="pre">my_smps_model.meta</span></code>.</p>
 <p><a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.bins</span></a> is an nx3 array that contains the left, middle, and right side of each bin in the dataset. <a class="reference internal" href="api.html#the-gps-class"><span class="std std-ref">my_smps_model.midpoints</span></a> is simply the center column of bins. NOTE: All diameters are expected to be in nm. This can be changed by altering the <code class="docutils literal notranslate"><span class="pre">dp_units</span></code> argument. All diameters are then promptly converted to microns.</p>
@@ -204,8 +205,8 @@
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">my_smps_model</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">"5min"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="making-plots">
+</section>
+<section id="making-plots">
 <h2>Making Plots<a class="headerlink" href="#making-plots" title="Permalink to this headline">¶</a></h2>
 <p>Okay. All we really want to do is visualize our data, right? Two common plots are a heatmap-like plot (<a class="reference internal" href="api.html#the-heatmap"><span class="std std-ref">smps.plots.heatmap</span></a>) and a particle size distribution (<a class="reference internal" href="api.html#the-histplot"><span class="std std-ref">smps.plots.histplot</span></a>).</p>
 <p>Here, we show how to use both of them. Each one returns a matplotlib axis object which can easily be manipulated as you would any other matplotlib object. This makes it easy to alter how they look, add lables, etc.</p>
@@ -310,8 +311,8 @@
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/multihistogram.png"><img alt="Three histograms plotted on top of eachother." src="../_images/multihistogram.png" style="width: 600px;"/></a>
-</div>
-<div class="section" id="fitting-models">
+</section>
+<section id="fitting-models">
 <h2>Fitting Models<a class="headerlink" href="#fitting-models" title="Permalink to this headline">¶</a></h2>
 <p>We can use the <a class="reference internal" href="api.html#the-smps-fit-module"><span class="std std-ref">smps.fit</span></a> module to fit a log-normal curve to our data.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
@@ -363,8 +364,8 @@
 <span class="n">newY</span> <span class="o">=</span> <span class="n">results</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">newX</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>

@@ -2,9 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Curve Fitting" href="curve_fitting.html" /><link rel="prev" title="Guides" href="index.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Curve Fitting" href="curve_fitting.html" /><link rel="prev" title="Guides" href="index.html" />
 
-    <meta name="generator" content="sphinx-3.5.4, furo 2021.06.18.beta36"/>
+    <meta name="generator" content="sphinx-3.5.3, furo 2021.06.18.beta36"/>
         <title>General Usage - py-smps 2.0.0-alpha.2 documentation</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
     <link rel="stylesheet" href="../_static/pygments.css">
@@ -109,7 +110,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">User Guide:</span></p>
+  <p><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Guides</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -119,7 +120,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
@@ -141,7 +142,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Development</span></p>
+<p><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
@@ -151,7 +152,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Project Links</span></p>
+<p><span class="caption-text">Project Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
@@ -169,7 +170,7 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="general-usage">
+        <section id="general-usage">
 <h1>General Usage<a class="headerlink" href="#general-usage" title="Permalink to this headline">¶</a></h1>
 <p><em>py-smps</em> is a general-purpose library meant for making the analysis of
 size-resolved aerosol data a bit easier. It is not meant to cover all
@@ -178,7 +179,7 @@ give you an overview of the capabilities of the software, but will not
 be completely comprehensive. Please read through the API documentation
 if you have any questions or post to the discussions on the GitHub
 repository.</p>
-<div class="section" id="importing-data">
+<section id="importing-data">
 <h2>Importing Data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
 <p>The data format for each type of sensor/analyzer is going to be
 different depending on manufacturer’s specifications. There are a few
@@ -311,8 +312,8 @@ totally fine! These will all be treated as ‘meta’ columns by the
 software.</p>
 <p>Now that we have the data in the proper format, we can go ahead and
 initiate the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> class.</p>
-</div>
-<div class="section" id="the-genericparticlesizer-object">
+</section>
+<section id="the-genericparticlesizer-object">
 <h2>The <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> Object<a class="headerlink" href="#the-genericparticlesizer-object" title="Permalink to this headline">¶</a></h2>
 <p>The heart of the <em>py-smps</em> program is the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code>
 object. The <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> is the base class for all available
@@ -340,7 +341,7 @@ February 2022, these include:</p>
 the functionality of the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> class. We will begin
 by exploring some of the models attributes before moving on to the
 methods.</p>
-<div class="section" id="attributes">
+<section id="attributes">
 <h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
 <p>First, we will initialize the object:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj = smps.models.ModulairPM(data=df)
@@ -783,8 +784,8 @@ access to all sorts of fun data. These include:</p>
 </tbody>
 </table></div>
 <p>5 rows × 24 columns</p>
-</div></div>
-<div class="section" id="methods">
+</div></section>
+<section id="methods">
 <h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
 <p>There are several primary methods available under the
 <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code>, including:</p>
@@ -1406,9 +1407,9 @@ your work later, you can use the <code class="docutils literal notranslate"><spa
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">'obj-modulair-pm.sav'</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="visualization">
+</section>
+</section>
+<section id="visualization">
 <h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
 <p>Making common figures is easy with <code class="docutils literal notranslate"><span class="pre">py-smps</span></code>. There are two primary,
 out-of-the-box figures that can be made:</p>
@@ -1418,7 +1419,7 @@ out-of-the-box figures that can be made:</p>
 </ul>
 <p>These plots are all made using <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, so you can easily modify
 them or create your own.</p>
-<div class="section" id="heatmap">
+<section id="heatmap">
 <h3>Heatmap<a class="headerlink" href="#heatmap" title="Permalink to this headline">¶</a></h3>
 <p>The heatmap function makes it easy to visualize how the particle size
 distribution is changing over time, allowing you to observe
@@ -1455,8 +1456,8 @@ ax.set_title("Cambridge, MA Wintertime SMPS Data", y=1.02, fontsize=20);
 </pre></div>
 </div>
 <img alt="../_images/general_usage_37_1.png" src="../_images/general_usage_37_1.png"/>
-</div>
-<div class="section" id="particle-size-distribution">
+</section>
+<section id="particle-size-distribution">
 <h3>Particle Size Distribution<a class="headerlink" href="#particle-size-distribution" title="Permalink to this headline">¶</a></h3>
 <p>To visualize the particle size distribution, use the
 <code class="docutils literal notranslate"><span class="pre">smps.plots.histplot</span></code> function. To plot the histogram, you must
@@ -1519,9 +1520,9 @@ sns.despine()
 <img alt="../_images/general_usage_41_0.png" src="../_images/general_usage_41_0.png"/>
 <p>That about covers the general overview! Feel free to check out the guide
 on curve fitting next.</p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
       </article>
       <footer>

@@ -2,9 +2,10 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Frequently Asked Questions" href="faq.html" /><link rel="prev" title="General Usage" href="general_usage.html" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Frequently Asked Questions" href="faq.html" /><link rel="prev" title="General Usage" href="general_usage.html" />
 
-    <meta name="generator" content="sphinx-3.5.4, furo 2021.06.18.beta36"/>
+    <meta name="generator" content="sphinx-3.5.3, furo 2021.06.18.beta36"/>
         <title>Curve Fitting - py-smps 2.0.0-alpha.2 documentation</title>
       <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
     <link rel="stylesheet" href="../_static/pygments.css">
@@ -109,7 +110,7 @@
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p class="caption"><span class="caption-text">User Guide:</span></p>
+  <p><span class="caption-text">User Guide:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Guides</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
@@ -119,7 +120,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p class="caption"><span class="caption-text">API</span></p>
+<p><span class="caption-text">API</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
@@ -141,7 +142,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Development</span></p>
+<p><span class="caption-text">Development</span></p>
 <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
@@ -151,7 +152,7 @@
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">Project Links</span></p>
+<p><span class="caption-text">Project Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
@@ -169,7 +170,7 @@
         <label class="toc-overlay-icon toc-content-icon" for="__toc">
           <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
         </label>
-        <div class="section" id="curve-fitting">
+        <section id="curve-fitting">
 <h1>Curve Fitting<a class="headerlink" href="#curve-fitting" title="Permalink to this headline">¶</a></h1>
 <p>There are many reasons one may want to fit their SMPS/OPS/OPC data.
 Here, we briefly show how one can use <code class="docutils literal notranslate"><span class="pre">py-smps</span></code> to do so. Currently,
@@ -190,7 +191,7 @@ smps.set()
 %matplotlib inline
 </pre></div>
 </div>
-<div class="section" id="fit-a-single-mode-particle-size-distribution">
+<section id="fit-a-single-mode-particle-size-distribution">
 <h2>Fit a Single-Mode Particle Size Distribution<a class="headerlink" href="#fit-a-single-mode-particle-size-distribution" title="Permalink to this headline">¶</a></h2>
 <p>Here, we will use the provided <code class="docutils literal notranslate"><span class="pre">boston</span></code> SMPS dataset as an example.
 Let’s begin by loading the data and plotting the particle size
@@ -301,7 +302,7 @@ arguments:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.8359079994604226</span>
 </pre></div>
 </div>
-<div class="section" id="plot-missing-data">
+<section id="plot-missing-data">
 <h3>Plot Missing Data<a class="headerlink" href="#plot-missing-data" title="Permalink to this headline">¶</a></h3>
 <p>Let’s use the <code class="docutils literal notranslate"><span class="pre">predict</span></code> method to fill in the lower portion of the
 curve we the SMPS was not scanning. Is this a great idea? Probably not,
@@ -323,9 +324,9 @@ sns.despine()
 </pre></div>
 </div>
 <img alt="../_images/curve_fitting_15_0.png" src="../_images/curve_fitting_15_0.png"/>
-</div>
-</div>
-<div class="section" id="fit-a-multi-mode-particle-size-distribution">
+</section>
+</section>
+<section id="fit-a-multi-mode-particle-size-distribution">
 <h2>Fit a Multi-Mode Particle Size Distribution<a class="headerlink" href="#fit-a-multi-mode-particle-size-distribution" title="Permalink to this headline">¶</a></h2>
 <p>While the existing sample data doesn’t have a strong multi-mode period,
 we can mock the data to show the utility of <code class="docutils literal notranslate"><span class="pre">py-smps</span></code>. <strong>NOTE: If you
@@ -448,8 +449,8 @@ plt.show()
 </pre></div>
 </div>
 <img alt="../_images/curve_fitting_23_1.png" src="../_images/curve_fitting_23_1.png"/>
-</div>
-</div>
+</section>
+</section>
 
       </article>
       <footer>
