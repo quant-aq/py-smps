@@ -16,13 +16,17 @@ Python library for the analysis and visualization of data from a Scanning Mobili
 
 ## Python Versions
 
-Currently, Python3.7+ is supported and we test against Python 3.7, 3.8, and 3.9.
+Python3.7+ is supported.
 
 ## Installation
 
 To install from PyPi:
 
     $ pip install py-smps [--upgrade]
+
+If you'd like the latest pre-release:
+
+    $ pip install py-smps --pre [--upgrade]
 
 To install the edge release directly from GitHub:
 
@@ -33,7 +37,7 @@ To install the edge release directly from GitHub:
 Unittests can be run by issuing the following command from within the main repo:
 
 ```sh
-$ poetry run pytest tests/ --ignore=tests/datafiles
+$ poetry run pytest -s tests/ --ignore=tests/datafiles
 ```
 
 
@@ -63,3 +67,4 @@ If there is a feature you would like to see or a bug you would like to report, p
 
   * [matplotlib colorbars](http://matplotlib.org/examples/color/colormaps_reference.html)
   * [seaborn color palette](http://seaborn.pydata.org/tutorial/color_palettes.html)
+
