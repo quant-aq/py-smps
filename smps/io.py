@@ -57,8 +57,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
         delimiter=delimiter, 
         header=None, 
         encoding=encoding,
-        error_bad_lines=False, 
-        warn_bad_lines=False, 
+        on_bad_lines='warn',
         index_col=0
     ).T.iloc[0,:].to_dict()
 
@@ -120,8 +119,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
                     skiprows=(meta_num_lines+4+nbins),
                     delimiter=delimiter,
                     header=None,
-                    error_bad_lines=False,
-                    warn_bad_lines=True,
+                    on_bad_lines='warn',
                     encoding=encoding).T
 
         # Rename the columns to the first row

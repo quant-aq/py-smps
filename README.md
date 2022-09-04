@@ -8,15 +8,24 @@ Python library for the analysis and visualization of data from a Scanning Mobili
 
 ## Dependencies
 
-  * pandas
-  * numpy
-  * scipy
-  * seaborn
-  * statsmodels
+The full list of dependencies can be found in the `pyproject.toml` file and are summarized below:
+
+```py
+python = ">=3.8, <3.12"
+statsmodels = "^0.13"
+seaborn = "^0.10"
+joblib = "^1.0"
+requests = "^2.24"
+scipy = "^1.9"
+numpy = "^1.23.2"
+pandas = "^1.4"
+```
+
+As of `v1.2.0a0`, the library should be compatible with Apple silicone (tested on both M1 and M2).
 
 ## Python Versions
 
-Python3.7+ is supported.
+Python3.8 through Python3.11 are currently supported.
 
 ## Installation
 
