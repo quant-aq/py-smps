@@ -19,6 +19,7 @@ requests = "^2.24"
 scipy = "^1.9"
 numpy = "^1.23.2"
 pandas = "^1.4"
+setuptools = "^65.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.0.1"
