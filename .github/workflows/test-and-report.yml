@@ -5,7 +5,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                python: [3.8, 3.9, "3.10"]
+                python: ["3.8", "3.9", "3.10"]
         name: Python ${{ matrix.python }}
         steps:
             - name: Checkout branch
@@ -17,18 +17,14 @@ jobs:
                 python-version: ${{ matrix.python }}
 
             - name: Install poetry
-              uses: snok/install-poetry@v1.3
+              uses: snok/install-poetry@v1
               with:
-                version: 1.1.4
                 virtualenvs-create: true
                 virtualenvs-in-project: true
                 installer-parallel: true
 
             - name: Install dependencies
               run: poetry install --no-interaction --no-root
-
-            - name: Install library
-              run: poetry install --no-interaction
 
             - name: Run tests and generate coverage report
               run: |
