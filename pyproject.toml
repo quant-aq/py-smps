@@ -13,7 +13,7 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.8, <3.12"
 statsmodels = "^0.13"
-seaborn = "^0.10"
+seaborn = "^0.11.0"
 joblib = "^1.0"
 requests = "^2.24"
 scipy = "^1.9"
