@@ -76,19 +76,19 @@ class TestClass(unittest.TestCase):
     def test_generic_calculations(self):
         number = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
-            column=False, 
+            column=False,
             as_dict=False
         )
 
         surface = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_surface_area.txt",
-            column=False, 
+            column=False,
             as_dict=False
         )
 
         volume = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_volume.txt",
-            column=False, 
+            column=False,
             as_dict=False
         )
 
@@ -109,7 +109,7 @@ class TestClass(unittest.TestCase):
             m, b, r, p, e = linregress(
                                 stats[pkg_col].values,
                                 number.scan_stats[aim_col].values)
-            
+
             print ("\t{} v {}: \n\t\tr2={:.3f}, m={:.2f}".format(pkg_col, aim_col, r**2, m))
 
             # make sure the correlation is above 0.99
@@ -173,6 +173,16 @@ class TestClass(unittest.TestCase):
             self.assertGreaterEqual(m, 0.95)
             self.assertLessEqual(m, 1.05)
 
+    # added by RXW 3/6/22; testing the aim_version functionality
+    def test_aim_version(self):
+        obj = smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_aim_11.4.0.txt",
+                                    column=False,
+                                    delimter='\t',
+                                    as_dict=False,
+                                    aim_version='11.4.0')
+
+        assert obj
+
     def test_models_smps(self):
         pass
 
@@ -203,7 +213,7 @@ class TestClass(unittest.TestCase):
         modpm_df = pd.read_csv(path_to_modpm)
 
         modpm_model = smps.models.ModulairPM(data=modpm_df, fmt='dlogdn')
-        
+
         integrated = modpm_model.integrate(weight='number', dmin=0.05, dmax=0.5)
 
     def test_models_modulair(self):
@@ -213,7 +223,7 @@ class TestClass(unittest.TestCase):
         mod_model = smps.models.Modulair(data=mod_df)
 
         integrated = mod_model.integrate(weight='number', dmin=0.05, dmax=0.5)
-    
+
     def test_models_pops(self):
         pass
 
@@ -222,7 +232,7 @@ class TestClass(unittest.TestCase):
 
         r = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
-            column=False, 
+            column=False,
             as_dict=False
         )
 
@@ -234,7 +244,7 @@ class TestClass(unittest.TestCase):
     def test_calculations_with_nans(self):
         number = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
-            column=False, 
+            column=False,
             as_dict=False
         )
 
@@ -257,3 +267,4 @@ def testObjects():
     assert isinstance(obj.data, pd.DataFrame)
     assert isinstance(obj.bins, np.ndarray)
     assert isinstance(obj.bin_labels, list)
+    

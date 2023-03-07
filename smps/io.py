@@ -16,23 +16,29 @@ from .models import SMPS
 __all__ = ["smps_from_txt", "load_sample"]
 
 
-def smps_from_txt(fpath, column=True, delimiter=',', 
-                  as_dict=True, **kwargs):
+def smps_from_txt(fpath, column=True, delimiter=',',
+                  as_dict=True,
+                  aim_version=None,
+                  **kwargs):
     """Read an SMPS txt file as exported by the TSI AIM software.
-    
+
     :param fpath: The file path to txt file to be read.
     :type fpath: string
-    :param column: If your data is in 'column' format, set True. Otherwise, set False, 
+    :param column: If your data is in 'column' format, set True. Otherwise, set False,
         defaults to True.
     :type column: bool
-    :param delimiter: The delimiter in the txt file, 
+    :param delimiter: The delimiter in the txt file,
         must be a comma of a tab, defaults to ",".
     :type delimiter: string
-    :param as_dict: Sets the data type returned by the function, 
+    :param as_dict: Sets the data type returned by the function,
         defaults to True.
     :type as_dict: bool
+    :param aim_version: Sets the version of the AIM software. Defaults to None,
+        and a generic file form is used. Only functionality for 11.4.0
+        is implemented otherwise.
+    :type aim_version: string
     :return: The data loaded from the txt file.
-    :rtype: SMPS instance or dict, depending on 
+    :rtype: SMPS instance or dict, depending on
         the parameter as_dict
     """
     assert(delimiter in [',', '\t']), "The delimiter must \
@@ -42,26 +48,32 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
     # determine the number of rows of meta information; can be defined
     meta_num_lines = kwargs.pop("meta_num_lines", None)
+    # use an AIM specific version to control when the data starts append
+    # then calculate the number of lines of meta information
+    if aim_version == '11.4.0':
+        meta_data_end_keyword = 'Scan Number'
+    else:
+        meta_data_end_keyword = 'Sample #'
     if not meta_num_lines:
         meta_num_lines = _get_linecount(
-            fpath, 
-            keyword='Sample #', 
-            encoding=encoding, 
+            fpath,
+            keyword=meta_data_end_keyword,
+            encoding=encoding,
             delimiter=delimiter
         )
 
     # read and store the meta information
     meta = pd.read_table(
-        fpath, 
-        nrows=meta_num_lines, 
-        delimiter=delimiter, 
-        header=None, 
+        fpath,
+        nrows=meta_num_lines,
+        delimiter=delimiter,
+        header=None,
         encoding=encoding,
-        on_bad_lines='warn',
+        # on_bad_lines='warn',  # this seems not supported anymore, commenting out -RXW
         index_col=0
     ).T.iloc[0,:].to_dict()
 
-    # grab the number of channels per decade - sets the 
+    # grab the number of channels per decade - sets the
     # multiplier for determining bin spacings later on
     mult = float(meta['Channels/Decade'])
 
@@ -84,7 +96,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
         # set the timestamp
         ts['timestamp'] = ts.apply(
             lambda x: pd.to_datetime(
-                "{} {}".format(x['Date'], 
+                "{} {}".format(x['Date'],
                                x['Time']
                               )
             ), axis=1
@@ -92,8 +104,8 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
         # Retrieve the number of bins in the file
         nbins = _get_bin_count(
-            fpath=fpath, 
-            delimiter=delimiter, 
+            fpath=fpath,
+            delimiter=delimiter,
             encoding=encoding
         )
 
@@ -140,10 +152,10 @@ def smps_from_txt(fpath, column=True, delimiter=',',
         bin_labels = list(data.columns)
 
         data = pd.merge(
-            data, 
-            stats, 
-            left_index=True, 
-            right_index=True, 
+            data,
+            stats,
+            left_index=True,
+            right_index=True,
             how='outer'
         )
     else:
@@ -153,15 +165,22 @@ def smps_from_txt(fpath, column=True, delimiter=',',
                     delimiter=delimiter,
                     encoding=encoding).dropna(how='all', axis=1)
 
-        data.index = data.apply(
-            lambda x: pd.to_datetime("{} {}".format(
-                x['Date'], 
-                x['Start Time']
-            )), axis=1
-        )
+        # indexing the dataset with the datetime stamps
+        if aim_version == '11.4.0':
+            data.index = pd.to_datetime(data['DateTime Sample Start'],
+                                        dayfirst=True)
+            # deleting some un-needed columns
+            del data['DateTime Sample Start']
 
-        # delete some un-needed columns
-        del data['Date'], data['Start Time']
+        else:
+            data.index = data.apply(
+                lambda x: pd.to_datetime("{} {}".format(
+                    x['Date'],
+                    x['Start Time']
+                )), axis=1
+            )
+            # delete some un-needed columns
+            del data['Date'], data['Start Time']
 
         # grab the midpoint diameters
         midpoints = []
@@ -176,7 +195,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
         # rename the bins
         data.rename(
-            columns=dict(zip(midpoints, bin_labels)), 
+            columns=dict(zip(midpoints, bin_labels)),
             inplace=True
         )
 
@@ -184,11 +203,11 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
     # generate the bins
     low_col_name = kwargs.pop(
-        "lower_column_label", 
+        "lower_column_label",
         [c for c in data.columns if "lower" in c.lower()][0]
     )
     upper_col_name = kwargs.pop(
-        "upper_column_label", 
+        "upper_column_label",
         [c for c in data.columns if "upper" in c.lower()][0]
     )
     bound_left = float(data[low_col_name][0])
@@ -199,8 +218,8 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
     # make the bin array
     bins = make_bins(
-        midpoints=midpoints, 
-        lb=bound_left, 
+        midpoints=midpoints,
+        lb=bound_left,
         ub=bound_right,
         channels_per_decade=int(meta['Channels/Decade'])
     )
@@ -218,7 +237,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
                 bin_labels=bin_labels,
                 bin_prefix='bin')
     else:
-        return SMPS(data=data, meta=meta, bins=bins, 
+        return SMPS(data=data, meta=meta, bins=bins,
                     bin_labels=bin_labels, units=units, weight=weight)
 
 
@@ -246,14 +265,14 @@ def load_sample(label="boston"):
         }
     }
 
-    m = smps_from_txt(fpath=files[label]['uri'], 
+    m = smps_from_txt(fpath=files[label]['uri'],
                       column=files[label]['column'])
 
     # convert to an SMPS instance
     return SMPS(
-        data=m['data'], 
-        bins=m['bins'], 
-        meta=m['meta'], 
-        bin_labels=m['bin_labels'], 
-        weight=m['weight'], 
+        data=m['data'],
+        bins=m['bins'],
+        meta=m['meta'],
+        bin_labels=m['bin_labels'],
+        weight=m['weight'],
         units=m['units'])
