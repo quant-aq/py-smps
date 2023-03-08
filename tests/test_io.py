@@ -175,7 +175,7 @@ class TestClass(unittest.TestCase):
 
     # added by RXW 3/6/22; testing the aim_version functionality
     def test_aim_version(self):
-        obj = smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_aim_11.4.0.txt",
+        obj = smps.io.smps_from_txt("https://raw.githubusercontent.com/rxward/py-smps/tree/master/tests/datafiles/test_data_aim_11.4.0.txt",
                                     column=False,
                                     delimter='\t',
                                     as_dict=False,
@@ -267,4 +267,3 @@ def testObjects():
     assert isinstance(obj.data, pd.DataFrame)
     assert isinstance(obj.bins, np.ndarray)
     assert isinstance(obj.bin_labels, list)
-    
