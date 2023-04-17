@@ -34,7 +34,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
         defaults to True.
     :type as_dict: bool
     :param aim_version: Sets the version of the AIM software. Defaults to None,
-        and a generic file form is used. Only functionality for 11.4.0
+        and a generic file form is used. Only functionality for 11.5.0
         is implemented otherwise.
     :type aim_version: string
     :return: The data loaded from the txt file.
@@ -50,7 +50,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
     meta_num_lines = kwargs.pop("meta_num_lines", None)
     # use an AIM specific version to control when the data starts append
     # then calculate the number of lines of meta information
-    if aim_version == '11.4.0':
+    if aim_version == '11.5.0':
         meta_data_end_keyword = 'Scan Number'
     else:
         meta_data_end_keyword = 'Sample #'
@@ -166,7 +166,7 @@ def smps_from_txt(fpath, column=True, delimiter=',',
                     encoding=encoding).dropna(how='all', axis=1)
 
         # indexing the dataset with the datetime stamps
-        if aim_version == '11.4.0':
+        if aim_version == '11.5.0':
             data.index = pd.to_datetime(data['DateTime Sample Start'],
                                         dayfirst=True)
             # deleting some un-needed columns
