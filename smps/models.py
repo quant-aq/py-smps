@@ -6,10 +6,13 @@ import numpy as np
 import pandas as pd
 import math
 import copy
+import sys
 import joblib
 import json
+import logging
 from .utils import make_bins
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 __all__ = [
     "GenericParticleSizer", 
@@ -23,6 +26,9 @@ __all__ = [
     "Grimm11D"
 ]
 
+class ValidationError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
 
 class GenericParticleSizer(object):
     """
@@ -46,6 +52,11 @@ class GenericParticleSizer(object):
         :type dp_units: {'um','nm'}
     """
     def __init__(self, data, bins, **kwargs):
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(logging.DEBUG)
+        # formatter = logging.Formatter("")
+        # self.logger.addHandler()
+        
         self.data = data.copy(deep=True)
         self.bins = bins
         self.meta = kwargs.pop('meta', dict())
@@ -238,6 +249,35 @@ class GenericParticleSizer(object):
         cpy[self.bin_labels] = cpy[self.bin_labels].mul(factors)
 
         return cpy
+    
+    def _subselect_bins(self, **kwargs):
+        """Return an array of multipliers corresponding to the 
+        percentage of a given bin to use in a calculation based 
+        on the size cutoffs defined.
+        
+        Args:
+            bins (array): Array of bins
+            dmin (float): Minimum particle diameter
+            dmax (float): Maximum particle diameter
+        """
+        bins = kwargs.pop("bins")
+        dmin = kwargs.pop("dmin")
+        dmax = kwargs.pop("dmax")
+        
+        # Create a placeholder for the factors
+        factors = np.zeros(bins.shape[0])
+        
+        for i, b in enumerate(bins):
+            if b[0] >= dmin and b[-1] <= dmax:
+                factors[i] = 1.
+            
+            if dmin >= b[0] and dmin < b[-1]:
+                factors[i] = (b[-1] - dmin) / (b[-1] - b[0])
+            
+            if dmax >= b[0] and dmax < b[-1]:
+                factors[i] = (dmax - b[0]) / (b[-1] - b[0])
+        
+        return factors
 
     def stats(self, weight='number', dmin=0., 
               dmax=1e3, rho=1.65, **kwargs):
@@ -397,9 +437,6 @@ class GenericParticleSizer(object):
         :return: The desired values indexed by timestamp.
         :rtype: Pandas Series
         """
-        # Copy the bins so that we can modify for hygroscopic growth
-        bins = self.bins.copy()
-        
         # Convert the density to a callable if not already
         rho = kwargs.pop("rho", 1.65)
         if not callable(rho):
@@ -410,24 +447,90 @@ class GenericParticleSizer(object):
         assert(weight in ['number', 'surface', 'volume', 'mass']), \
                 "Invalid `weight`"
                 
-        # Correct the bin boundaries for hygroscopic growth
-
-        if weight == 'number':
-            df = self.dn
-        elif weight == 'surface':
-            df = self.ds
-        elif weight == 'volume':
-            df = self.dv
-        else:
-            # Compute density for each bin
-            _rho = [_rho(dp) for dp in self.midpoints]
+        # Check for kappa
+        kappa = kwargs.pop("kappa", None)
+        if kappa:
+            if not callable(kappa):
+                _kappa = lambda x: kappa
+            else:
+                _kappa = kappa
+                
+            # Check for a column with rh
+            rh_c = kwargs.pop("rh", None)
+            if not rh_c:
+                raise AttributeError("`rh` is a required column when correcting for hygroscopic growth")
             
-            df = self.dv * _rho
-
-        # subsample the data
-        df = self._subselect_frame(df, dmin=dmin, dmax=dmax)
-
-        return df[self.bin_labels].sum(axis=1)
+            # Check to make sure the rh column exists
+            if rh_c not in self.data.columns:
+                raise ValidationError(f"No column for {rh_c} was found in `data`")
+            
+            # Check to see if there are rh values below 1% or above 95%
+            count_low_rh = self.data[self.data[rh_c] <= 1.0].shape[0]
+            if count_low_rh > 0:
+                self.logger.warning(f"There are {count_low_rh} values below 1% RH in your data which may cause problems when correcting for hygroscopic growth.")
+            
+            count_high_rh = self.data[self.data[rh_c] >= 95.0].shape[0]
+            if count_high_rh > 0:
+                self.logger.warning(f"There are {count_high_rh} values above 95% RH in your data which may cause problems when correcting for hygroscopic growth.")
+        else:
+            _kappa = None
+            
+        # If kappa is not set, compute the integrated values and return
+        if not _kappa:
+            if weight == 'number':
+                df = self.dn
+            elif weight == 'surface':
+                df = self.ds
+            elif weight == 'volume':
+                df = self.dv
+            else:
+                df = self.dv * [_rho(dp) for dp in self.midpoints]
+            
+            # Subsample the data and return
+            df = self._subselect_frame(df, dmin=dmin, dmax=dmax)
+            
+            return df[self.bin_labels].sum(axis=1)
+             
+        def compute_integration_by_row(row, weight):
+            # Recompute the bins
+            _bins = self.bins.copy()
+            
+            # Get rh
+            rh = row[rh_c]
+            
+            # Compute kappa for each (wet) diameter
+            k = [_kappa(dp) for dp in _bins[:, 1]]
+            
+            for i in range(_bins.shape[0]):
+                for j in range(3):
+                    _bins[i, j] = _bins[i, j] / (1 + k[i] * (rh / (100. - rh)))**(1./3.)
+                    
+            # Extract the midpoints
+            midpoints = _bins[:, 1]
+            
+            # Keep only the data for the bins that are relevant for this record
+            histogram = row[self.bin_labels] * self._subselect_bins(dmin=dmin, dmax=dmax, bins=_bins)
+            
+            # Return the histogram depending on which weight we're using
+            if weight == 'surface':
+                hgram = histogram.mul((4 * np.pi * (_bins[:, 1]/2)**2))
+            elif weight == 'volume':
+                hgram = histogram.mul((4./3)*np.pi*(_bins[:, 1]/2)**3)
+            elif weight == 'mass':
+                hgram = histogram.mul((4./3)*np.pi*(_bins[:, 1]/2)**3).mul([_rho(dp) for dp in _bins[:, 1]])
+            else:
+                hgram = histogram
+                
+            return hgram.sum()
+        
+        # Create a dataframe that is dn + humidity so that we are always sending the correct 
+        # format to the integration computation 
+        cpy = self.dn
+        cpy.loc[:, rh_c] = self.data[rh_c]
+        
+        s = cpy.apply(compute_integration_by_row, axis=1, weight=weight)
+        
+        return s
 
     def slice(self, start=None, end=None, inplace=False):
         """

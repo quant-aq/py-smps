@@ -6,4 +6,3 @@ from .models import *
 from .rcmod import *
 
 __version__ = get_distribution("py-smps").version
-
