@@ -176,28 +176,6 @@ class TestClass(unittest.TestCase):
     def test_models_smps(self):
         pass
 
-#    def test_models_alphasense_opcn2(self):
-#        opcn2 = smps.io.opcn2_from_text(
-#                    os.path.join(datadir, "OPC2_001.CSV"),
-#                    as_dict=False)
-#
-#        self.assertIsInstance(opcn2, smps.models.AlphasenseOpcN2)
-#
-#        # test the mass calculation - should match what Alphasense gets
-#        cols_to_check = []
-#        cols_to_check.append(("PM1(ug/m3)", 1))
-#        cols_to_check.append(("PM2.5", 2.5))
-#        cols_to_check.append(("PM10", 10))
-#
-#        print ()
-#        for opc_col, dmax in cols_to_check:
-#            m, b, r, p, e = linregress(
-#                                opcn2.scan_stats[opc_col].values,
-#                                opcn2.integrate(weight='mass', rho=1.65, dmax=dmax).values)
-#
-#            print ("\t{} @ dmax={}".format(opc_col, dmax))
-#            print ("\t\tm={:.3f}, r2={:.3f}".format(m, r**2))
-
     def test_models_modulairpm(self):
         path_to_modpm = "https://raw.githubusercontent.com/quant-aq/py-smps/master/tests/datafiles/MOD-PM-SAMPLE.csv"
         modpm_df = pd.read_csv(path_to_modpm)
@@ -242,18 +220,18 @@ class TestClass(unittest.TestCase):
 
         stats = number.stats(weight='number')
 
-def testObjects():
-    obj = load_sample("boston")
+    def testObjects(self):
+        obj = load_sample("boston")
 
-    assert isinstance(obj, smps.SMPS)
-    assert isinstance(obj, smps.GenericParticleSizer)
-    assert isinstance(obj.data, pd.DataFrame)
+        assert isinstance(obj, smps.SMPS)
+        assert isinstance(obj, smps.GenericParticleSizer)
+        assert isinstance(obj.data, pd.DataFrame)
 
-    # Check the keys
-    assert hasattr(obj, "meta")
-    assert isinstance(obj.meta, dict)
-    assert isinstance(obj.meta.get('units'), str)
-    assert isinstance(obj.meta.get('weight'), str)
-    assert isinstance(obj.data, pd.DataFrame)
-    assert isinstance(obj.bins, np.ndarray)
-    assert isinstance(obj.bin_labels, list)
+        # Check the keys
+        assert hasattr(obj, "meta")
+        assert isinstance(obj.meta, dict)
+        assert isinstance(obj.meta.get('units'), str)
+        assert isinstance(obj.meta.get('weight'), str)
+        assert isinstance(obj.data, pd.DataFrame)
+        assert isinstance(obj.bins, np.ndarray)
+        assert isinstance(obj.bin_labels, list)
