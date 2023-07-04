@@ -397,12 +397,20 @@ class GenericParticleSizer(object):
         :return: The desired values indexed by timestamp.
         :rtype: Pandas Series
         """
+        # Copy the bins so that we can modify for hygroscopic growth
+        bins = self.bins.copy()
+        
+        # Convert the density to a callable if not already
         rho = kwargs.pop("rho", 1.65)
-
-        weight = weight.lower()
+        if not callable(rho):
+            _rho = lambda x: rho
+        else:
+            _rho = rho
 
         assert(weight in ['number', 'surface', 'volume', 'mass']), \
-        "Invalid `weight`"
+                "Invalid `weight`"
+                
+        # Correct the bin boundaries for hygroscopic growth
 
         if weight == 'number':
             df = self.dn
@@ -411,7 +419,10 @@ class GenericParticleSizer(object):
         elif weight == 'volume':
             df = self.dv
         else:
-            df = self.dv * rho
+            # Compute density for each bin
+            _rho = [_rho(dp) for dp in self.midpoints]
+            
+            df = self.dv * _rho
 
         # subsample the data
         df = self._subselect_frame(df, dmin=dmin, dmax=dmax)
@@ -594,6 +605,7 @@ class AlphasenseOPCN3(GenericParticleSizer):
             **kwargs
         )
 
+
 class ModulairPM(GenericParticleSizer):
     """
     QuantAQ's MODULAIR-PM sensors use the Alphasense OPC-N3,
@@ -620,6 +632,7 @@ class ModulairPM(GenericParticleSizer):
             bin_labels=bin_labels, 
             **kwargs
         )
+
 
 class Modulair(GenericParticleSizer):
     """
