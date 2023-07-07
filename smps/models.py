@@ -12,7 +12,7 @@ import json
 import logging
 from .utils import make_bins
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.WARN)
 
 __all__ = [
     "GenericParticleSizer", 
@@ -26,37 +26,63 @@ __all__ = [
     "Grimm11D"
 ]
 
+
 class ValidationError(Exception):
     def __init__(self, msg):
         self.msg = msg
 
+
 class GenericParticleSizer(object):
     """
-        GenericParticleSizer is the base class for all
-        available particle sizing instruments. It contains
-        all of the basic functionality and methods used for
-        making calculations.
+    The base class for a Generic Size-Resolving Particle Instrument.
+    
+    Parameters
+    ----------
+    data : pd.DataFrame
+            A dataframe containing the binned particle data, timestamp column, 
+            and optional metadata columns.
+    bins :  array-like
+            A 3xn array defining the left, mid, and right boundaries for 
+            each particle size bin.
+    dp_units : str, deafult='um'
+        Define the units of particle bin sizes - one of ('um', 'nm')
+    meta : dict, default=None
+        An optional dictionary containing meta information about the instrument.
+    weight : str, default='number'
+        The moment of the model. One of ('number', 'surface', 'volume').
+    units : str, default='dw/dlogdp'
+        The default data format in AIM-compatible string format.
+    bin_weights : array-like, default=ones
+        An optional array to set bin weights (e.g., counting efficiency). By 
+        default, all bin weights are 1.
+    bin_prefix : str, default='bin'
+        An optional kwarg to name the bins if not already named.
+    fmt : str, default='dn' 
+        Optional kwarg describing the default data format. One of ('dn', 'dndlogdp').
+    
+    See Also
+    --------
+    smps.models.Modulair
+    smps.models.ModulairPM
+    smps.models.SMPS
+    smps.models.Grimm11D
+    smps.models.POPS
+    smps.models.ParticlesPlus
+    smps.models.AlphasenseOPCN2
+    smps.models.AlphasenseOPCN3
 
-        It can receive data in several formats including: 
-        dN, dNdlogDp.
-        
-        :param data: Data values indexed by timestamp with 
-            bins as columns.
-        :type data: DataFrame
-        :param bins: A list, ordered respective to the bins, 
-            where for each bin a min, midpoint, 
-            and max particle size is given.
-        :type bins: list of lists
-        :param dp_units: Units in which the diameter 
-            is measured, defaults to 'um'.
-        :type dp_units: {'um','nm'}
+    Examples
+    --------
+    
+    Initialize a base object with data and bins:
+    
+    >>> obj = smps.models.GenericParticleSizer(data=df, bins=bins)
+    
     """
     def __init__(self, data, bins, **kwargs):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(logging.DEBUG)
-        # formatter = logging.Formatter("")
-        # self.logger.addHandler()
-        
+
         self.data = data.copy(deep=True)
         self.bins = bins
         self.meta = kwargs.pop('meta', dict())
@@ -104,110 +130,124 @@ class GenericParticleSizer(object):
     @property
     def s_multiplier(self):
         """
-        A list of the surface areas corresponding
-        to the midpoitns of the respective bins.
+        Per particle surface area representing the mean particle in each bin.
         """
         return 4 * np.pi * (self.bins[:, 1]/2)**2
 
     @property
     def v_multiplier(self):
         """
-        A list of the volumes corresponding to the 
-        midpoitns of the respective bins.
+        Per particle volume representing the mean particle in each bin.
         """
         return (4./3)*np.pi*(self.bins[:, 1]/2)**3
 
     @property
     def midpoints(self):
         """
-        A list of the midpoints of the respective bins.
+        Midpoint particle diameter in each bin.
         """
         return self.bins[:, 1]
 
     @property
     def dlogdp(self):
         """
-        A list of the differences between the upper 
-        and lower bound of each bin on a Log scale.
+        Log difference between the upper and lower bound of each bin.
         """
         return np.log10(self.bins[:, -1]) - np.log10(self.bins[:, 0])
 
     @property
     def dn(self):
         """
-        A DataFrame with the number of particles in 
-        each bin at each time.
+        The number concentration per bin. Can otherwise be represented as :math:`dN/dD_p`. Units 
+        are pp/cm3.
         """
         return self.dndlogdp.mul(self.dlogdp)
 
     @property
     def dndlogdp(self):
         """
-        The histogram in units of dNd/logDp [#/cm3].
+        The log normalized number concentration per bin. Can otherwise be represented as 
+        :math:`dN/dlogD_p`. Units are pp/cm3.
         """
         return self.data[self.bin_labels]
 
     @property
     def dddlogdp(self):
         """
-        The histogram in units of dDpd/logDp [um/cm3].
+        Can otherwise be represented as :math:`dD/dlogD_p`.
         """
         return self.dndlogdp.mul(self.midpoints)
 
     @property
     def ds(self):
         """
-        A DataFrame with the total surface area of 
-        all the particles in each bin at each time.
+        Surface area per bin.
         """
         return self.dn.mul(self.s_multiplier)
 
     @property
     def dsdlogdp(self):
         """
-        The histogram in units of dSd/logDp [um2/cm3].
+        Log normalized surface area per bin. Otherwise represented as :math:`dS/dlogDp`.
+        Units are: µm2/cm3.
         """
         return self.dndlogdp.mul(self.s_multiplier)
 
     @property
     def dv(self):
         """
-        A DataFrame with the total volume of all 
-        the particels in each bin at each time.
+        Volume per bin.
         """
         return self.dvdlogdp.mul(self.dlogdp)
 
     @property
     def dvdlogdp(self):
         """
-        The histogram in units of dSd/logDp [um3/cm3].
+        Log normalized volume per bin. Can otherwise be represented as
+        :math:`dV/dlogDp`. Units are µm3/cm3.
         """
         return self.dndlogdp.mul(self.v_multiplier)
-
-    def copy(self):
-        """
-        Return a copy of the GenericParticleSizer.
-        """
-        return copy.deepcopy(self)
-
-    def dump(self, filepath, ):
-        """
-        Save a copy to disk at `filepath`.
-
-        :param filepath: The path at which to save the file.
-        :type filepath: string
-        :return: The list of file names in which the data is stored.
-        :rtype: list of strings
-        """
-        return joblib.dump(self, filepath)
 
     @property
     def scan_stats(self):
         """
-        A DataFrame with all the data except for the bin data.
+        Return the non-binned data.
         """
         return self.data[list(set(self.data.columns)
                               - set(self.bin_labels))]
+        
+    def copy(self):
+        """
+        Return a copy of the GenericParticleSizer.
+        
+        Examples
+        --------
+        >>> obj = GenericParticleSize(data=df)
+        >>> cpy = obj.copy()
+        """
+        return copy.deepcopy(self)
+
+    def dump(self, filepath):
+        """
+        Save a copy of the model to disk.
+        
+        Parameters
+        ----------
+        filepath : str
+            The filepath to save the file at.
+        
+        Returns
+        -------
+        filepath : list
+            The list of filepaths where data was saved.
+        
+        Examples
+        --------
+        
+        >>> model.dump(filepath="path-to-file.sav")
+        
+        """
+        return joblib.dump(self, filepath)
 
     def _subselect_frame(self, df, dmin=0., dmax=1e3):
         """
@@ -279,30 +319,43 @@ class GenericParticleSizer(object):
         
         return factors
 
-    def stats(self, weight='number', dmin=0., 
-              dmax=1e3, rho=1.65, **kwargs):
+    def stats(self, weight='number', dmin=0., dmax=1e3, rho=1.65, **kwargs):
         """
-        Calculate and return the total number of particles, 
-        total surface area, total volume, and total mass 
-        between dmin and dmax. In addition, the arithmetic 
-        mean (AM), geometric mean (GM), mode (Mode), and geometric 
-        standard deviation (GSD, CMD) are calculated and are
-        weighted by the input parameter `weight`.
+        Compute and return the aerosol size distribution statistics.
         
-        :param weight: The dimension to consider in computing 
-            statistics.
-        :type weight: {"number", "surface", "volume", "mass"}
-        :param dmin: The minimum particle diameter in microns, 
-            defaults to `0`.
-        :type dmin: float
-        :param dmax: The maximum particle diameter in microns, 
-            defaults to `1e3`.
-        :type dmax: float
-        :param rho: The particle density in units of g/cc3, 
-            defaults to `1.65`.
-        :type rho: float
-        :return: The statistics for each timestamp.
-        :rtype: DataFrame
+        Calculate the total number of particles, surface area, 
+        volume, mass, arithmetic mean particle diameter, 
+        geometric mean particle diameter, and geometric 
+        standard deviation between any two particle diameters.
+        
+        Parameters
+        ----------
+        weight: str, default='number'
+            The moment to use to compute the statistics. Should be one of 
+            ('number', 'surface', 'volume', 'mass').
+        dmin : float, default=0.0
+            The minimum particle diameter to consider. Units are in µm.
+        dmax : float, default=1000.0
+            The maximum particle diameter to consider. Units are in µm.
+        rho : float, default=1.65
+            The particle density in units of g/cm3.
+        
+        Returns
+        -------
+        data : pd.DataFrame
+            A dataframe containing the computed statistics at each point in time.
+        
+        Examples
+        --------
+        
+        Compute the number-weighted stats
+        
+        >>> obj.stats(weight='number')
+        
+        Compute the volume-weighted stats for PM2.5
+        
+        >>> obj.stats(weight='volume', dmin=0, dmax=2.5)
+        
         """
         # remove the weight from the kwargs
         assert(weight in ["number", "surface", "volume", "mass"])
@@ -313,7 +366,7 @@ class GenericParticleSizer(object):
         # subselect the dataframe to only include 
         # diameters of interest
         cpy = self.copy()
-        cpy.data = cpy._subselect_frame(cpy.data, **kwargs)
+        cpy.data = cpy._subselect_frame(cpy.data, dmin=dmin, dmax=dmax, **kwargs)
 
         # drop all rows that are completely NaN
         cpy.data = cpy.data.dropna(how='all')
@@ -418,24 +471,50 @@ class GenericParticleSizer(object):
 
     def integrate(self, weight='number', dmin=0., dmax=1., **kwargs):
         """
-        For each timestamp give the total number 
-        (or surface, volume, or mass) of all the particles 
-        (with a diameter between `dmin` and `dmax`) at that time.
+        Integrate by weight for each record in time.
         
-        :param weight: The variable to sum over, 
-            defaults to "number".
-        :type weight: {"number", "surface", "volume", "mass"}
-        :param dmin: The minimum particle diameter in microns, 
-            defaults to `0`.
-        :type dmin: float
-        :param dmax: The maximum particle diameter in microns, 
-            defaults to `1e3`.
-        :type dmax: float
-        :param rho: The particle density in units of g/cc3, 
-            defaults to `1.65`.
-        :type rho: float
-        :return: The desired values indexed by timestamp.
-        :rtype: Pandas Series
+        Compute the total number of particles, surface area, volume, or 
+        mass between any two particle diameters. Correct for hygroscopic 
+        growth by defining a hygroscopic growth factor, kappa.
+        
+        Parameters
+        ----------
+        weight : str, default='number'
+            The moment/variable to integrate. One of ('number', 'surface', 'volume', 'mass').
+        dmin : float, default=0.0
+            The minimum particle diameter in µm.
+        dmax : float, default=1.
+            The maximum particle diameter in µm.
+        rho : float or callable
+            The density as a float or a callable function which takes particle diameter as its 
+            only argument and returns the density at that diameter.
+        kappa : float or callable
+            The kappa growth factor as a float or a callable function which takes particles diameter 
+            as its only argument and returns the kappa value at that diameter.
+        rh: str
+            If kappa is defined, rh is the column of data corresponding to the relative humidity 
+            which is required to correct for hygroscopic growth.
+        
+        Returns
+        -------
+        data : pd.Series
+            A series containing the integrated values.
+        
+        Examples
+        --------
+        
+        Compute the total particle concentration under 1 µm:
+        
+        >>> obj.integrate(weight='number', dmin=0., dmax=1.)
+        
+        Compute PM1
+        
+        >>> obj.integrate(weight='mass', dmin=0., dmax=1.)
+        
+        Compute PM2.5 assuming a kappa=0.3
+        
+        >>> obj.integrate(weight='mass', dmin=0., dmax=2.5, kappa=0.3, rh="sample_rh")
+        
         """
         # Convert the density to a callable if not already
         rho = kwargs.pop("rho", 1.65)
@@ -534,19 +613,26 @@ class GenericParticleSizer(object):
 
     def slice(self, start=None, end=None, inplace=False):
         """
-        Slice the data between the start and end dates, inclusive.
+        Slice the data between two datetimes.
         
-        :param start: The first timestamp to be contained 
-            in the result.
-        :type start: string, Pandas Timestamp, or numpy DateTime64
-        :param end: The last timestamp to be contained in the 
-            result.
-        :type end: string, Pandas Timestamp, or numpy DateTime64
-        :param inplace: If False a new object is returned, 
-            defaults to False.
-        :type inplace: bool
-        :return: The data restricted to the given time interval.
-        :rtype: an object the same type as self
+        Parameters
+        ----------
+        start : str
+            The timestamp (as a string) to begin the slice.
+        end : str
+            The timestamp (as a string) to end the slice.
+        inplace : bool, default=False
+            If True, modify the data inplace, otherwise return.
+        
+        Returns
+        -------
+        data : pd.DataFrame or None
+            If inplace=False, return the dataframe with the sliced data.
+        
+        Examples
+        --------
+        >>> obj.slice(start="2023-01-01", end="2023-02-15")
+        
         """
         if inplace:
             self.data = self.data[start:end]
@@ -560,20 +646,27 @@ class GenericParticleSizer(object):
 
     def resample(self, rs, inplace=False):
         """
-        Resample on the timeseries.
-
-        :param rs: The resample period using normal 
-            Pandas conventions.
-        :type rs: string
-        :param inplace: If True, update the current instance, 
-            otherwise create a new one and return it.
-        :type inpace: bool
-        :return: A timeseries that has been resampled with 
-            period `rs`.
-        :rtype: an object from the same class as `self`
-
-        Example::
-            m.resample("15min", True)
+        Resample the data to a new time base.
+        
+        Parameters
+        ----------
+        rs : str
+            The resample period using normal pandas convention. Examples include 
+            '1h', '1d', '15min', etc.
+        inplace : bool, default=False
+            If True, modify the data inplace, otherwise return.
+        
+        Returns
+        -------
+        data : pd.DataFrame or None
+            If inplace=False, return the dataframe with the resampled data.
+        
+        Examples
+        --------
+        
+        Resample to 1h and modify in place
+        
+        >>> obj.resample('1h', inplace=True)
 
         """
         obj_cols = (
@@ -646,21 +739,27 @@ class GenericParticleSizer(object):
 
     
 class SMPS(GenericParticleSizer):
+    """
+    The TSI Scanning Mobility Particle Sizer.
+    
+    The TSI SMPS is a research instrument 
+    for counting and sizing submicron aerosol.
+    
+    """
     def __init__(self, **kwargs):
-        super(SMPS, self).__init__(fmt='dndlogdp', dp_units='nm', 
-                                   **kwargs)
-    def __repr__(self):
-        return "<SMPS>"
+        super(SMPS, self).__init__(fmt='dndlogdp', dp_units='nm', **kwargs)
 
 
 class AlphasenseOPCN2(GenericParticleSizer):
     """
-    The Alphasense OPC-N2 is a consumer-grade optical 
-    particle counter that uses a 658 nm red laser to count 
-    and size individual particles. It can count particles 
-    between 380-17,500 nm. Read more `here
+    The Alphasense OPC-N2.
+    
+    The Alphasense OPC-N2 is a consumer-grade OPC
+    that uses a 658 nm red laser to count 
+    and size particles between 380 - 17,500 nm. Read more `here
     <https://www.alphasense.com/products/
     optical-particle-counter/>`__.
+    
     """
     def __init__(self, **kwargs):
         bb = np.array([0.38, 0.54, 0.78, 1.05, 1.34, 1.59, 2.07, 3., 
@@ -683,6 +782,8 @@ class AlphasenseOPCN2(GenericParticleSizer):
 
 class AlphasenseOPCN3(GenericParticleSizer):
     """
+    The Alphasense OPC-N3.
+    
     The Alphasense OPC-N3 is a consumer-grade optical
     particle counter that uses a 658 nm red laser to count 
     and size individual particles. It can count particles 
@@ -711,6 +812,8 @@ class AlphasenseOPCN3(GenericParticleSizer):
 
 class ModulairPM(GenericParticleSizer):
     """
+    The QuantAQ MODULAIR-PM.
+    
     QuantAQ's MODULAIR-PM sensors use the Alphasense OPC-N3,
     a consumer-grade optical particle counter that uses a 658 nm 
     red laser to count and size individual particles. It can 
@@ -739,6 +842,8 @@ class ModulairPM(GenericParticleSizer):
 
 class Modulair(GenericParticleSizer):
     """
+    The QuantAQ MODULAIR.
+    
     QuantAQ's MODULAIR sensors use the Alphasense OPC-N3,
     a consumer-grade optical particle counter that uses a 658 nm 
     red laser to count and size individual particles. It can 
@@ -770,6 +875,8 @@ class Modulair(GenericParticleSizer):
 
 class POPS(GenericParticleSizer):
     """
+    The Handix Scientific Portable Optical Particle Spectrometer (POPS).
+    
     The Portable Optical Particle Spectrometer is based on 
     the design of R. Gao and is currently manufactured by 
     Handix Scientific. It is a research-grade OPC that can see 
@@ -798,6 +905,8 @@ class POPS(GenericParticleSizer):
 
 class ParticlesPlus(GenericParticleSizer):
     """
+    The Particles Plus OPC.
+    
     The Particles Plus is a consumer-grade optical particle counter
     that uses a red laser to count and size individual particles. It
     can count particles between 300-10,000 nm. Read more `here 
@@ -823,6 +932,8 @@ class ParticlesPlus(GenericParticleSizer):
 
 class Grimm11D(GenericParticleSizer):
     """
+    The GRIMM 11D.
+    
     The Grimm11D is an optical particle counter that uses a blue 
     laser to count and size individual particles. It can count 
     particles between 250-35,000 nm. Read more `here 
