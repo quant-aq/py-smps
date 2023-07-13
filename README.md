@@ -8,21 +8,6 @@
 
 py-smps is a Python data analysis library built for analyzing size-resolved aerosol data from a variety of aerosol sizing instruments (e.g., Scanning Mobility Particle Sizer, Optical Particle Counters).
 
-## Dependencies
-
-The full list of dependencies can be found in the `pyproject.toml` file and are summarized below:
-
-```py
-python = ">=3.8, <3.12"
-statsmodels = "^0.13"
-seaborn = "^0.12"
-joblib = "^1.2"
-requests = "^2.24"
-scipy = "^1.9"
-numpy = "^1.23"
-pandas = "^1.4"
-setuptools = "^65.0
-```
 
 **NOTE: As of `v1.2.0`, the library is compatible with Apple silicone (M1, M2 chips).**
 
@@ -46,11 +31,8 @@ To install the edge release directly from GitHub:
 - Python 3.8+
 
 ## Mandatory Dependencies
-- statsmodels
-- seaborn
-- numpy
-- pandas
-- scipy
+
+The full list of dependencies can be found in the [`pyproject.toml`](pyproject.toml) file.
 
 # Development
 
@@ -74,9 +56,12 @@ If there is a feature you would like to see or a bug you would like to report, p
 Documentation is available [here](https://quant-aq.github.io/py-smps/). Docs are built using Sphinx and can be built locally by doing the following:
 
 ```sh
+# Activate the virtualenv
+$ poetry shell
+
+# Build the docs
 $ cd docs/
 $ make clean
-$ make guides
 $ make html
 $ cd ..
 ```

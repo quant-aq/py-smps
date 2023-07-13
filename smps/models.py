@@ -622,7 +622,8 @@ class GenericParticleSizer(object):
         end : str
             The timestamp (as a string) to end the slice.
         inplace : bool, default=False
-            If True, modify the data inplace, otherwise return.
+            If True, replace the data with the specified slice of the data, 
+            otherwise return a copy of the sliced data.
         
         Returns
         -------

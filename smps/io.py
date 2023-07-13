@@ -33,7 +33,7 @@ def smps_from_txt(fpath, column=True, delimiter=',', as_dict=False, **kwargs):
     
     Returns
     -------
-    smps.models.SMPS
+    smps.models.SMPS or dict
     
     See Also
     --------
