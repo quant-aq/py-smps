@@ -491,7 +491,7 @@ class GenericParticleSizer(object):
         kappa : float or callable
             The kappa growth factor as a float or a callable function which takes particles diameter 
             as its only argument and returns the kappa value at that diameter.
-        rh: str
+        rh : str
             If kappa is defined, rh is the column of data corresponding to the relative humidity 
             which is required to correct for hygroscopic growth.
         
