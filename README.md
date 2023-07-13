@@ -1,34 +1,19 @@
 [![PyPI version](https://badge.fury.io/py/py-smps.svg)](https://badge.fury.io/py/py-smps)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Coverage Status](https://coveralls.io/repos/github/dhhagan/py-smps/badge.svg?branch=master)](https://coveralls.io/github/dhhagan/py-smps?branch=master)
+[![ci.tests](https://github.com/quant-aq/py-smps/actions/workflows/test-and-report.yml/badge.svg)](https://github.com/quant-aq/py-smps/actions/workflows/test-and-report.yml)
 
 
 # py-smps
-Python library for the analysis and visualization of data from a Scanning Mobility Particle Sizer (SMPS) and other particle sizing instruments (SEMS, OPC's).
 
-## Dependencies
+py-smps is a Python data analysis library built for analyzing size-resolved aerosol data from a variety of aerosol sizing instruments (e.g., Scanning Mobility Particle Sizer, Optical Particle Counters).
 
-The full list of dependencies can be found in the `pyproject.toml` file and are summarized below:
 
-```py
-python = ">=3.8, <3.12"
-statsmodels = "^0.13"
-seaborn = "^0.10"
-joblib = "^1.0"
-requests = "^2.24"
-scipy = "^1.9"
-numpy = "^1.23.2"
-pandas = "^1.4"
-```
+**NOTE: As of `v1.2.0`, the library is compatible with Apple silicone (M1, M2 chips).**
 
-As of `v1.2.0a0`, the library should be compatible with Apple silicone (tested on both M1 and M2).
+# Installation
 
-## Python Versions
-
-Python3.8 through Python3.11 are currently supported.
-
-## Installation
-
-To install from PyPi:
+Official releases of `py-smps` can be installed from [PyPI](https://pypi.org/project/py-smps/):
 
     $ pip install py-smps [--upgrade]
 
@@ -40,29 +25,24 @@ To install the edge release directly from GitHub:
 
     pip install git+https://github.com/quant-aq/py-smps.git
 
-## Unittests
+# Dependencies
 
-Unittests can be run by issuing the following command from within the main repo:
+## Supported Python versions
+- Python 3.8+
+
+## Mandatory Dependencies
+
+The full list of dependencies can be found in the [`pyproject.toml`](pyproject.toml) file.
+
+# Development
+
+## Testing
+
+Tests can be run by issuing the following command from within the main repo:
 
 ```sh
 $ poetry run pytest -s tests/ --ignore=tests/datafiles
 ```
-
-
-## Documentation
-
-Documentation is available [here](https://quant-aq.github.io/py-smps/). Docs are built using Sphinx and can be built locally by doing the following:
-
-```sh
-$ cd docs/
-$ make clean
-$ make guides
-$ make html
-$ cd ..
-```
-
-Then, you can navigate to your local directory at `docs/_build/html/` and open up the `index.html` file in your preferred browser window.
-
 
 ## Contributing to Development
 
@@ -71,8 +51,19 @@ We welcome all contributions from the community in the form of issues reporting,
 If there is a feature you would like to see or a bug you would like to report, please open an issue. We will try to get to things as promptly as possible. Otherwise, feel free to send PR's!
 
 
-## Colorbar Information
+# Documentation
 
-  * [matplotlib colorbars](http://matplotlib.org/examples/color/colormaps_reference.html)
-  * [seaborn color palette](http://seaborn.pydata.org/tutorial/color_palettes.html)
+Documentation is available [here](https://quant-aq.github.io/py-smps/). To build locally, you must first install [pandoc](https://pandoc.org/). Docs are built using Sphinx and can be built locally by doing the following:
 
+```sh
+# Activate the virtualenv
+$ poetry shell
+
+# Build the docs
+$ cd docs/
+$ make clean
+$ make html
+$ cd ..
+```
+
+Then, you can navigate to your local directory at `docs/build/html/` and open up the `index.html` file in your preferred browser window.

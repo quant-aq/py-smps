@@ -9,35 +9,55 @@ from scipy.stats.mstats import gmean
 
 def make_bins(**kwargs):
     """
-    'make_bins` computes the upper and lower bounds and
-    midpoints of all the bins given either
-    * `boundaries`
-    * `boundaries_left` and `boundaries_right`
-    * or `lb`, `ub`, and `midpoints` (`channels_per_decade` optional).
+    Create a 3xn array of particle size bins.
     
-    :param boundaries: A list containing, for each bin, a list of 
-        the lower and upper bound for the bin.
-    :type boundaries: list of lists, or numpy array
-    :param boundaries_left: A list of lower boundaries for each bin.
-    :type boundaries_left: list
-    :param boundaries_right: A list of upper boundaries for each 
-        bin.
-    :type boundaries_right: list
-    :param lb: The lower bound of the lowermost bin.
-    :type lb: float
-    :param ub: The upper bound of the uppermost bin.
-    :type ub: float
-    :param midpoints: A list of midpoints for each bin.
-    :type midpoints: list
-    :param channels_per_decade: A measure of bin width on the log 
-        scale.
-    :type channels_per_decade: float
-    :param mean_calc: Determins wether the geometric or arethmetic 
-        mean should be used to compute the midpoints.
-    :type mean_calc: {"gm", "am"}
-    :return: For each bin a row is given with the lower boundary, 
-        the midpoint, and the upper bounary for that bin.
-    :rtype: numpy array
+    Compute the lower boundary, upper boundary, and midpoint 
+    diameter for each particle size bin.
+    
+    Parameters
+    ----------
+    boundaries : array-like
+        A list or array containing all unique lower and upper bounds.
+    boundaries_left : array-like
+        A list of lower boundaries for each bin. If used, you must also define the boundaries_right.
+    boundaries_right : array-like
+        A list of upper boundaries for each bin. If used, you must also define the boundaries_left.
+    lb : float
+        The lower bound of the lowest size bin. If used, you must also provide a value for ub.
+    ub : float
+        The upper bound of the largest size bin. If used, you must also provide a value for lb.
+    midpoints : array-like
+        A list of midpoints to use. If used, you must also provide values for lb and ub.
+    channels_per_decade : int
+        A measure of the bin width on a log scale.
+    mean_calc : str
+        The method of calculation for midpoints. Should be one of ('am', 'gm') corresponding 
+        to the arithmetic or geometric mean.
+    
+    Returns
+    -------
+    bins : array-like
+        A 3xn array of particle size bins with a (lower boundary, midpoint, upper boundary)
+        for each particle size bin.
+    
+    Examples
+    --------
+    
+    Create a set of bins from a list of boundaries:
+    
+    >>> bins = make_bins(boundaries=np.array([0.35, 1.0, 2.5, 10.0]))
+    
+    Create a set of bins from lists of lower and upper boundaries:
+    
+    >>> bins = make_bins(
+    >>>    boundaries_left=np.array([0.35, 1.0, 2.5]),
+    >>>    boundaries_right=np.array([1.0, 2.5, 10.0])
+    >>> )
+    
+    Create a set of bins from the lowest boundary, highest boundary, and midpoints:
+    
+    >>> bins = make_bins(lb=0.35, ub=10.0, midpoints=np.array([.5, 2.0, 5.0]))
+    
     """
     boundaries = kwargs.pop("boundaries", None)
     boundaries_left = kwargs.pop("boundaries_left", None)
@@ -104,10 +124,7 @@ def make_bins(**kwargs):
     if mean_calc == 'am':
         bins[:, 1] = (bins[:, 0] + bins[:, 2]) / 2
     else:
-        bins[:, 1] = [gmean([x, y]) for x, y in zip(
-            bins[:, 0], 
-            bins[:, 2]
-        )]
+        bins[:, 1] = [gmean([x, y]) for x, y in zip(bins[:, 0], bins[:, 2])]
 
     return bins
 

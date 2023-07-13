@@ -420,49 +420,59 @@ models = {
         ]
     }
 
+
 class LogNormal(object):
     """
-    `LogNormal` uses non-linear least squares to fit a
-    log-normal model, with up to three modes.
+    A multi-mode LogNormal particle size distribution.
     """
     def __init__(self):
         pass
 
-    def fit(self, X, Y, modes=1, xmin=None,
-            xmax=None, weight='number', fit_kwargs=None, **kwargs):
+    def fit(self, X, Y, modes=1, xmin=None, xmax=None, weight='number', fit_kwargs=None, **kwargs):
         """
-        `fit` uses non-linear least squares to fit a
-        log-normal model, with up to three modes.
-        
-        :param X: The independant variable.
-        :type X: array-like
-        :param Y: The dependent variable.
-        :type Y: array-like
-        :param modes: Number of modes for the model to 
-            have, defaults to 1.
-        :type modes: {1,2,3}
-        :param xmin: Lower bound by which to crop data.
-        :type xmin: float, optional
-        :param xmax: Upperbound by which to crop data.
-        :type xmax: float, optional
-        :param weight: Dimension of interest.
-        :type weight: {"number", "surface", "volume"}
-        :param fit_kwargs: Options to be passed 
-            to ``scipy.optimize.curve_fit``. Read 
-            more `here <https://docs.scipy.org/doc/
+        Fit a multi-mode lognormal aerosol distribution.
+
+        Parameters
+        ----------
+        X : array-like
+            Training data
+        Y : array-like
+            The target values.
+        modes : int, default=1
+            The number of models for the model to fit to.
+        xmin : float, default=None
+            The minimum particle diameter (in nm) to consider.
+        xmax : float, default=None
+            The maximum particle diameter (in nm) to consider.
+        weight : str, default='number'
+            The moment of the distribution to fit. Should be one of 
+            ("number", "surface", "volume").
+        fit_kwargs : dict
+            Optional kwargs to be passed directly to ``scipy.optimize.curve_fit``.
+            Read more `here <https://docs.scipy.org/doc/
             scipy/reference/generated/scipy.optimize.
             curve_fit.html>`__.
-        :type fit_kwargs: dict, optional
-        :param p0: Initial guesses passed to ``scipy.
-            optimize.curve_fit`` for the parameters. 
-            Must have length 3*`modes`.
-        :type p0: list, optional
-        :param bounds: Bounds to be passed to ``scipy.
-            optimize.curve_fit``. Defaults to `(0, [1e9, 
-            1e5, 5]*self.modes)`.
-        :type bounds: 2-tuple
-        :return: A fitted log-normal model.
-        :rtype: `LogNormalFitResults` object
+        p0 : array-like
+            Array of initial guesses
+        
+        Returns
+        -------
+        smps.fit.LogNormalFitResults
+        
+        See Also
+        --------
+        smps.models.GenericParticleSizer
+        smps.fit.LogNormalFitResults
+        
+        Examples
+        --------
+        
+        Create a single-mode fit:
+        
+        >>> from smps.fit import LogNormal
+        >>> model = LogNormal()
+        >>> results = model.fit(obj.midpoints, obj.dndlogdp.mean(), modes=1)
+
         """
         
         self.modes = modes
@@ -503,21 +513,29 @@ class LogNormal(object):
 
 class LogNormalFitResults(object):
     """
-    `LogNormalFitResults` holds the results produced by `LogNormal`.
+    Fit parameters for the LogNormal distribution.
     
-    :param params: The parameters of the fitted model.
-    :type params: array
-    :param error_matrix: The one standard deviation errors associaed 
-        with the paramters, given in the same order as `params`. 
-    :type error_matrix: array
-    :param fittedvalues: The results from evaluating the model at 
-        each of the independent variables in the training data.
-    :type fittedvalues: array
-    :param modes: The number of modes the model has.
-    :type modes: {1,2,3}
+    This class is returned by the LogNormal model and is 
+    not typically created from scratch.
+    
+    Parameters
+    ----------
+    params : array-like
+        The parameters of the fitted model as an array.
+    error_matrix : array-like
+        The error matrix for the params.
+    fittedvalues : array-like
+        The fitted values from the LogNormal model.
+    modes : int
+        The number of modes fit.
+    
+    
+    See Also
+    --------
+    smps.fit.LogNormal
+
     """
-    def __init__(self, params, error_matrix, fittedvalues,
-                 modes, **kwargs):
+    def __init__(self, params, error_matrix, fittedvalues, modes, **kwargs):
         self.modes = modes
 
         self.params = params.reshape(self.modes, 3)
@@ -526,7 +544,22 @@ class LogNormalFitResults(object):
 
     def summary(self):
         """
-        A `Table` object with the a summary of the model.
+        Summary statistics for the fit LogNormal model.
+        
+        Returns
+        -------
+        statsmodels.iolib.table.SimpleTable
+        
+        Examples
+        --------
+
+        >>> from smps.fit import LogNormal
+        >>>
+        >>> model = LogNormal()
+        >>>
+        >>> results = model.fit(obj.midpoints, obj.dndlogdp.mean(), modes=1)
+        >>> results.summary()
+        
         """
         # Convert GM from microns to nm
         params = self.params.copy()
@@ -553,16 +586,34 @@ class LogNormalFitResults(object):
 
     def predict(self, X, weight='number'):
         """
-        Uses the model to predict the outcome for a given input.
+        Predict new values using the fit model.
         
-        :param X: Particle diameters at which to evaluate 
-            the model PDF.
-        :type X: numpy array
-        :param weight: Dimension of concentration to model.
-        :type weight: {"number", "surface", "volume"}
-        :return: A list of concentrations respective to the 
-            list of particle sizes, `X`.
-        :rtype: numpy array
+        Parameters
+        ----------
+        X : array-like
+            An array of particle diameters at which to predict the 
+            number concentration based on the fit model.
+        weight: str, default='number'
+            The moment of the model to fit at. Should be one of 
+            ('number', 'surface', 'volume').
+        
+        Returns
+        -------
+        An array of number concentrations.
+        
+        Examples
+        --------
+        
+        Predict the number concentration at 1 and 2.5 µm:
+        
+        >>> from smps.fit import LogNormal
+        >>>
+        >>> model = LogNormal()
+        >>>
+        >>> results = model.fit(obj.midpoints, obj.dndlogdp.mean(), modes=1)
+        >>> 
+        >>> results.predict([1., 2.5])     
+
         """
         model = models[weight][self.modes-1]
 

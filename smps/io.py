@@ -16,24 +16,40 @@ from .models import SMPS
 __all__ = ["smps_from_txt", "load_sample"]
 
 
-def smps_from_txt(fpath, column=True, delimiter=',', 
-                  as_dict=True, **kwargs):
-    """Read an SMPS txt file as exported by the TSI AIM software.
+def smps_from_txt(fpath, column=True, delimiter=',', as_dict=False, **kwargs):
+    """Create an SMPS object directory from a text file via TSIs AIM software.
     
-    :param fpath: The file path to txt file to be read.
-    :type fpath: string
-    :param column: If your data is in 'column' format, set True. Otherwise, set False, 
-        defaults to True.
-    :type column: bool
-    :param delimiter: The delimiter in the txt file, 
-        must be a comma of a tab, defaults to ",".
-    :type delimiter: string
-    :param as_dict: Sets the data type returned by the function, 
-        defaults to True.
-    :type as_dict: bool
-    :return: The data loaded from the txt file.
-    :rtype: SMPS instance or dict, depending on 
-        the parameter as_dict
+    Parameters
+    ----------
+    fpath : str
+            The filepath where the file to read is located.
+    column : bool, default=True
+            If your data was exported in 'column' format, leave as True. If exported
+            in 'row' format, set to False.
+    delimiter : str, default=','
+            Sets the delimiter to expect when reading the data file.
+    as_dict : bool, default=False
+            Set to true to return a dict, otherwise returns an SMPS object.
+    
+    Returns
+    -------
+    smps.models.SMPS or dict
+    
+    See Also
+    --------
+    smps.models.SMPS
+    
+    Examples
+    --------
+    
+    Load a data file with all defaults:
+    
+    >>> obj = smps.io.smps_from_text(filepath)
+    
+    Load a similar file, but exported in row format:
+    
+    >>> obj = smps.io.smps_from_text(filepath, column=False)
+    
     """
     assert(delimiter in [',', '\t']), "The delimiter must \
     be either a comma or tab"
@@ -223,12 +239,28 @@ def smps_from_txt(fpath, column=True, delimiter=',',
 
 
 def load_sample(label="boston"):
-    """Load a sample data file directly from GitHub.
-
-    :param label: Which dataset to load.
-    :type label: {'boston', 'chamber'}
-    :return: The example data loaded from GitHub.
-    :rtype: SMPS instance
+    """Load one of the example datasets provided.
+    
+    Parameters
+    ----------
+    label : str, default='boston'
+            Choose the example dataset to load. Should be one of ['boston', 'chamber']
+    
+    Returns
+    -------
+    smps.models.SMPS
+    
+    See Also
+    --------
+    smps.models.SMPS
+    
+    Examples
+    --------
+    
+    Load the boston example dataset:
+    
+    >>> obj = smps.io.load_sample('boston')
+    
     """
     assert(label in ["boston", "chamber"]), "Invalid option chosen \
     for the label"
@@ -246,8 +278,7 @@ def load_sample(label="boston"):
         }
     }
 
-    m = smps_from_txt(fpath=files[label]['uri'], 
-                      column=files[label]['column'])
+    m = smps_from_txt(fpath=files[label]['uri'], column=files[label]['column'], as_dict=True)
 
     # convert to an SMPS instance
     return SMPS(
@@ -256,4 +287,5 @@ def load_sample(label="boston"):
         meta=m['meta'], 
         bin_labels=m['bin_labels'], 
         weight=m['weight'], 
-        units=m['units'])
+        units=m['units']
+    )

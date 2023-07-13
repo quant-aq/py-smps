@@ -1,4 +1,4 @@
-name: run tests and report results
+name: ci.tests
 on: [pull_request, workflow_dispatch]
 jobs:
     tests:

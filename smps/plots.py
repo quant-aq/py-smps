@@ -12,64 +12,61 @@ from numpy import nan_to_num
 
 default_cmap = 'viridis'
 
-__all__ = ["heatmap", "histplot"]
+__all__ = [
+    "heatmap", 
+    "histplot"
+]
 
 
 def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True, 
             cmap=default_cmap, fig_kws={}, cbar_kws={}, plot_kws={}, 
             **kwargs):
-    """Plot the heatmap of the particle size distribution. 
-    All NaN'd values will be converted to zeroes.
+    """
+    Plot the size distribution over time (i.e., banana plot).
     
-    :param X: The boundaries of cells in x-axis dimension.
-    :type X: array-like
-    :param Y: The boundaries of cells in y-axis dimension.
-    :type Y: array-like
-    :param Z: The color value in the cells.
-    :type Z: 2D array-like
-    :param ax: A `matplotlib.pyplot` Axes in which to build the 
-        plot. If `None`, a new Figure is instantiated. Defaults to 
-        `None`.
-    :type ax: `matplotlib.pyplot` Axes
-    :param logy: Set whether the y axis is on a log scale, 
-        defaults to True.
-    :type logy: bool
-    :param cbar: Set whether to include a color bar in the plot key, 
-        defaults to True.
-    :type cbar: bool
-    :param hide_low: Set whether `Z` values below `cbar_min` should 
-        be set to `cbar_min`, defaults to True.
-    :type hide_low: bool
-    :param cmap: A color map for `matplotlib.pyplot` `pcolormesh`, 
-        defaults to `default_cmap`. See `here 
-        <https://matplotlib.org/stable/api/_as_gen
-        /matplotlib.colors.Colormap.html
-        #matplotlib.colors.Colormap>`__.
-    :type cmap: string or Colormap
-    :param fig_kws: Options for the `matplotlib.pyplot` figure.
-        See `here <https://matplotlib.org/stable/api/_as_gen
-        /matplotlib.pyplot.figure.html>`__,
-        efaults to `dict(figsize=(16,8)`.
-    :type fig_kws: dict
-    :param cbar_kws: Options for the `matplotlib.pyplot` `colorbar`.
-        See `here <https://matplotlib.org/stable
-        /api/figure_api.html#matplotlib.figure.Figure.colorbar>`__.
-    :type cbar_kws: dict
-    :param plot_kws: Options for the `matplotlib.pyplot` Axes.
-        See `here <https://matplotlib.org/stable/api/_as_gen
-        /matplotlib.pyplot.gca.html>'__,
-        Defaults to `dict(alpha=1, edgecolor=None, linewidth=0)`.
-    :type plot_kws: dict
-    :param cbar_min: The minimum value for the color bar, 
-        defaults to the smallest `Z` value
-        (unless it is not greater than zero, 
-        and then it will default to one).
-    :type cbar_min: float
-    :param cbar_max: The maximum value for the color bar, 
-        defaults to the largest `Z` value.
-    :type cbar_max: float
-    :return: A plot of the histogram.
-    :rtype: `matplotlib.pyplot` Axes
+    Parameters
+    ----------
+    X : array-like
+        An array of times or datetime objects to plot on the x-axis.
+    Y : array-like
+        An array of particle diameters to plot on the y-axis.
+    Z : 2D array-like
+        A 2D-array of particle concentrations to plot on the Z axis.
+    ax : matplotlib.axis.Axis   
+        An axis object to plot on. If none is provided, one will be created.
+    logy : bool, default=True
+        If true, the y-axis will be semilogy.
+    cbar : bool, default=True
+        If true, a colorbar will be added.
+    hide_low : bool, default=True
+        If true, low values will be masked.
+    cmap : matplotlib.colormap, default='viridis'
+        The colormap to use. Can be anything other that 'jet'.
+    fig_kws : dict, default=None
+        Optional kwargs to pass to the Figure.
+    cbar_kws : dict, default=None
+        Optional kwargs to be passed to the colorbar.
+    plot_kws : dict, default=None
+        Optional kwargs to be passed to pcolormesh.
+    cbar_min : float
+        The minimum value to use for the colorbar. Defaults to 
+        the greater of 1 or the lowest Z value.
+    cbar_max : float
+        The maximum value to use for the colobar. Defaults to the 
+        largest value in Z.
+    
+    Returns
+    -------
+    ax : matplotlib.axis.Axis
+    
+    
+    Examples
+    --------
+
+    Plot a banana:
+    
+    >>> ax = smps.plots.heatmap(X, Y, Z, cmap='viridis')
+
     """
     # Copy to avoid modifying original data
     Z_plot = Z.copy()
@@ -129,32 +126,41 @@ def heatmap(X, Y, Z, ax=None, logy=True, cbar=True, hide_low=True,
     return ax
 
 
-def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, 
-             **kwargs):
+def histplot(histogram, bins, ax=None, plot_kws=None, fig_kws=None, **kwargs):
     """
-    Plot the histogram in the form of a bar chart.
+    Plot the particle size distribution at a single point in time.
     
-    :param histogram: A histogram indexed by bins.
-        If a DataFrame is given the data will be averaged over time.
-    :type histogram: Pandas DataFrame, Pandas Series
-    :param bins: For each bin a row with the lower boundary, the
-        midpoint, and the upper bounary for that bin.
-    :type bins: numpy array
-    :param ax: `matplotlib.pyplot` Axes in which to build the plot.
-        If `None`, a new Figure is instantiated.
-    :type ax: `matplotlib.pyplot` Axes
-    :param plot_kws: Options for the `matplotlib.pyplot` Axes.
-        See `here <https://matplotlib.org/stable/api/_as_gen
-        /matplotlib.pyplot.gca.html>'__.
-        Defaults to `dict(alpha=1, edgecolor=None, linewidth=0)`.
-    :type plot_kws: dict
-    :param fig_kws: Options for the `matplotlib.pyplot` figure.
-        See `here <https://matplotlib.org/stable/api/_as_gen
-        /matplotlib.pyplot.figure.html>`__,
-        defaults to `dict(figsize=(16,8)`.
-    :type fig_kws: dict
-    :return: A plot of the histogram.
-    :rtype: `matplotlib.pyplot` Axes
+    Parameters
+    ----------
+    histogram : array-like or DataFrame
+        The array of number, surface area, or volume concentrations 
+        to plot on the y-axis. If a dataframe is provided, it will 
+        plot the average.
+    bins : array-like
+        A 3xn array of bins to use to plot the x axis.
+    ax : matplotlib.axis.Axis, default=None
+        An existing matplotlib axis object. If none is provided, 
+        one will be created (and returned).
+    plot_kws : dict, default=None
+        Optional kwargs passed to the `matplotlib.pyplot.bar` object. See 
+        `here <https://matplotlib.org/stable/api/_as_gen
+        /matplotlib.pyplot.gca.html>`__ for more info.
+    fig_kws : dict, default=None
+        Optional kwargs passed to the `matplotlib.figure.figure` object. See 
+        `here <https://matplotlib.org/stable/api/_as_gen
+        /matplotlib.pyplot.figure.html>`__ for more info.
+    
+    Returns
+    -------
+    ax : matplotlib.axis.Axis
+    
+    Examples
+    --------
+    
+    Create a simple plot for a number-weighted distribution:
+    
+    >>> ax = smps.plots.histplot(obj.dndlogdp, obj.bins)
+    
     """
     if isinstance(histogram, pd.DataFrame):
         histogram = histogram.mean().values

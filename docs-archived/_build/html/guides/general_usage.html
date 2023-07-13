@@ -1,0 +1,1614 @@
+<!doctype html>
+<html class="no-js">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Curve Fitting" href="curve_fitting.html" /><link rel="prev" title="Guides" href="index.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2021.06.18.beta36"/>
+        <title>General Usage - py-smps 2.1.0a0 documentation</title>
+      <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
+    <link rel="stylesheet" href="../_static/pygments.css">
+    
+
+
+<style>
+  :root {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+  }
+
+  /* For allowing end-user-specific overrides */
+  .override-light {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  .override-dark {
+    --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+  }
+</style><link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
+    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=ee12cdd73c4bbac24afec78d92c4afd7c2d8ea7f"></head>
+  <body dir="">
+    
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke="none" d="M0 0h24v24H0z"/>
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="10" y1="12" x2="20" y2="12" />
+      <line x1="6" y1="18" x2="20" y2="18" />
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+      class="feather feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">py-smps 2.1.0a0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">py-smps 2.1.0a0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html">
+  <input class="sidebar-search" placeholder=Search name="q">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Guides</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">General Usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="curve_fitting.html">Curve Fitting</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.load_sample.html">smps.io.load_sample</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.utils.make_bins.html">smps.utils.make_bins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html">smps.models.GenericParticleSizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.SMPS.html">smps.models.SMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Grimm11D.html">smps.models.Grimm11D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.POPS.html">smps.models.POPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ParticlesPlus.html">smps.models.ParticlesPlus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN2.html">smps.models.AlphasenseOPCN2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN3.html">smps.models.AlphasenseOPCN3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Modulair.html">smps.models.Modulair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ModulairPM.html">smps.models.ModulairPM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.heatmap.html">smps.plots.heatmap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.histplot.html">smps.plots.histplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.fit.LogNormal.html">smps.fit.LogNormal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.fit.LogNormalFitResults.html">smps.fit.LogNormalFitResults</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/issues.html">Reporting Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/patches.html">Submitting Patches or Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing/tests.html">Tests</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
+</ul>
+
+</div>
+</div>
+      </div>
+      
+    </div>
+  </aside>
+  <main class="main">
+    <div class="content">
+      <article role="main">
+        <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        </label>
+        <div class="section" id="general-usage">
+<h1>General Usage<a class="headerlink" href="#general-usage" title="Permalink to this headline">¶</a></h1>
+<p><em>py-smps</em> is a general-purpose library meant for making the analysis of
+size-resolved aerosol data a bit easier. It is not meant to cover all
+possible instruments or use cases (at least not yet!). This guide should
+give you an overview of the capabilities of the software, but will not
+be completely comprehensive. Please read through the API documentation
+if you have any questions or post to the discussions on the GitHub
+repository.</p>
+<div class="section" id="importing-data">
+<h2>Importing Data<a class="headerlink" href="#importing-data" title="Permalink to this headline">¶</a></h2>
+<p>The data format for each type of sensor/analyzer is going to be
+different depending on manufacturer’s specifications. There are a few
+helper functions for common sensors (i.e., the SMPS from TSI), and
+generally, we need the data to meet the following requirements:</p>
+<ul class="simple">
+<li><p>the raw data should be a DataFrame (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>). If you’re
+unfamiliar with DataFrame’s in python, it may be a good idea to read
+up on the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library before moving on</p></li>
+<li><p>the index of the DataFrame should be a time series</p></li>
+<li><p>there should be a unique column for every particle size bin</p></li>
+</ul>
+<p>So long as the above requirements are met, you should be able to analyze
+any sensor or instrument!</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import warnings
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import smps
+
+sns.set("notebook", style="ticks", font_scale=1.25, palette='colorblind')
+smps.set()
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
+%matplotlib inline
+
+print (smps.__version__)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">2.0.0</span><span class="n">a2</span>
+</pre></div>
+</div>
+<p>To get started, we need data! Here, we use the <code class="docutils literal notranslate"><span class="pre">smps.io.load_sample</span></code>
+function to import a sample SMPS data set:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load the 'boston' example
+bos = smps.io.load_sample("boston")
+</pre></div>
+</div>
+<p>If you are trying to analyze data from an SMPS, there is a file loader
+function available (<code class="docutils literal notranslate"><span class="pre">smps.io.load_file</span></code>); however, each version of the
+TSI AIM software is different, making it incredibly difficult to make a
+general-purpose loader. If this function doesn’t work for your version
+of AIM data outputs, please raise an issue in the GitHub repository and
+paste your file and we can come up with a solution.</p>
+<p>If your data is simply a csv, you can use native pandas to load your
+data and ensure it’s in the correct format. There are also some sample
+data files located in the <code class="docutils literal notranslate"><span class="pre">tests</span></code> directory if needed.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Load a sample data set from an
+df = pd.read_csv("https://raw.githubusercontent.com/quant-aq/py-smps/master/tests/datafiles/MOD-PM-SAMPLE.csv")
+
+# Conver the timestamp to be a datetime object
+df["timestamp"] = df["timestamp"].map(pd.to_datetime)
+
+# Set the index to be a timestamp
+df.set_index("timestamp", inplace=True)
+
+df.info()
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class 'pandas.core.frame.DataFrame'&gt;
+DatetimeIndex: 1009 entries, 2022-02-15 21:27:30+00:00 to 2022-02-15 04:39:32+00:00
+Data columns (total 54 columns):
+ #   Column           Non-Null Count  Dtype
+---  ------           --------------  -----
+ 0   id               1009 non-null   int64
+ 1   timestamp_local  1009 non-null   object
+ 2   sn               1009 non-null   object
+ 3   sample_rh        1009 non-null   float64
+ 4   sample_temp      1009 non-null   float64
+ 5   sample_pres      1009 non-null   int64
+ 6   bin0             1009 non-null   float64
+ 7   bin1             1009 non-null   float64
+ 8   bin2             1009 non-null   float64
+ 9   bin3             1009 non-null   float64
+ 10  bin4             1009 non-null   float64
+ 11  bin5             1009 non-null   float64
+ 12  bin6             1009 non-null   float64
+ 13  bin7             1009 non-null   float64
+ 14  bin8             1009 non-null   float64
+ 15  bin9             1009 non-null   float64
+ 16  bin10            1009 non-null   float64
+ 17  bin11            1009 non-null   float64
+ 18  bin12            1009 non-null   float64
+ 19  bin13            1009 non-null   float64
+ 20  bin14            1009 non-null   float64
+ 21  bin15            1009 non-null   float64
+ 22  bin16            1009 non-null   float64
+ 23  bin17            1009 non-null   float64
+ 24  bin18            1009 non-null   float64
+ 25  bin19            1009 non-null   float64
+ 26  bin20            1009 non-null   float64
+ 27  bin21            1009 non-null   int64
+ 28  bin22            1009 non-null   int64
+ 29  bin23            1009 non-null   float64
+ 30  opcn3_temp       1009 non-null   int64
+ 31  opcn3_rh         1009 non-null   int64
+ 32  opcn3_pm1        1009 non-null   float64
+ 33  opcn3_pm25       1009 non-null   float64
+ 34  opcn3_pm10       1009 non-null   float64
+ 35  pm1_env          1009 non-null   float64
+ 36  pm25_env         1009 non-null   float64
+ 37  pm10_env         1009 non-null   float64
+ 38  neph_bin0        1009 non-null   float64
+ 39  neph_bin1        1009 non-null   float64
+ 40  neph_bin2        1009 non-null   float64
+ 41  neph_bin3        1009 non-null   float64
+ 42  neph_bin4        1009 non-null   int64
+ 43  neph_bin5        1009 non-null   int64
+ 44  flag             1009 non-null   int64
+ 45  lat              1009 non-null   float64
+ 46  lon              1009 non-null   float64
+ 47  device_state     1009 non-null   object
+ 48  pm10             1009 non-null   float64
+ 49  pm1_model_id     1009 non-null   int64
+ 50  pm25_model_id    1009 non-null   int64
+ 51  pm25             1009 non-null   float64
+ 52  pm10_model_id    1009 non-null   int64
+ 53  pm1              1009 non-null   float64
+dtypes: float64(39), int64(12), object(3)
+memory usage: 433.6+ KB
+</pre></div>
+</div>
+<p>In the data above, from a QuantAQ MODULAIR-PM sensor, you will see that
+there are a number of bins labeled in format “bin” - these are the
+particle concentrations at various size ranges and is the raw data we
+need. You will notice there are quite a few other columns - this is
+totally fine! These will all be treated as ‘meta’ columns by the
+software.</p>
+<p>Now that we have the data in the proper format, we can go ahead and
+initiate the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> class.</p>
+</div>
+<div class="section" id="the-genericparticlesizer-object">
+<h2>The <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> Object<a class="headerlink" href="#the-genericparticlesizer-object" title="Permalink to this headline">¶</a></h2>
+<p>The heart of the <em>py-smps</em> program is the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code>
+object. The <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> is the base class for all available
+particle sizing instruments. It contains all of the basic functionality
+and methods used for making calculations and/or figures. To initialize
+the object, you must provide the <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">bins</span></code> arguments.
+<code class="docutils literal notranslate"><span class="pre">data</span></code> must be a pandas DataFrame with a datetime index, and <code class="docutils literal notranslate"><span class="pre">bins</span></code>
+must be a 3xn array including the left boundary, midpoint, and right
+boundary for each size bin. <strong>NOTE: There is a helper function to make
+the 3xn array from a list of endpoints (see ``smps.utils.make_bins``)</strong>.</p>
+<p>There are several additional classes that inherit directly from the
+<code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> pertaining to individual products. As of
+February 2022, these include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SMPS</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Grimm11D</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">POPS</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ParticlesPlus</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AlphasenseOPCN2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AlphasenseOPCN3</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Modulair</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ModulairPM</span></code></p></li>
+</ul>
+<p>We will use the above MODULAIR-PM data we loaded to walk through some of
+the functionality of the <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> class. We will begin
+by exploring some of the models attributes before moving on to the
+methods.</p>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<p>First, we will initialize the object:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj = smps.models.ModulairPM(data=df)
+</pre></div>
+</div>
+<p>To start, you can access the bins for the device using the <code class="docutils literal notranslate"><span class="pre">bins</span></code>
+attribute:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.bins
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.35</span> <span class="p">,</span>  <span class="mf">0.405</span><span class="p">,</span>  <span class="mf">0.46</span> <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.46</span> <span class="p">,</span>  <span class="mf">0.56</span> <span class="p">,</span>  <span class="mf">0.66</span> <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">0.66</span> <span class="p">,</span>  <span class="mf">0.83</span> <span class="p">,</span>  <span class="mf">1.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.</span>   <span class="p">,</span>  <span class="mf">1.15</span> <span class="p">,</span>  <span class="mf">1.3</span>  <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.3</span>  <span class="p">,</span>  <span class="mf">1.5</span>  <span class="p">,</span>  <span class="mf">1.7</span>  <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.7</span>  <span class="p">,</span>  <span class="mf">2.</span>   <span class="p">,</span>  <span class="mf">2.3</span>  <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">2.3</span>  <span class="p">,</span>  <span class="mf">2.65</span> <span class="p">,</span>  <span class="mf">3.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">3.</span>   <span class="p">,</span>  <span class="mf">3.5</span>  <span class="p">,</span>  <span class="mf">4.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">4.</span>   <span class="p">,</span>  <span class="mf">4.6</span>  <span class="p">,</span>  <span class="mf">5.2</span>  <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">5.2</span>  <span class="p">,</span>  <span class="mf">5.85</span> <span class="p">,</span>  <span class="mf">6.5</span>  <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">6.5</span>  <span class="p">,</span>  <span class="mf">7.25</span> <span class="p">,</span>  <span class="mf">8.</span>   <span class="p">],</span>
+       <span class="p">[</span> <span class="mf">8.</span>   <span class="p">,</span>  <span class="mf">9.</span>   <span class="p">,</span> <span class="mf">10.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">10.</span>   <span class="p">,</span> <span class="mf">11.</span>   <span class="p">,</span> <span class="mf">12.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">12.</span>   <span class="p">,</span> <span class="mf">13.</span>   <span class="p">,</span> <span class="mf">14.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">14.</span>   <span class="p">,</span> <span class="mf">15.</span>   <span class="p">,</span> <span class="mf">16.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">16.</span>   <span class="p">,</span> <span class="mf">17.</span>   <span class="p">,</span> <span class="mf">18.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">18.</span>   <span class="p">,</span> <span class="mf">19.</span>   <span class="p">,</span> <span class="mf">20.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">20.</span>   <span class="p">,</span> <span class="mf">21.</span>   <span class="p">,</span> <span class="mf">22.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">22.</span>   <span class="p">,</span> <span class="mf">23.5</span>  <span class="p">,</span> <span class="mf">25.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">25.</span>   <span class="p">,</span> <span class="mf">26.5</span>  <span class="p">,</span> <span class="mf">28.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">28.</span>   <span class="p">,</span> <span class="mf">29.5</span>  <span class="p">,</span> <span class="mf">31.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">31.</span>   <span class="p">,</span> <span class="mf">32.5</span>  <span class="p">,</span> <span class="mf">34.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">34.</span>   <span class="p">,</span> <span class="mf">35.5</span>  <span class="p">,</span> <span class="mf">37.</span>   <span class="p">],</span>
+       <span class="p">[</span><span class="mf">37.</span>   <span class="p">,</span> <span class="mf">38.5</span>  <span class="p">,</span> <span class="mf">40.</span>   <span class="p">]])</span>
+</pre></div>
+</div>
+<p>You can access just the midpoints using the <code class="docutils literal notranslate"><span class="pre">midpoints</span></code> attribute:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.midpoints
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span> <span class="mf">0.405</span><span class="p">,</span>  <span class="mf">0.56</span> <span class="p">,</span>  <span class="mf">0.83</span> <span class="p">,</span>  <span class="mf">1.15</span> <span class="p">,</span>  <span class="mf">1.5</span>  <span class="p">,</span>  <span class="mf">2.</span>   <span class="p">,</span>  <span class="mf">2.65</span> <span class="p">,</span>  <span class="mf">3.5</span>  <span class="p">,</span>
+        <span class="mf">4.6</span>  <span class="p">,</span>  <span class="mf">5.85</span> <span class="p">,</span>  <span class="mf">7.25</span> <span class="p">,</span>  <span class="mf">9.</span>   <span class="p">,</span> <span class="mf">11.</span>   <span class="p">,</span> <span class="mf">13.</span>   <span class="p">,</span> <span class="mf">15.</span>   <span class="p">,</span> <span class="mf">17.</span>   <span class="p">,</span>
+       <span class="mf">19.</span>   <span class="p">,</span> <span class="mf">21.</span>   <span class="p">,</span> <span class="mf">23.5</span>  <span class="p">,</span> <span class="mf">26.5</span>  <span class="p">,</span> <span class="mf">29.5</span>  <span class="p">,</span> <span class="mf">32.5</span>  <span class="p">,</span> <span class="mf">35.5</span>  <span class="p">,</span> <span class="mf">38.5</span>  <span class="p">])</span>
+</pre></div>
+</div>
+<p>To access any meta data/additional columns that do not belong as the raw
+data, use the <code class="docutils literal notranslate"><span class="pre">scan_stats</span></code> attribute:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.scan_stats.head()
+</pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<div class="table-wrapper"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>pm1_env</th>
+<th>device_state</th>
+<th>pm25_env</th>
+<th>pm1</th>
+<th>id</th>
+<th>pm10_model_id</th>
+<th>pm10_env</th>
+<th>sample_pres</th>
+<th>neph_bin4</th>
+<th>sample_temp</th>
+<th>...</th>
+<th>opcn3_temp</th>
+<th>lon</th>
+<th>lat</th>
+<th>opcn3_pm10</th>
+<th>opcn3_pm25</th>
+<th>neph_bin2</th>
+<th>pm25_model_id</th>
+<th>sample_rh</th>
+<th>timestamp_local</th>
+<th>flag</th>
+</tr>
+<tr>
+<th>timestamp</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2022-02-15 21:27:30+00:00</th>
+<td>0.0</td>
+<td>ACTIVE</td>
+<td>0.0</td>
+<td>0.3809</td>
+<td>87893809</td>
+<td>3382</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>7.00</td>
+<td>...</td>
+<td>0</td>
+<td>-103.757</td>
+<td>44.347</td>
+<td>2.99</td>
+<td>0.74</td>
+<td>0.0</td>
+<td>3381</td>
+<td>38.69</td>
+<td>2022-02-15T14:27:30Z</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:26:30+00:00</th>
+<td>0.0</td>
+<td>ACTIVE</td>
+<td>0.0</td>
+<td>0.3383</td>
+<td>87893808</td>
+<td>3382</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>6.99</td>
+<td>...</td>
+<td>0</td>
+<td>-103.757</td>
+<td>44.347</td>
+<td>1.30</td>
+<td>0.92</td>
+<td>0.0</td>
+<td>3381</td>
+<td>37.76</td>
+<td>2022-02-15T14:26:30Z</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:25:30+00:00</th>
+<td>0.0</td>
+<td>ACTIVE</td>
+<td>0.0</td>
+<td>0.3091</td>
+<td>87893807</td>
+<td>3382</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>6.98</td>
+<td>...</td>
+<td>0</td>
+<td>-103.757</td>
+<td>44.347</td>
+<td>2.79</td>
+<td>0.89</td>
+<td>0.0</td>
+<td>3381</td>
+<td>38.05</td>
+<td>2022-02-15T14:25:30Z</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:24:30+00:00</th>
+<td>0.0</td>
+<td>ACTIVE</td>
+<td>0.0</td>
+<td>0.4380</td>
+<td>87893804</td>
+<td>3382</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>6.97</td>
+<td>...</td>
+<td>0</td>
+<td>-103.757</td>
+<td>44.347</td>
+<td>2.13</td>
+<td>0.88</td>
+<td>0.0</td>
+<td>3381</td>
+<td>38.84</td>
+<td>2022-02-15T14:24:30Z</td>
+<td>0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:23:30+00:00</th>
+<td>0.0</td>
+<td>ACTIVE</td>
+<td>0.0</td>
+<td>0.4511</td>
+<td>87893803</td>
+<td>3382</td>
+<td>0.0</td>
+<td>0</td>
+<td>0</td>
+<td>6.95</td>
+<td>...</td>
+<td>0</td>
+<td>-103.757</td>
+<td>44.347</td>
+<td>2.34</td>
+<td>0.94</td>
+<td>0.0</td>
+<td>3381</td>
+<td>38.97</td>
+<td>2022-02-15T14:23:30Z</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>5 rows × 30 columns</p>
+</div><p>Finally, there are a number of dataframes available that should provide
+access to all sorts of fun data. These include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dn</span></code> - particle number concentration by bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds</span></code> - surface area by bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dv</span></code> - volume by bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dndlogdp</span></code> - normalized number by bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dsdlogdp</span></code> - normalized surface area by bin</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dvdlogdp</span></code> - normalized volume by bin</p></li>
+</ul>
+<p>Here, we show the number concentration by bin as an example:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.dn.head()
+</pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<div class="table-wrapper"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>bin0</th>
+<th>bin1</th>
+<th>bin2</th>
+<th>bin3</th>
+<th>bin4</th>
+<th>bin5</th>
+<th>bin6</th>
+<th>bin7</th>
+<th>bin8</th>
+<th>bin9</th>
+<th>...</th>
+<th>bin14</th>
+<th>bin15</th>
+<th>bin16</th>
+<th>bin17</th>
+<th>bin18</th>
+<th>bin19</th>
+<th>bin20</th>
+<th>bin21</th>
+<th>bin22</th>
+<th>bin23</th>
+</tr>
+<tr>
+<th>timestamp</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2022-02-15 21:27:30+00:00</th>
+<td>1.5300</td>
+<td>0.2194</td>
+<td>0.0579</td>
+<td>0.0064</td>
+<td>0.0097</td>
+<td>0.0129</td>
+<td>0.0129</td>
+<td>0.0032</td>
+<td>0.0033</td>
+<td>0.0000</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:26:30+00:00</th>
+<td>1.6633</td>
+<td>0.1843</td>
+<td>0.0811</td>
+<td>0.0225</td>
+<td>0.0228</td>
+<td>0.0227</td>
+<td>0.0163</td>
+<td>0.0000</td>
+<td>0.0000</td>
+<td>0.0000</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:25:30+00:00</th>
+<td>1.6052</td>
+<td>0.1605</td>
+<td>0.0767</td>
+<td>0.0134</td>
+<td>0.0132</td>
+<td>0.0133</td>
+<td>0.0201</td>
+<td>0.0033</td>
+<td>0.0033</td>
+<td>0.0033</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:24:30+00:00</th>
+<td>1.7815</td>
+<td>0.1700</td>
+<td>0.0565</td>
+<td>0.0134</td>
+<td>0.0233</td>
+<td>0.0334</td>
+<td>0.0034</td>
+<td>0.0033</td>
+<td>0.0000</td>
+<td>0.0033</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 21:23:30+00:00</th>
+<td>1.5870</td>
+<td>0.1782</td>
+<td>0.0519</td>
+<td>0.0193</td>
+<td>0.0258</td>
+<td>0.0164</td>
+<td>0.0162</td>
+<td>0.0033</td>
+<td>0.0065</td>
+<td>0.0000</td>
+<td>...</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></div>
+<p>5 rows × 24 columns</p>
+</div></div>
+<div class="section" id="methods">
+<h3>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h3>
+<p>There are several primary methods available under the
+<code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code>, including:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">copy</span></code> - create a copy of the existing model</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resample</span></code> - resample the data to be on a different time basis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">slice</span></code> - slice the data between specific start and stop times</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stats</span></code> - calculate the total number of particles, surface area,
+volume, and mass</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dump</span></code> - save a copy of the model to file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">integrate</span></code> - calculate the total number, surface area, volume, or
+mass of particles between two diameters</p></li>
+</ul>
+<p>Above, our data is on a 1-minute time base. What if we want it on a
+15min time base? No problem! Use <code class="docutils literal notranslate"><span class="pre">resample</span></code>:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.resample("15min", inplace=True)
+
+# Show the results
+obj.dn.head()
+</pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<div class="table-wrapper"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>bin0</th>
+<th>bin1</th>
+<th>bin2</th>
+<th>bin3</th>
+<th>bin4</th>
+<th>bin5</th>
+<th>bin6</th>
+<th>bin7</th>
+<th>bin8</th>
+<th>bin9</th>
+<th>...</th>
+<th>bin14</th>
+<th>bin15</th>
+<th>bin16</th>
+<th>bin17</th>
+<th>bin18</th>
+<th>bin19</th>
+<th>bin20</th>
+<th>bin21</th>
+<th>bin22</th>
+<th>bin23</th>
+</tr>
+<tr>
+<th>timestamp</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2022-02-15 04:30:00+00:00</th>
+<td>1.105550</td>
+<td>0.109533</td>
+<td>0.040883</td>
+<td>0.016667</td>
+<td>0.022717</td>
+<td>0.022333</td>
+<td>0.012500</td>
+<td>0.003517</td>
+<td>0.005533</td>
+<td>0.000683</td>
+<td>...</td>
+<td>0.00000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 04:45:00+00:00</th>
+<td>1.182547</td>
+<td>0.130220</td>
+<td>0.059053</td>
+<td>0.020747</td>
+<td>0.025300</td>
+<td>0.025133</td>
+<td>0.018687</td>
+<td>0.008420</td>
+<td>0.005493</td>
+<td>0.004027</td>
+<td>...</td>
+<td>0.00000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 05:00:00+00:00</th>
+<td>1.136227</td>
+<td>0.130833</td>
+<td>0.061033</td>
+<td>0.019687</td>
+<td>0.029427</td>
+<td>0.022347</td>
+<td>0.021953</td>
+<td>0.013173</td>
+<td>0.007527</td>
+<td>0.004247</td>
+<td>...</td>
+<td>0.00034</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 05:15:00+00:00</th>
+<td>1.105267</td>
+<td>0.133547</td>
+<td>0.061113</td>
+<td>0.017760</td>
+<td>0.022253</td>
+<td>0.018500</td>
+<td>0.014573</td>
+<td>0.007373</td>
+<td>0.004787</td>
+<td>0.003413</td>
+<td>...</td>
+<td>0.00000</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+<tr>
+<th>2022-02-15 05:30:00+00:00</th>
+<td>1.130513</td>
+<td>0.146707</td>
+<td>0.051440</td>
+<td>0.015280</td>
+<td>0.029167</td>
+<td>0.018653</td>
+<td>0.017687</td>
+<td>0.005367</td>
+<td>0.008973</td>
+<td>0.004087</td>
+<td>...</td>
+<td>0.00030</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+</tr>
+</tbody>
+</table></div>
+<p>5 rows × 24 columns</p>
+</div><p>What if we want to count the total number of particles between 0 µm and
+1 µm?</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.integrate(weight='number', dmin=0., dmax=1.)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timestamp</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">1.255967</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">1.371820</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">1.328093</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">1.299927</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">1.328660</span>
+                               <span class="o">...</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">2.883060</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">3.390260</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">3.246453</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">2.537080</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">2.039631</span>
+<span class="n">Freq</span><span class="p">:</span> <span class="mi">15</span><span class="n">T</span><span class="p">,</span> <span class="n">Length</span><span class="p">:</span> <span class="mi">68</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</pre></div>
+</div>
+<p>What about computing PM2.5?</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.integrate(weight='mass', dmin=0., dmax=2.5, rho=1.65)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timestamp</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.400176</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.477374</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.482173</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.396912</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.427840</span>
+                               <span class="o">...</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.498427</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.581254</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.552808</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.551263</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.468123</span>
+<span class="n">Freq</span><span class="p">:</span> <span class="mi">15</span><span class="n">T</span><span class="p">,</span> <span class="n">Length</span><span class="p">:</span> <span class="mi">68</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">integrate</span></code> method can also be incredibly useful if you are trying
+to calculate the total number of particles between two random diameters
+- say, you’re trying to compare a low-cost optical particle counter with
+large bins to an SMPS with small bins. No problem!</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.integrate(weight='number', dmin=0.54, dmax=1.05)
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">timestamp</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.109381</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">04</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.140643</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.142814</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.144201</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">05</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.142011</span>
+                               <span class="o">...</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.240967</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">30</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.288473</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">20</span><span class="p">:</span><span class="mi">45</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.284831</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.230808</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">15</span> <span class="mi">21</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span><span class="mi">00</span><span class="o">+</span><span class="mi">00</span><span class="p">:</span><span class="mi">00</span>    <span class="mf">0.194771</span>
+<span class="n">Freq</span><span class="p">:</span> <span class="mi">15</span><span class="n">T</span><span class="p">,</span> <span class="n">Length</span><span class="p">:</span> <span class="mi">68</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">float64</span>
+</pre></div>
+</div>
+<p>Next, let’s go ahead and compute the statistics! The <code class="docutils literal notranslate"><span class="pre">stats</span></code> method
+will compute the total number of particles, total surface area, total
+volume, total mass, arithmetic mean diameter, geometric mean diameter,
+mode diameter, and geometric standard deviation. <strong>NOTE: This
+computation can take a little while if your data set is extremely
+large.</strong></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.stats(weight='number')
+</pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<div class="table-wrapper"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>number</th>
+<th>surface_area</th>
+<th>volume</th>
+<th>mass</th>
+<th>AM</th>
+<th>GM</th>
+<th>Mode</th>
+<th>GSD</th>
+</tr>
+<tr>
+<th>timestamp</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2022-02-15 04:30:00+00:00</th>
+<td>1.343367</td>
+<td>3.227322</td>
+<td>2.713203</td>
+<td>4.476784</td>
+<td>558.199238</td>
+<td>471.739692</td>
+<td>405.0</td>
+<td>1.537061</td>
+</tr>
+<tr>
+<th>2022-02-15 04:45:00+00:00</th>
+<td>1.483933</td>
+<td>4.033648</td>
+<td>2.903223</td>
+<td>4.790318</td>
+<td>591.934184</td>
+<td>485.830530</td>
+<td>405.0</td>
+<td>1.604479</td>
+</tr>
+<tr>
+<th>2022-02-15 05:00:00+00:00</th>
+<td>1.450407</td>
+<td>4.526602</td>
+<td>3.650987</td>
+<td>6.024129</td>
+<td>617.932074</td>
+<td>495.497711</td>
+<td>405.0</td>
+<td>1.653602</td>
+</tr>
+<tr>
+<th>2022-02-15 05:15:00+00:00</th>
+<td>1.391673</td>
+<td>3.438754</td>
+<td>2.554663</td>
+<td>4.215193</td>
+<td>573.767215</td>
+<td>480.501450</td>
+<td>405.0</td>
+<td>1.562774</td>
+</tr>
+<tr>
+<th>2022-02-15 05:30:00+00:00</th>
+<td>1.430673</td>
+<td>3.650599</td>
+<td>2.520790</td>
+<td>4.159304</td>
+<td>584.194505</td>
+<td>483.785319</td>
+<td>405.0</td>
+<td>1.587822</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2022-02-15 20:15:00+00:00</th>
+<td>2.969867</td>
+<td>3.391759</td>
+<td>1.191135</td>
+<td>1.965372</td>
+<td>481.056344</td>
+<td>444.705598</td>
+<td>405.0</td>
+<td>1.351818</td>
+</tr>
+<tr>
+<th>2022-02-15 20:30:00+00:00</th>
+<td>3.487507</td>
+<td>4.304874</td>
+<td>3.049257</td>
+<td>5.031274</td>
+<td>479.990327</td>
+<td>444.117798</td>
+<td>405.0</td>
+<td>1.345173</td>
+</tr>
+<tr>
+<th>2022-02-15 20:45:00+00:00</th>
+<td>3.341367</td>
+<td>3.884852</td>
+<td>2.109773</td>
+<td>3.481126</td>
+<td>478.492264</td>
+<td>444.450183</td>
+<td>405.0</td>
+<td>1.339386</td>
+</tr>
+<tr>
+<th>2022-02-15 21:00:00+00:00</th>
+<td>2.652347</td>
+<td>5.447377</td>
+<td>4.857831</td>
+<td>8.015421</td>
+<td>527.360551</td>
+<td>458.764700</td>
+<td>405.0</td>
+<td>1.464325</td>
+</tr>
+<tr>
+<th>2022-02-15 21:15:00+00:00</th>
+<td>2.131215</td>
+<td>4.112106</td>
+<td>5.563257</td>
+<td>9.179373</td>
+<td>517.081279</td>
+<td>458.002189</td>
+<td>405.0</td>
+<td>1.437623</td>
+</tr>
+</tbody>
+</table></div>
+<p>68 rows × 8 columns</p>
+</div><p>You can also weight it differently if you so choose! If you want the
+volume-weighted geometric mean diameter:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.stats(weight='volume')
+</pre></div>
+</div>
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<div class="table-wrapper"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>number</th>
+<th>surface_area</th>
+<th>volume</th>
+<th>mass</th>
+<th>AM</th>
+<th>GM</th>
+<th>Mode</th>
+<th>GSD</th>
+</tr>
+<tr>
+<th>timestamp</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2022-02-15 04:30:00+00:00</th>
+<td>1.343367</td>
+<td>3.227322</td>
+<td>2.713203</td>
+<td>4.476784</td>
+<td>8892.491253</td>
+<td>7497.921953</td>
+<td>13000.0</td>
+<td>2.025142</td>
+</tr>
+<tr>
+<th>2022-02-15 04:45:00+00:00</th>
+<td>1.483933</td>
+<td>4.033648</td>
+<td>2.903223</td>
+<td>4.790318</td>
+<td>6875.914604</td>
+<td>5916.255119</td>
+<td>9000.0</td>
+<td>1.904198</td>
+</tr>
+<tr>
+<th>2022-02-15 05:00:00+00:00</th>
+<td>1.450407</td>
+<td>4.526602</td>
+<td>3.650987</td>
+<td>6.024129</td>
+<td>8287.559782</td>
+<td>6821.740936</td>
+<td>15000.0</td>
+<td>2.025214</td>
+</tr>
+<tr>
+<th>2022-02-15 05:15:00+00:00</th>
+<td>1.391673</td>
+<td>3.438754</td>
+<td>2.554663</td>
+<td>4.215193</td>
+<td>7810.609787</td>
+<td>6471.306120</td>
+<td>13000.0</td>
+<td>2.039193</td>
+</tr>
+<tr>
+<th>2022-02-15 05:30:00+00:00</th>
+<td>1.430673</td>
+<td>3.650599</td>
+<td>2.520790</td>
+<td>4.159304</td>
+<td>7326.109059</td>
+<td>5911.381732</td>
+<td>15000.0</td>
+<td>2.064738</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2022-02-15 20:15:00+00:00</th>
+<td>2.969867</td>
+<td>3.391759</td>
+<td>1.191135</td>
+<td>1.965372</td>
+<td>4485.808228</td>
+<td>3439.123104</td>
+<td>5850.0</td>
+<td>2.365414</td>
+</tr>
+<tr>
+<th>2022-02-15 20:30:00+00:00</th>
+<td>3.487507</td>
+<td>4.304874</td>
+<td>3.049257</td>
+<td>5.031274</td>
+<td>15018.669990</td>
+<td>10087.884711</td>
+<td>23500.0</td>
+<td>3.030722</td>
+</tr>
+<tr>
+<th>2022-02-15 20:45:00+00:00</th>
+<td>3.341367</td>
+<td>3.884852</td>
+<td>2.109773</td>
+<td>3.481126</td>
+<td>10656.041200</td>
+<td>7136.577292</td>
+<td>19000.0</td>
+<td>2.964750</td>
+</tr>
+<tr>
+<th>2022-02-15 21:00:00+00:00</th>
+<td>2.652347</td>
+<td>5.447377</td>
+<td>4.857831</td>
+<td>8.015421</td>
+<td>11381.347034</td>
+<td>8835.742721</td>
+<td>21000.0</td>
+<td>2.287378</td>
+</tr>
+<tr>
+<th>2022-02-15 21:15:00+00:00</th>
+<td>2.131215</td>
+<td>4.112106</td>
+<td>5.563257</td>
+<td>9.179373</td>
+<td>21901.384630</td>
+<td>16731.056626</td>
+<td>29500.0</td>
+<td>2.537144</td>
+</tr>
+</tbody>
+</table></div>
+<p>68 rows × 8 columns</p>
+</div><p>Finally, if you want to save your model so that you don’t have to re-do
+your work later, you can use the <code class="docutils literal notranslate"><span class="pre">dump</span></code> method:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>obj.dump("obj-modulair-pm.sav")
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">'obj-modulair-pm.sav'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>Making common figures is easy with <code class="docutils literal notranslate"><span class="pre">py-smps</span></code>. There are two primary,
+out-of-the-box figures that can be made:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">smps.plots.histplot</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">smps.plots.heatmap</span></code></p></li>
+</ul>
+<p>These plots are all made using <code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>, so you can easily modify
+them or create your own.</p>
+<div class="section" id="heatmap">
+<h3>Heatmap<a class="headerlink" href="#heatmap" title="Permalink to this headline">¶</a></h3>
+<p>The heatmap function makes it easy to visualize how the particle size
+distribution is changing over time, allowing you to observe
+growth/nucleation events, etc. To use the <code class="docutils literal notranslate"><span class="pre">heatmap</span></code> function, you must
+provide three arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X</span></code>: the time axis</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Y</span></code>: the bin midpoints</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Z</span></code>: the data you wish to plot, typically <code class="docutils literal notranslate"><span class="pre">obj.dndlogdp</span></code></p></li>
+</ul>
+<p>You may not agree with the default colormap choice (<code class="docutils literal notranslate"><span class="pre">viridis</span></code>), but
+you can easily change that as you see fit. Please don’t use <code class="docutils literal notranslate"><span class="pre">jet</span></code>!</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>X = bos.dndlogdp.index
+Y = bos.midpoints
+Z = bos.dndlogdp.T.values
+
+ax = smps.plots.heatmap(
+    X, Y, Z,
+    cmap='viridis',
+    fig_kws=dict(figsize=(14, 6))
+)
+
+# Let's make the x-axis look a little nicer
+import matplotlib.dates as dates
+
+ax.xaxis.set_minor_locator(dates.HourLocator(byhour=[0, 6, 12, 18]))
+ax.xaxis.set_major_formatter(dates.DateFormatter("%d\n%b\n%Y"))
+
+# Go ahead and change things!
+ax.set_title("Cambridge, MA Wintertime SMPS Data", y=1.02, fontsize=20);
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Text</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="s1">'Cambridge, MA Wintertime SMPS Data'</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/general_usage_37_1.png" src="../_images/general_usage_37_1.png"/>
+</div>
+<div class="section" id="particle-size-distribution">
+<h3>Particle Size Distribution<a class="headerlink" href="#particle-size-distribution" title="Permalink to this headline">¶</a></h3>
+<p>To visualize the particle size distribution, use the
+<code class="docutils literal notranslate"><span class="pre">smps.plots.histplot</span></code> function. To plot the histogram, you must
+provide two pieces of information:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">histogram</span></code> - your histogram data! it can be provided as an array
+or as a dataframe in which case it will be averaged over time</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bins</span></code> - you must provide an array of the bins</p></li>
+</ol>
+<p>There are plenty of ways to customize these plots by providing keyword
+arguments for the matplotlib bar chart (<code class="docutils literal notranslate"><span class="pre">plot_kws</span></code>) or the figure
+itself (<code class="docutils literal notranslate"><span class="pre">fig_kws</span></code>). You can also plot onto an existing axis by
+providing the axis as an argument.</p>
+<p>Here, we will make a simply plot showing the Boston dataset from the
+beginning of this tutorial (it’s more exciting than a low-cost OPC!):</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ax = smps.plots.histplot(
+    bos.dndlogdp,
+    bos.bins,
+    plot_kws=dict(linewidth=0.01),
+    fig_kws=dict(figsize=(12, 6))
+)
+
+# Set the title and y-axis label
+ax.set_title("Cambridge, MA Wintertime Particle Size Distribution", y=1.05, fontsize=20)
+ax.set_ylabel("$dN/dlogD_p \; [cm^{-3}]$")
+
+# Remove the right and top spines
+sns.despine()
+</pre></div>
+</div>
+<img alt="../_images/general_usage_39_0.png" src="../_images/general_usage_39_0.png"/>
+<p>Next, let’s plot the same data, but plot the particle size distribution
+for each day separately.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import itertools
+
+dates = ["2016-11-23", "2016-11-24", "2016-11-25"]
+
+ax = None
+cp = itertools.cycle(sns.color_palette())
+
+for date in dates:
+    ax = smps.plots.histplot(
+        bos.dndlogdp[date],
+        bos.bins,
+        ax=ax,
+        plot_kws=dict(alpha=0.6, color=next(cp), linewidth=0.),
+        fig_kws=dict(figsize=(12, 6))
+    )
+
+# Add a legend
+ax.legend(dates, loc='best')
+
+# Set the axis label
+ax.set_ylabel("$dN/dlogD_p \; [cm^{-3}]$")
+
+# Remove the right and top spines
+sns.despine()
+</pre></div>
+</div>
+<img alt="../_images/general_usage_41_0.png" src="../_images/general_usage_41_0.png"/>
+<p>That about covers the general overview! Feel free to check out the guide
+on curve fitting next.</p>
+</div>
+</div>
+</div>
+
+      </article>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="curve_fitting.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Curve Fitting</div>
+              </div>
+              <svg><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="index.html">
+              <svg><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Guides</div>
+                
+              </div>
+            </a>
+        </div>
+
+        <div class="related-information">
+              Copyright &#169; 2020-2023, QuantAQ, Inc.
+            |
+            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+              and
+              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
+            |
+            <a class="muted-link" href="../_sources/guides/general_usage.rst.txt"
+               rel="nofollow">
+              Show Source
+            </a>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            Contents
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">General Usage</a><ul>
+<li><a class="reference internal" href="#importing-data">Importing Data</a></li>
+<li><a class="reference internal" href="#the-genericparticlesizer-object">The <code class="docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code> Object</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+<li><a class="reference internal" href="#methods">Methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#visualization">Visualization</a><ul>
+<li><a class="reference internal" href="#heatmap">Heatmap</a></li>
+<li><a class="reference internal" href="#particle-size-distribution">Particle Size Distribution</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </main>
+</div>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+</html>

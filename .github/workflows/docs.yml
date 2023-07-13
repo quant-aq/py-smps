@@ -30,7 +30,6 @@ jobs:
                 source .venv/bin/activate 
                 cd docs
                 make clean
-                make guides
                 make html
                 cd ..
 
