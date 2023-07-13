@@ -53,7 +53,7 @@ If there is a feature you would like to see or a bug you would like to report, p
 
 # Documentation
 
-Documentation is available [here](https://quant-aq.github.io/py-smps/). Docs are built using Sphinx and can be built locally by doing the following:
+Documentation is available [here](https://quant-aq.github.io/py-smps/). To build locally, you must first install [pandoc](https://pandoc.org/). Docs are built using Sphinx and can be built locally by doing the following:
 
 ```sh
 # Activate the virtualenv
