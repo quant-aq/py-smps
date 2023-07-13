@@ -81,4 +81,4 @@ $ make html
 $ cd ..
 ```
 
-Then, you can navigate to your local directory at `docs/_build/html/` and open up the `index.html` file in your preferred browser window.
+Then, you can navigate to your local directory at `docs/build/html/` and open up the `index.html` file in your preferred browser window.
