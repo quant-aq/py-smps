@@ -10,7 +10,11 @@ import unittest
 class TestClass(unittest.TestCase):
 
     def test_generic(self):
-        res = smps.io.smps_from_txt("https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt", column=False)
+        res = smps.io.smps_from_txt(
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/sample-data/boston_wintertime.txt", 
+            column=False,
+            as_dict=True
+        )
 
         # create a model
         m = smps.models.GenericParticleSizer(data=res['data'], bins=res['bins'],

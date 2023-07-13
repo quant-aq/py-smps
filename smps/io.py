@@ -278,7 +278,7 @@ def load_sample(label="boston"):
         }
     }
 
-    m = smps_from_txt(fpath=files[label]['uri'], column=files[label]['column'])
+    m = smps_from_txt(fpath=files[label]['uri'], column=files[label]['column'], as_dict=True)
 
     # convert to an SMPS instance
     return SMPS(
