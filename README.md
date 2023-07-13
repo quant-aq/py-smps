@@ -42,7 +42,7 @@ To install the edge release directly from GitHub:
 
 # Dependencies
 
-## Support Python versions
+## Supported Python versions
 - Python 3.8+
 
 ## Mandatory Dependencies
