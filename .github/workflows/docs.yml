@@ -23,9 +23,7 @@ jobs:
                 installer-parallel: true
             
             - name: Install dependencies
-              run: |
-              source $HOME/.poetry/env
-              poetry install
+              run: poetry install
             
             - name: build docs
               run: |
