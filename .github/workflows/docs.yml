@@ -39,7 +39,7 @@ jobs:
             - name: deploy to gh-pages
               uses: Cecilapp/GitHub-Pages-deploy@v3
               env:
-                GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                 email: david.hagan@quant-aq.com
                 build_dir: docs/build/html
