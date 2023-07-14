@@ -42,4 +42,4 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
               with:
                 email: david.hagan@quant-aq.com
-                build_dir: docs/_build/html
+                build_dir: docs/build/html
