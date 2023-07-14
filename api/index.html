@@ -2,63 +2,58 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="smps.io.smps_from_txt" href="generated/smps.io.smps_from_txt.html" /><link rel="prev" title="Frequently Asked Questions" href="../guides/faq.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="smps.GenericParticleSizer" href="generated/smps.GenericParticleSizer.html" /><link rel="prev" title="Tests" href="../development/tests.html" />
 
-    <meta name="generator" content="sphinx-3.5.3, furo 2021.06.18.beta36"/>
-        <title>API Reference - py-smps 2.0.0 documentation</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
-    <link rel="stylesheet" href="../_static/pygments.css">
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.09.29"/>
+        <title>API Reference - py-smps 2.1.0a2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
     
 
 
 <style>
-  :root {
-    --color-code-background: #eeffcc;
+  body {
+    --color-code-background: #f8f8f8;
   --color-code-foreground: black;
   
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
-  }
-
-  /* For allowing end-user-specific overrides */
-  .override-light {
-    --color-code-background: #eeffcc;
-  --color-code-foreground: black;
-  
-  }
-  .override-dark {
-    --color-code-background: #202020;
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
+      }
+    }
   }
-</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
-    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=ee12cdd73c4bbac24afec78d92c4afd7c2d8ea7f"></head>
-  <body dir="">
+</style></head>
+  <body>
     
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z"/>
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="feather feather-menu">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -66,18 +61,57 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="feather feather-chevron-right">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
     </svg>
   </symbol>
 </svg>
 
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
 <input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation"></label>
-<label class="overlay toc-overlay" for="__toc"></label>
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
 
 
 
@@ -85,14 +119,24 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
         <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">py-smps 2.0.0 documentation</div></a>
+      <a href="../index.html"><div class="brand">py-smps 2.1.0a2 documentation</div></a>
     </div>
     <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -103,38 +147,50 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">py-smps 2.0.0 documentation</span>
+  <span class="sidebar-brand-text">py-smps 2.1.0a2 documentation</span>
   
-</a><form class="sidebar-search-container" method="get" action="../search.html">
-  <input class="sidebar-search" placeholder=Search name="q">
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
-</form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p><span class="caption-text">User Guide:</span></p>
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../guides/getting_started.html">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../guides/general_usage.html">General Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../guides/curve_fitting.html">Curve Fitting</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/Getting%20Started.html">An introduction to py-smps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/Visualizations.html">Visualizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/Fitting%20Curves.html">Fitting Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/Advanced%20Usage.html">Advanced Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../guides/faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/issues.html">Reporting Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributions.html">Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/tests.html">Tests</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current">
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.GenericParticleSizer.html">smps.GenericParticleSizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.SMPS.html">smps.SMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.Grimm11D.html">smps.Grimm11D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.POPS.html">smps.POPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.ParticlesPlus.html">smps.ParticlesPlus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.AlphasenseOPCN2.html">smps.AlphasenseOPCN2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.AlphasenseOPCN3.html">smps.AlphasenseOPCN3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.Modulair.html">smps.Modulair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generated/smps.ModulairPM.html">smps.ModulairPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.io.load_sample.html">smps.io.load_sample</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.utils.make_bins.html">smps.utils.make_bins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.GenericParticleSizer.html">smps.models.GenericParticleSizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.SMPS.html">smps.models.SMPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.Grimm11D.html">smps.models.Grimm11D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.POPS.html">smps.models.POPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.ParticlesPlus.html">smps.models.ParticlesPlus</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.AlphasenseOPCN2.html">smps.models.AlphasenseOPCN2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.AlphasenseOPCN3.html">smps.models.AlphasenseOPCN3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.Modulair.html">smps.models.Modulair</a></li>
-<li class="toctree-l2"><a class="reference internal" href="generated/smps.models.ModulairPM.html">smps.models.ModulairPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.plots.heatmap.html">smps.plots.heatmap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.plots.histplot.html">smps.plots.histplot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generated/smps.fit.LogNormal.html">smps.fit.LogNormal</a></li>
@@ -142,17 +198,7 @@
 </ul>
 </li>
 </ul>
-<p><span class="caption-text">Development</span></p>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/issues.html">Reporting Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/patches.html">Submitting Patches or Contributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/tests.html">Tests</a></li>
-</ul>
-</li>
-</ul>
-<p><span class="caption-text">Project Links</span></p>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
@@ -160,166 +206,184 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
   </aside>
-  <main class="main">
+  <div class="main">
     <div class="content">
-      <article role="main">
-        <label class="toc-overlay-icon toc-content-icon" for="__toc">
-          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-        </label>
-        <section id="api-reference">
-<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<section id="io-helper-functions">
-<h2>IO Helper Functions<a class="headerlink" href="#io-helper-functions" title="Permalink to this headline">¶</a></h2>
-<p class="rubric">IO Helper Functions</p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage/api.html#smps.io.smps_from_txt" title="smps.io.smps_from_txt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.io.smps_from_txt</span></code></a>(fpath[, column, …])</p></td>
-<td><p>Read an SMPS txt file as exported by the TSI AIM software.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage/api.html#smps.io.load_sample" title="smps.io.load_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.io.load_sample</span></code></a>([label])</p></td>
-<td><p>Load a sample data file directly from GitHub.</p></td>
-</tr>
-</tbody>
-</table></div>
-</section>
-<section id="utility-functions">
-<h2>Utility Functions<a class="headerlink" href="#utility-functions" title="Permalink to this headline">¶</a></h2>
-<p class="rubric">Utility Functions</p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
-<colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage/api.html#smps.utils.make_bins" title="smps.utils.make_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.utils.make_bins</span></code></a>(**kwargs)</p></td>
-<td><p>‘make_bins` computes the upper and lower bounds and midpoints of all the bins given either * <cite>boundaries</cite> * <cite>boundaries_left</cite> and <cite>boundaries_right</cite> * or <cite>lb</cite>, <cite>ub</cite>, and <cite>midpoints</cite> (<cite>channels_per_decade</cite> optional).</p></td>
-</tr>
-</tbody>
-</table></div>
-</section>
-<section id="models">
-<h2>Models<a class="headerlink" href="#models" title="Permalink to this headline">¶</a></h2>
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">#</a></h1>
 <p class="rubric">Particle Sizer Models</p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.models.GenericParticleSizer.html#smps.models.GenericParticleSizer" title="smps.models.GenericParticleSizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.GenericParticleSizer</span></code></a>(data, bins, …)</p></td>
-<td><p>GenericParticleSizer is the base class for all available particle sizing instruments.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.GenericParticleSizer.html#smps.GenericParticleSizer" title="smps.GenericParticleSizer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GenericParticleSizer</span></code></a></p></td>
+<td><p>The base class for a Generic Size-Resolving Particle Instrument.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.models.SMPS.html#smps.models.SMPS" title="smps.models.SMPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.SMPS</span></code></a>(**kwargs)</p></td>
-<td><p></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.SMPS.html#smps.SMPS" title="smps.SMPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SMPS</span></code></a></p></td>
+<td><p>The TSI Scanning Mobility Particle Sizer.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.models.Grimm11D.html#smps.models.Grimm11D" title="smps.models.Grimm11D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.Grimm11D</span></code></a>(**kwargs)</p></td>
-<td><p>The Grimm11D is an optical particle counter that uses a blue  laser to count and size individual particles.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.Grimm11D.html#smps.Grimm11D" title="smps.Grimm11D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Grimm11D</span></code></a></p></td>
+<td><p>The GRIMM 11D.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.models.POPS.html#smps.models.POPS" title="smps.models.POPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.POPS</span></code></a>(**kwargs)</p></td>
-<td><p>The Portable Optical Particle Spectrometer is based on  the design of R.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.POPS.html#smps.POPS" title="smps.POPS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">POPS</span></code></a></p></td>
+<td><p>The Handix Scientific Portable Optical Particle Spectrometer (POPS).</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.models.ParticlesPlus.html#smps.models.ParticlesPlus" title="smps.models.ParticlesPlus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.ParticlesPlus</span></code></a>(**kwargs)</p></td>
-<td><p>The Particles Plus is a consumer-grade optical particle counter that uses a red laser to count and size individual particles.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.ParticlesPlus.html#smps.ParticlesPlus" title="smps.ParticlesPlus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParticlesPlus</span></code></a></p></td>
+<td><p>The Particles Plus OPC.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.models.AlphasenseOPCN2.html#smps.models.AlphasenseOPCN2" title="smps.models.AlphasenseOPCN2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.AlphasenseOPCN2</span></code></a>(**kwargs)</p></td>
-<td><p>The Alphasense OPC-N2 is a consumer-grade optical  particle counter that uses a 658 nm red laser to count  and size individual particles.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.AlphasenseOPCN2.html#smps.AlphasenseOPCN2" title="smps.AlphasenseOPCN2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlphasenseOPCN2</span></code></a></p></td>
+<td><p>The Alphasense OPC-N2.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.models.AlphasenseOPCN3.html#smps.models.AlphasenseOPCN3" title="smps.models.AlphasenseOPCN3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.AlphasenseOPCN3</span></code></a>(**kwargs)</p></td>
-<td><p>The Alphasense OPC-N3 is a consumer-grade optical particle counter that uses a 658 nm red laser to count  and size individual particles.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.AlphasenseOPCN3.html#smps.AlphasenseOPCN3" title="smps.AlphasenseOPCN3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlphasenseOPCN3</span></code></a></p></td>
+<td><p>The Alphasense OPC-N3.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.models.Modulair.html#smps.models.Modulair" title="smps.models.Modulair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.Modulair</span></code></a>(**kwargs)</p></td>
-<td><p>QuantAQ’s MODULAIR sensors use the Alphasense OPC-N3, a consumer-grade optical particle counter that uses a 658 nm  red laser to count and size individual particles.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.Modulair.html#smps.Modulair" title="smps.Modulair"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Modulair</span></code></a></p></td>
+<td><p>The QuantAQ MODULAIR.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.models.ModulairPM.html#smps.models.ModulairPM" title="smps.models.ModulairPM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.models.ModulairPM</span></code></a>(**kwargs)</p></td>
-<td><p>QuantAQ’s MODULAIR-PM sensors use the Alphasense OPC-N3, a consumer-grade optical particle counter that uses a 658 nm  red laser to count and size individual particles.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.ModulairPM.html#smps.ModulairPM" title="smps.ModulairPM"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ModulairPM</span></code></a></p></td>
+<td><p>The QuantAQ MODULAIR-PM.</p></td>
 </tr>
 </tbody>
-</table></div>
-</section>
-<section id="plots-and-visualization-tools">
-<h2>Plots and Visualization Tools<a class="headerlink" href="#plots-and-visualization-tools" title="Permalink to this headline">¶</a></h2>
-<p class="rubric">Visualization</p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+</table>
+</div>
+<p class="rubric">IO Helper Functions</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage/api.html#smps.plots.heatmap" title="smps.plots.heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.plots.heatmap</span></code></a>(X, Y, Z[, ax, logy, …])</p></td>
-<td><p>Plot the heatmap of the particle size distribution.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.io.smps_from_txt.html#smps.io.smps_from_txt" title="smps.io.smps_from_txt"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.io.smps_from_txt</span></code></a></p></td>
+<td><p>Create an SMPS object directory from a text file via TSIs AIM software.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage/api.html#smps.plots.histplot" title="smps.plots.histplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.plots.histplot</span></code></a>(histogram, bins[, ax, …])</p></td>
-<td><p>Plot the histogram in the form of a bar chart.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.io.load_sample.html#smps.io.load_sample" title="smps.io.load_sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.io.load_sample</span></code></a></p></td>
+<td><p>Load one of the example datasets provided.</p></td>
 </tr>
 </tbody>
-</table></div>
-</section>
-<section id="curve-fitting">
-<h2>Curve Fitting<a class="headerlink" href="#curve-fitting" title="Permalink to this headline">¶</a></h2>
-<p class="rubric">Fitting</p>
-<div class="table-wrapper"><table class="longtable docutils align-default">
+</table>
+</div>
+<p class="rubric">Utility Functions</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
 <colgroup>
-<col style="width: 10%"/>
-<col style="width: 90%"/>
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../usage/api.html#smps.fit.LogNormal" title="smps.fit.LogNormal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.fit.LogNormal</span></code></a>()</p></td>
-<td><p><cite>LogNormal</cite> uses non-linear least squares to fit a log-normal model, with up to three modes.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../usage/api.html#smps.fit.LogNormalFitResults" title="smps.fit.LogNormalFitResults"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.fit.LogNormalFitResults</span></code></a>(params, …)</p></td>
-<td><p><cite>LogNormalFitResults</cite> holds the results produced by <cite>LogNormal</cite>.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.utils.make_bins.html#smps.utils.make_bins" title="smps.utils.make_bins"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.utils.make_bins</span></code></a></p></td>
+<td><p>Create a 3xn array of particle size bins.</p></td>
 </tr>
 </tbody>
-</table></div>
-</section>
-</section>
+</table>
+</div>
+<p class="rubric">Plotting and Visualization Tools</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.plots.heatmap.html#smps.plots.heatmap" title="smps.plots.heatmap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.plots.heatmap</span></code></a></p></td>
+<td><p>Plot the size distribution over time (i.e., banana plot).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.plots.histplot.html#smps.plots.histplot" title="smps.plots.histplot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.plots.histplot</span></code></a></p></td>
+<td><p>Plot the particle size distribution at a single point in time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Curve Fitting Tools</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/smps.fit.LogNormal.html#smps.fit.LogNormal" title="smps.fit.LogNormal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.fit.LogNormal</span></code></a></p></td>
+<td><p>A multi-mode LogNormal particle size distribution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/smps.fit.LogNormalFitResults.html#smps.fit.LogNormalFitResults" title="smps.fit.LogNormalFitResults"><code class="xref py py-obj docutils literal notranslate"><span class="pre">smps.fit.LogNormalFitResults</span></code></a></p></td>
+<td><p>Fit parameters for the LogNormal distribution.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 
-      </article>
+        </article>
+      </div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="generated/smps.io.smps_from_txt.html">
+          <a class="next-page" href="generated/smps.GenericParticleSizer.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">smps.io.smps_from_txt</div>
+                <div class="title">smps.GenericParticleSizer</div>
               </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="../guides/faq.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
+          <a class="prev-page" href="../development/tests.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Frequently Asked Questions</div>
+                <div class="title">Tests</div>
                 
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2020-2022, QuantAQ, Inc.
-            |
-            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
-              and
-              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            |
-            <a class="muted-link" href="../_sources/api/index.rst.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, QuantAQ, Inc.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
@@ -330,18 +394,13 @@
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            Contents
+            On this page
           </span>
         </div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">API Reference</a><ul>
-<li><a class="reference internal" href="#io-helper-functions">IO Helper Functions</a></li>
-<li><a class="reference internal" href="#utility-functions">Utility Functions</a></li>
-<li><a class="reference internal" href="#models">Models</a></li>
-<li><a class="reference internal" href="#plots-and-visualization-tools">Plots and Visualization Tools</a></li>
-<li><a class="reference internal" href="#curve-fitting">Curve Fitting</a></li>
 </ul>
 </li>
 </ul>
@@ -352,13 +411,14 @@
       
       
     </aside>
-  </main>
-</div>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>

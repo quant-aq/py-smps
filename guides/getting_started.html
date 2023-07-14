@@ -2,63 +2,58 @@
 <html class="no-js">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Guides" href="index.html" /><link rel="prev" title="Welcome to the py-smps docs!" href="../index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Guides" href="index.html" /><link rel="prev" title="Welcome to the py-smps docs!" href="../index.html" />
 
-    <meta name="generator" content="sphinx-3.5.3, furo 2021.06.18.beta36"/>
-        <title>Getting Started - py-smps 2.0.0 documentation</title>
-      <link rel="stylesheet" href="../_static/styles/furo.css?digest=9b17055c4366e8b2949c66d6a9d8b0efe4dbaa60">
-    <link rel="stylesheet" href="../_static/pygments.css">
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.09.29"/>
+        <title>Getting Started - py-smps 2.1.0a2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
     
 
 
 <style>
-  :root {
-    --color-code-background: #eeffcc;
+  body {
+    --color-code-background: #f8f8f8;
   --color-code-foreground: black;
   
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
+  @media not print {
+    body[data-theme="dark"] {
       --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
     }
-  }
-
-  /* For allowing end-user-specific overrides */
-  .override-light {
-    --color-code-background: #eeffcc;
-  --color-code-foreground: black;
-  
-  }
-  .override-dark {
-    --color-code-background: #202020;
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
   --color-code-foreground: #d0d0d0;
   
+      }
+    }
   }
-</style><link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
-    <link media="(prefers-color-scheme: dark)" rel="stylesheet" href="../_static/pygments_dark.css">
-    <link rel="stylesheet" href="../_static/styles/furo-extensions.css?digest=ee12cdd73c4bbac24afec78d92c4afd7c2d8ea7f"></head>
-  <body dir="">
+</style></head>
+  <body>
     
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
   <symbol id="svg-toc" viewBox="0 0 24 24">
     <title>Contents</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke="none" d="M0 0h24v24H0z"/>
-      <line x1="4" y1="6" x2="20" y2="6" />
-      <line x1="10" y1="12" x2="20" y2="12" />
-      <line x1="6" y1="18" x2="20" y2="18" />
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
     </svg>
   </symbol>
   <symbol id="svg-menu" viewBox="0 0 24 24">
     <title>Menu</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="feather feather-menu">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -66,18 +61,57 @@
   </symbol>
   <symbol id="svg-arrow-right" viewBox="0 0 24 24">
     <title>Expand</title>
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-      class="feather feather-chevron-right">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
       <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
     </svg>
   </symbol>
 </svg>
 
 <input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
 <input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation"></label>
-<label class="overlay toc-overlay" for="__toc"></label>
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
 
 
 
@@ -85,14 +119,24 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
         <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">py-smps 2.0.0 documentation</div></a>
+      <a href="../index.html"><div class="brand">py-smps 2.1.0a2 documentation</div></a>
     </div>
     <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
     </div>
@@ -103,38 +147,50 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">py-smps 2.0.0 documentation</span>
+  <span class="sidebar-brand-text">py-smps 2.1.0a2 documentation</span>
   
-</a><form class="sidebar-search-container" method="get" action="../search.html">
-  <input class="sidebar-search" placeholder=Search name="q">
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
-</form><div class="sidebar-scroll"><div class="sidebar-tree">
-  <p><span class="caption-text">User Guide:</span></p>
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Getting Started</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label for="toctree-checkbox-1"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="general_usage.html">General Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="curve_fitting.html">Curve Fitting</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="index.html">Guides</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Getting%20Started.html">An introduction to py-smps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Visualizations.html">Visualizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Fitting%20Curves.html">Fitting Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Advanced%20Usage.html">Advanced Usage</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
 </ul>
-<p><span class="caption-text">API</span></p>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label for="toctree-checkbox-2"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../development/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../development/support.html">Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/issues.html">Reporting Issues</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/contributions.html">Contributions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development/tests.html">Tests</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.GenericParticleSizer.html">smps.GenericParticleSizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.SMPS.html">smps.SMPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.Grimm11D.html">smps.Grimm11D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.POPS.html">smps.POPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.ParticlesPlus.html">smps.ParticlesPlus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.AlphasenseOPCN2.html">smps.AlphasenseOPCN2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.AlphasenseOPCN3.html">smps.AlphasenseOPCN3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.Modulair.html">smps.Modulair</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.ModulairPM.html">smps.ModulairPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.smps_from_txt.html">smps.io.smps_from_txt</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.io.load_sample.html">smps.io.load_sample</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.utils.make_bins.html">smps.utils.make_bins</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.GenericParticleSizer.html">smps.models.GenericParticleSizer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.SMPS.html">smps.models.SMPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Grimm11D.html">smps.models.Grimm11D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.POPS.html">smps.models.POPS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ParticlesPlus.html">smps.models.ParticlesPlus</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN2.html">smps.models.AlphasenseOPCN2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.AlphasenseOPCN3.html">smps.models.AlphasenseOPCN3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.Modulair.html">smps.models.Modulair</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.models.ModulairPM.html">smps.models.ModulairPM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.heatmap.html">smps.plots.heatmap</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.plots.histplot.html">smps.plots.histplot</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/generated/smps.fit.LogNormal.html">smps.fit.LogNormal</a></li>
@@ -142,17 +198,7 @@
 </ul>
 </li>
 </ul>
-<p><span class="caption-text">Development</span></p>
-<ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../contributing/index.html">Contributing</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label for="toctree-checkbox-3"><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/support.html">Support</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/issues.html">Reporting Issues</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/patches.html">Submitting Patches or Contributions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contributing/tests.html">Tests</a></li>
-</ul>
-</li>
-</ul>
-<p><span class="caption-text">Project Links</span></p>
+<p class="caption" role="heading"><span class="caption-text">Project Links</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference external" href="https://github.com/quant-aq/py-smps">GitHub</a></li>
 <li class="toctree-l1"><a class="reference external" href="https://pypi.org/project/py-smps/">PyPI</a></li>
@@ -160,50 +206,77 @@
 
 </div>
 </div>
+
       </div>
       
     </div>
   </aside>
-  <main class="main">
+  <div class="main">
     <div class="content">
-      <article role="main">
-        <label class="toc-overlay-icon toc-content-icon" for="__toc">
-          <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
-        </label>
-        <section id="getting-started">
-<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
-<p>New to <em>py-smps</em>? Don’t worry, you’ve found the perfect place to get started.</p>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p><em>py-smps</em> can be installed by running:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ pip install py-smps
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">#</a></h1>
+<p>Are you new to <cite>py-smps</cite>? Don’t worry, you’ve found the perfect place to get started!</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">#</a></h2>
+<p>The official release of <cite>py-smps</cite> can be installed from PyPI:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>py-smps<span class="w"> </span><span class="o">[</span>--upgrade<span class="o">]</span>
 </pre></div>
 </div>
-<p>It requires Python 3.7+ to run.</p>
-<p>If you can’t wait for the latest <em>hotness</em> and want to install from GitHub, use:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>$ pip install git+https://github.com/quant-aq/py-smps
+<p>If you’d like to install the most recent pre-release:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>py-smps<span class="w"> </span>--pre<span class="w"> </span><span class="o">[</span>--upgrade<span class="o">]</span>
 </pre></div>
 </div>
-</section>
-<section id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
-<p>To get started, it’s as simple as loading the library and reading in some data (or using one of the example data sets).</p>
+<p>To install the most up-to-date development version directly from GitHub:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/quant-aq/py-smps.git@&lt;tag-or-version-or-branch&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">#</a></h2>
+<p>To get up and running, it is as simple as loading the library and reading in some data (or using
+one of the example datasets available).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">smps</span>
 
-<span class="n">obj</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">"boston"</span><span class="p">)</span>
+<span class="c1"># Load the sample Boston dataset</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">smps</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">load_sample</span><span class="p">(</span><span class="s2">&quot;boston&quot;</span><span class="p">)</span>
 
-<span class="c1"># Compute the stats</span>
-<span class="n">stats</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="s1">'number'</span><span class="p">)</span>
+<span class="c1"># Compute the aerosol statistics, weighted by number</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">stats</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="s1">&#39;number&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="next-steps">
-<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
-<p>Take a look at the examples and guides in the <strong>Guides</strong> section for an in-depth overview of what the <em>py-smps</em> library is capable of.</p>
-</section>
-</section>
+</div>
+<div class="section" id="next-steps">
+<h2>Next Steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">#</a></h2>
+<p>Take a look at the examples and guides in the <a class="reference internal" href="index.html#guides"><span class="std std-ref">Guides</span></a> section for an in-depth overview of what
+the <cite>py-smps</cite> library is capable of!</p>
+</div>
+</div>
 
-      </article>
+        </article>
+      </div>
       <footer>
         
         <div class="related-pages">
@@ -214,10 +287,10 @@
                 </div>
                 <div class="title">Guides</div>
               </div>
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="../index.html">
-              <svg><use href="#svg-arrow-right"></use></svg>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -228,19 +301,21 @@
               </div>
             </a>
         </div>
-
-        <div class="related-information">
-              Copyright &#169; 2020-2022, QuantAQ, Inc.
-            |
-            Built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
-              and
-              <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
-              <a href="https://github.com/pradyunsg/furo">Furo theme</a>.
-            |
-            <a class="muted-link" href="../_sources/guides/getting_started.md.txt"
-               rel="nofollow">
-              Show Source
-            </a>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2023, QuantAQ, Inc.
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
         </div>
         
       </footer>
@@ -251,7 +326,7 @@
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            Contents
+            On this page
           </span>
         </div>
         <div class="toc-tree-container">
@@ -271,13 +346,14 @@
       
       
     </aside>
-  </main>
-</div>
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+  </div>
+</div><script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
+    <script src="../_static/scripts/furo.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/main.js?digest=e931d09b2a40c1bb82b542effe772014573baf67"></script></body>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>

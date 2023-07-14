@@ -1,57 +1,55 @@
-.. py-smps documentation master file, created by
-   sphinx-quickstart on Tue May 25 12:47:21 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-
 Welcome to the py-smps docs!
 ============================
 
-`py-smps` is an open-source python package to help analyze and visualize
-size-resolved aerosol data of any kind. These instruments may include the 
-Scanning Mobility Particle Sizer (SMPS), Scanning Electrical Mobility 
-Analyzer (SEMS), Grimm 11-D Dust Decoder, and more! While most of the 
-existing analysis software for aerosol data is either proprietary or one-off 
-scripts written by individual researchers/labs, here, we offer a single solution 
-that can be used for any size-resolved aerosol data whether it is from a $75k SMPS 
-or a $400 low-cost optical particle counter.
+`py-smps` is an MIT-licensed Python package for analyzing and visualizing size-resolved
+aerosol data from a variety of aerosol sizing instruments. Instruments that are currently supported
+with officially-supported classes include:
 
-The python package is currently maintained by QuantAQ, Inc. and is available for use under 
-the MIT license. 
+* TSI Scanning Mobility Particle Sizer
+* Grimm 11D Dust Decoder
+* Alphasense OPC-N2 and OPC-N3 Optical Particle Counters
+* Particles Plus Optical Particle Counters
+* QuantAQ MODULAIR and MODULAIR-PM Optical Particle Counters
 
-`py-smps` makes analyzing size-resolved particle data easy, regardless 
-of the type of analyzer used. 
-
+The goal is to provide a single approach toward analyzing data from any instrument is a concise and 
+open-sourced manner such that analysis pipelines are not built on proprietary algorithms or 
+approaches. The library is licensed under an MIT license and is offically supported and maintained by
+QuantAQ, Inc, though the library originally was written by David H. Hagan during his PhD at MIT.
 
 .. note::
    :doc:`py-smps is licensed under the MIT license`.
 
-
 Contents
---------
+========
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents
+
 
 .. toctree::
    :maxdepth: 3
    :includehidden:
-   :caption: User Guide:
+   :caption: User Guide
 
    guides/getting_started
    guides/index
-   guides/faq
+
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
+   :includehidden:
+   :caption: Development
+
+   development/index
+
+
+.. toctree::
+   :maxdepth: 0
    :caption: API
 
    api/index
 
-
-.. toctree::
-   :maxdepth: 3
-   :includehidden:
-   :caption: Development
-
-   contributing/index
 
 
 .. toctree::

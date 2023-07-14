@@ -1,69 +1,65 @@
-.. api_ref:
-
 .. currentmodule:: smps
 
 API Reference
 =============
 
-IO Helper Functions
--------------------
+.. rubric:: Particle Sizer Models
+
+.. autosummary::
+    :toctree: generated/
+    :template: class2
+    :nosignatures:
+
+    GenericParticleSizer
+    SMPS
+    Grimm11D
+    POPS
+    ParticlesPlus
+    AlphasenseOPCN2
+    AlphasenseOPCN3
+    Modulair
+    ModulairPM
+
+
 
 .. rubric:: IO Helper Functions
 
 .. autosummary::
     :toctree: generated/
+    :template: base
+    :nosignatures:
 
     smps.io.smps_from_txt
     smps.io.load_sample
 
 
-Utility Functions
------------------
-
 .. rubric:: Utility Functions
 
 .. autosummary::
     :toctree: generated/
+    :template: base
+    :nosignatures:
 
     smps.utils.make_bins
 
-Models
-------
 
-.. rubric:: Particle Sizer Models
+.. rubric:: Plotting and Visualization Tools
 
 .. autosummary::
     :toctree: generated/
-
-    smps.models.GenericParticleSizer
-    smps.models.SMPS
-    smps.models.Grimm11D
-    smps.models.POPS
-    smps.models.ParticlesPlus
-    smps.models.AlphasenseOPCN2
-    smps.models.AlphasenseOPCN3
-    smps.models.Modulair
-    smps.models.ModulairPM
-    
-Plots and Visualization Tools
------------------------------
-
-.. rubric:: Visualization
-
-.. autosummary::
-    :toctree: generated/
+    :template: base
+    :nosignatures:
 
     smps.plots.heatmap
     smps.plots.histplot
 
-Curve Fitting
--------------
 
-.. rubric:: Fitting
+.. rubric:: Curve Fitting Tools
 
 .. autosummary::
     :toctree: generated/
+    :template: object
+    :nosignatures:
 
     smps.fit.LogNormal
     smps.fit.LogNormalFitResults
-

@@ -3,16 +3,16 @@
 Guides
 ======
 
+Are you wondering how to do something specific? You've found the right place!
+
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
+    :caption: Table of Contents
 
-    general_usage
-    curve_fitting
+    Getting Started
+    Visualizations
+    Fitting Curves
+    Advanced Usage
 
 
-Wondering how to do something specific? You've found the right place!
 
-This section contains the following contents:
-
-- :doc:`general_usage`
-- :doc:`curve_fitting`
