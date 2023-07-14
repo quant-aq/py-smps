@@ -1,8 +1,7 @@
 name: build & release
 on:
-  workflow_dispatch
-  # release:
-  #   types: [published]
+  release:
+    types: [published]
 
 jobs:
     build-n-publish:
