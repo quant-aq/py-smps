@@ -1,0 +1,29 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "dhhagan",
+      "name": "David H Hagan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4370504?v=4",
+      "profile": "https://www.davidhagan.me",
+      "contributions": [
+        "code",
+        "test",
+        "doc",
+        "content"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "py-smps",
+  "projectOwner": "quant-aq"
+}
