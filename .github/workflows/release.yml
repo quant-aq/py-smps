@@ -6,7 +6,7 @@ on:
 jobs:
     build-n-publish:
         name: Build and publish to PyPI
-        runs-on: ubuntu-latest
+        runs-on: ubuntu-20.04
         steps:
             - name: Checkout branch
               uses: actions/checkout@v2
@@ -17,17 +17,14 @@ jobs:
                 python-version: 3.8
             
             - name: Install poetry
-              uses: snok/install-poetry@v1.3.3
+              uses: snok/install-poetry@v1
               with:
-                version: 1.2.2
                 virtualenvs-create: true
-                virtualenvs-in-project: true
-                installer-parallel: true
-            
+                
             - name: Install dependencies
-              run: poetry install
+              run: poetry install --no-interaction
             
             - name: Build and publish to PyPI
               run: |
                 poetry build
-                poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
+                poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
