@@ -16,9 +16,6 @@ jobs:
               with:
                 python-version: ${{ matrix.python }}
 
-            - name: Update pip
-              run: pip install --upgrade pip
-
             - name: Install poetry
               uses: snok/install-poetry@v1
               with:
@@ -26,7 +23,9 @@ jobs:
                 virtualenvs-create: true
 
             - name: Install setuptools
-              run: poetry run pip install setuptools
+              run: |
+                poetry run pip install --upgrade pip
+                poetry run pip install setuptools
                 
             - name: Install dependencies
               run: poetry install --no-interaction
