@@ -21,17 +21,13 @@ jobs:
               with:
                 version: 1.3.2
                 virtualenvs-create: true
-
-            - name: Install setuptools
+                
+            - name: Install dependencies
               run: |
                 poetry run pip install --upgrade pip
                 poetry run pip install --upgrade setuptools
-
-            - name: List deps
-              run: poetry run pip list
-                
-            - name: Install dependencies
-              run: poetry install --no-interaction
+                poetry run pip list
+                poetry install --no-interaction
 
             - name: Run tests and generate coverage report
               run: |
