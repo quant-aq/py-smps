@@ -16,6 +16,9 @@ jobs:
               with:
                 python-version: ${{ matrix.python }}
 
+            - name: Update pip
+              run: pip install --upgrade pip
+
             - name: Install poetry
               uses: snok/install-poetry@v1
               with:
