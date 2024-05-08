@@ -20,6 +20,9 @@ jobs:
               uses: snok/install-poetry@v1
               with:
                 virtualenvs-create: true
+
+            - name: Install setuptools
+                run: poetry run pip install setuptools
                 
             - name: Install dependencies
               run: poetry install --no-interaction
