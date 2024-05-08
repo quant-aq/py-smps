@@ -25,7 +25,7 @@ jobs:
             - name: Install setuptools
               run: |
                 poetry run pip install --upgrade pip
-                poetry run pip install setuptools
+                poetry run pip install --upgrade setuptools
 
             - name: List deps
               run: poetry run pip list
