@@ -26,6 +26,9 @@ jobs:
               run: |
                 poetry run pip install --upgrade pip
                 poetry run pip install setuptools
+
+            - name: List deps
+              run: poetry run pip list
                 
             - name: Install dependencies
               run: poetry install --no-interaction
