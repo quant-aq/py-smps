@@ -74,9 +74,12 @@ def make_bins(**kwargs):
     if midpoints is not None:
         if lb is None or ub is None:
             raise Exception("A lower and upper bound must be set")
+        
+        # Force midpoints to be an array
+        midpoints = np.asarray(midpoints)
 
         bins = np.empty((midpoints.shape[0], 3))
-        bins.fill(np.NaN)
+        bins.fill(np.nan)
 
         # fill the midpoints
         bins[:, 1] = midpoints
@@ -97,7 +100,7 @@ def make_bins(**kwargs):
 
     if boundaries is not None:
         bins = np.empty((boundaries.shape[0]-1, 3))
-        bins.fill(np.NaN)
+        bins.fill(np.nan)
 
         bins[:, 0] = boundaries[0:-1]
         bins[:, 2] = boundaries[1:]
@@ -110,7 +113,7 @@ def make_bins(**kwargs):
             "Boundaries must be the same dimensions."
 
         bins = np.empty((boundaries_left.shape[0], 3))
-        bins.fill(np.NaN)
+        bins.fill(np.nan)
 
         bins[:, 0] = boundaries_left
         bins[:, 2] = boundaries_right
