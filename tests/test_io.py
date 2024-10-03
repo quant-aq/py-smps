@@ -77,6 +77,15 @@ class TestClass(unittest.TestCase):
 
         self.assertGreaterEqual(m.data.shape[0], rs.data.shape[0])
 
+    def test_smps_obj_creation(self):
+        number = smps.io.smps_from_txt(
+            "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
+            column=False, 
+            as_dict=False
+        )
+
+        modpm_model = smps.models.SMPS(data=number.data, bins=number.bins, fmt='dlogdn')
+        
     def test_generic_calculations(self):
         number = smps.io.smps_from_txt(
             "https://raw.githubusercontent.com/dhhagan/py-smps/master/tests/datafiles/test_data_number.txt",
