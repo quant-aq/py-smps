@@ -92,7 +92,7 @@ class GenericParticleSizer(object):
         self.meta['units'] = kwargs.pop("units", "dw/dlogdp")
 
         self.bin_weights = kwargs.pop("bin_weights", 
-                                      np.ones(len(self.bins)))
+                                      np.ones(bins.shape[0]))
 
         # if bin_labels were not provided, try to generate them
         if self.bin_labels is None:
@@ -747,8 +747,8 @@ class SMPS(GenericParticleSizer):
     for counting and sizing submicron aerosol.
     
     """
-    def __init__(self, **kwargs):
-        super(SMPS, self).__init__(fmt='dndlogdp', dp_units='nm', **kwargs)
+    def __init__(self, data, bins, fmt="dndlogdp", dp_units="nm", **kwargs):
+        super(SMPS, self).__init__(data, bins, fmt=fmt, dp_units=dp_units, **kwargs)
 
 
 class AlphasenseOPCN2(GenericParticleSizer):
